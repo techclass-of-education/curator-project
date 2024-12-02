@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ground List</title>
+      <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+{% include "admin_user/menu.html" %}
+    <h1>Ground Picthes</h1>
+    <table class="table">
+          <tr>
+        <th>#</th>
+        <th>Ground details</th>
+
+    </tr>
+    {% for ground in grounds %}
+    <tr>
+        <td>
+            <h1>Ground Info:</h1></td>
+            <td>
+                <p>ID:{{ ground.0 }} Ground Name:{{ ground.6 }}</p>
+                </td>
+    </tr>
+    {% endfor %}
+    </table>
+    <table class="table table-bordered text-center">
+        <tr>
+            <th> Pitche Id</th>
+            <th>Pitch No</th>
+            <th>Ground Id</th>
+            <th>Actions</th>
+        </tr>
+
+
+
+            {% for pitch in pitches %}
+        <tr style="text-align:center">
+             <td>{{ pitch.0 }}</td>
+            <td>Pitch No: {{ pitch.4 }}</td><td> Ground Id: {{ pitch.2 }}</td>
+            <td> <a href="/usr_admin/edit_pitch/{{ pitch.0 }}/{{pitch.2}}">Edit</a></td>
+            </tr>
+            {% endfor %}
+
+</table>
+</body>
+</html>

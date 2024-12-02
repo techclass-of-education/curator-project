@@ -1,0 +1,17 @@
+
+<!DOCTYPE html>
+{% load admin_user_filters %}
+<html>
+<head>
+    <title>Update Pitches for {{ ground.name }}</title>
+</head>
+<body>
+{% include "admin_user/menu.html" %}
+    <h1>Update Pitches for {{ ground.name }}</h1>
+    <form method="post">
+        {% csrf_token %}
+      {{ form.as_p }}
+        <button type="submit">Update</button>
+    </form>
+</body>
+</html>

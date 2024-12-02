@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Machinery List</title>
+    <style>
+         th,td,a
+       {
+            font-size: 70% !important;
+        }
+    </style>
+</head>
+<body>
+ {% include "admin_user/menu.html" %}
+<!--    <h2>Machinery List</h2>-->
+ <div class="container my-4">
+    <table border="1" class="table table-bordered table-striped table-hover">
+        <tr>
+            <th>ID</th>
+            <th>Equipment Name</th>
+            <th>Type</th>
+            <th>Specification</th>
+            <th>Unit</th>
+            <th>Value</th>
+            <th>Equipment Model</th>
+            <th>Actions</th>
+        </tr>
+        {% for machinery in machinery %}
+        <tr>
+            <td>{{ machinery.0 }}</td>
+            <td>{{ machinery.1 }}</td>
+            <td>{{ machinery.2 }}</td>
+            <td>{{ machinery.3 }}</td>
+            <td>{{ machinery.4 }}</td>
+            <td>{{ machinery.5 }}</td>
+            <td>{{ machinery.6 }}</td>
+
+            <td>
+                <a class="btn btn-warning" href="{% url 'update_machinery' machinery.0 %}">Edit</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a class="btn btn-danger" role="button" href="{% url 'insert_machinery' %}">Insert New Machinery</a>
+     </div>
+<script>
+     changeMenuTitle("Machinery List")
+</script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  <style>
+    li a
+    {
+      font-size:72%;
+    }
+  </style>
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+      <a class="navbar-brand" href="#" id="menu-page-title">Admin</a>
+      <!-- Toggle button for mobile navigation -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <!-- Navigation links -->
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/usr_admin/orgdashboard">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/usr_admin/create_admin_user_role">Create Role</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">State and City</a>
+             <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/usr_admin/add_state_city">Add</a></li>
+
+            <li><a class="dropdown-item" href="/usr_admin/list_state_city">List</a></li>
+          </ul>
+          </li>
+
+            <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Ground Recording
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/usr_admin/create_ground_master">Add</a></li>
+<!--            <li><a class="dropdown-item" href="#">Update</a></li>-->
+            <li><a class="dropdown-item" href="/usr_admin/ground_list">List</a></li>
+          </ul>
+        </li>
+<!--          <li class="nav-item">-->
+<!--            <a class="nav-link" href="/usr_admin/create_ground_master">Create Ground</a>-->
+<!--          </li>-->
+<!--          <li class="nav-item">-->
+<!--            <a class="nav-link" href="/usr_admin/ground_list">Ground List</a>-->
+<!--          </li>-->
+<!--          <li class="nav-item">-->
+<!--            <a class="nav-link" href="/usr_admin/curator_daily_recording_form">Curator Daily Recording</a>-->
+<!--          </li>-->
+
+<!--           <li class="nav-item dropdown">-->
+<!--          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">-->
+<!--            Ground Recording-->
+<!--          </a>-->
+<!--          <ul class="dropdown-menu">-->
+<!--            <li><a class="dropdown-item" href="/usr_admin/create_ground_master">Add</a></li>-->
+<!--            <li><a class="dropdown-item" href="#">Update</a></li>-->
+<!--            <li><a class="dropdown-item" href="/usr_admin/ground_list">List</a></li>-->
+<!--          </ul>-->
+<!--        </li>-->
+
+          <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Match Recording
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/usr_admin/matches/insert">Add</a></li>
+            <li><a class="dropdown-item" href="/usr_admin/matches">List</a></li>
+            <!--            <li><a class="dropdown-item" href="/usr_admin/matches/update">Update</a></li>-->
+          </ul>
+        </li>
+
+          <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Match Scores
+          </a>
+          <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="/usr_admin/matches">Add/List of Matches</a></li>
+            <li><a class="dropdown-item" href="/usr_admin/matches">List</a></li>
+            <!--            <li><a class="dropdown-item" href="/usr_admin/matches/update">Update</a></li>-->
+          </ul>
+        </li>
+
+
+<!--          <li class="nav-item">-->
+<!--            <a class="nav-link" href="/usr_admin/curator_daily_recording_form">Curator Daily Recording</a>-->
+<!--          </li>-->
+<!--          <li class="nav-item">-->
+<!--            <a class="nav-link" href="/usr_admin/curator_daily_recording_list">Curator Daily Recording List</a>-->
+<!--          </li>-->
+
+           <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Curator Recording
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/usr_admin/curator_daily_recording_form">Add</a></li>
+<!--            <li><a class="dropdown-item" href="#">Update</a></li>-->
+            <li><a class="dropdown-item" href="/usr_admin/curator_daily_recording_list">List</a></li>
+          </ul>
+        </li>
+
+
+            <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Machinery Master
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/usr_admin/machinery/insert/">Add</a></li>
+            <li><a class="dropdown-item" href="/usr_admin/machinery">List</a></li>
+          </ul>
+        </li>
+
+          <li class="nav-item">
+            <a class="btn btn-danger" href="{% url 'logout' %}"><i class="fas fa-logout"></i>Logout</a>
+          </li>
+
+
+
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+
+
+
+  <script>
+    function changeMenuTitle(title)
+    {
+      document.querySelector("#menu-page-title").innerHTML=title
+    }
+
+
+//    const apiKey = '6f919945bd6b08c5af322b846504f85d'; // Replace with your OpenWeatherMap API key
+//const city = 'Nagpur'; // Replace with your desired city
+//
+//async function getWeather() {
+//    const response = await fetch(`api.openweathermap.org/data/2.5/weather?q=${city},in&APPID=09d6e1a7dc7e8cef23659b6fcf590850
+//`);
+//    const data = await response.json();
+//
+//    if (response.ok) {
+//        const weatherDescription = data.weather[0].description;
+//        const minTemp = data.main.temp_min;
+//        const maxTemp = data.main.temp_max;
+//
+//        console.log(`Weather today in ${city}: ${weatherDescription}`);
+//        console.log(`Temperature: Min ${minTemp}°C, Max ${maxTemp}°C`);
+//    } else {
+//        console.error('Error fetching weather data:', data.message);
+//    }
+//}
+
+
+
+
+
+  </script>
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

@@ -1,0 +1,132 @@
+<!--<!DOCTYPE html>-->
+<!--<html>-->
+<!--<head>-->
+<!--    <title>Add State and City</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <h2>Add State and City</h2>-->
+<!--    <form method="post">-->
+<!--        {% csrf_token %}-->
+<!--        {{ form.as_p }}-->
+<!--        <button type="submit">Submit</button>-->
+<!--    </form>-->
+<!--</body>-->
+<!--</html>-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>State and City Form</title>
+<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">-->
+<!--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>-->
+</head>
+<body>
+ {% include "../menu.html" %}
+    <div class="container mt-5">
+        <form method="post">
+             {% csrf_token %}
+            <div class="mb-3">
+                <label for="state" class="form-label">Select State:</label>
+                <select class="form-select" name="state" id="state" aria-label="Select State" onchange="setStateCode(this.value)">
+                    <option value="">Select State</option>
+                    <option value="AP-Andhra Pradesh">Andhra Pradesh</option>
+                    <option value="AR-Arunachal Pradesh">Arunachal Pradesh</option>
+                    <option value="AS-Assam">Assam</option>
+                    <option value="BR-Bihar">Bihar</option>
+                    <option value="CG-Chhattisgarh">Chhattisgarh</option>
+                    <option value="GA-Goa">Goa</option>
+                    <option value="GJ-Gujarat">Gujarat</option>
+                    <option value="HR-Haryana">Haryana</option>
+                    <option value="HP-Himachal Pradesh">Himachal Pradesh</option>
+                    <option value="JH-Jharkhand">Jharkhand</option>
+                    <option value="KA-Karnataka">Karnataka</option>
+                    <option value="KL-Kerala">Kerala</option>
+                    <option value="MP-Madhya Pradesh">Madhya Pradesh</option>
+                    <option value="MH-Maharashtra">Maharashtra</option>
+                    <option value="MN-Manipur">Manipur</option>
+                    <option value="ML-Meghalaya">Meghalaya</option>
+                    <option value="MZ-Mizoram">Mizoram</option>
+                    <option value="NL-Nagaland">Nagaland</option>
+                    <option value="OD-Odisha">Odisha</option>
+                    <option value="PB-Punjab">Punjab</option>
+                    <option value="RJ-Rajasthan">Rajasthan</option>
+                    <option value="SK-Sikkim">Sikkim</option>
+                    <option value="TN-Tamil Nadu">Tamil Nadu</option>
+                    <option value="TG-Telangana">Telangana</option>
+                    <option value="TR-Tripura">Tripura</option>
+                    <option value="UP-Uttar Pradesh">Uttar Pradesh</option>
+                    <option value="UT-Uttarakhand">Uttarakhand</option>
+                    <option value="WB-West Bengal">West Bengal</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="stateCode" class="form-label">State Code:</label>
+                <input type="text" class="form-control" name="state-code" id="stateCode" readonly>
+            </div>
+            <div class="mb-3">
+                <label for="city" class="form-label">Select City:</label>
+                <input list="city" name="city" class="form-label"/>
+                <datalist id="city">
+                    <!-- Cities will be populated based on the selected state -->
+                </datalist>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+  <script>
+    function setStateCode(stateCode) {
+        const s=stateCode.split("-")[0].trim();
+        document.getElementById("stateCode").value = s;
+        populateCities(s);
+    }
+
+    function populateCities(stateCode) {
+        const citySelect = document.getElementById("city");
+        citySelect.innerHTML = "";
+        const cities = {
+            "AP": ["Visakhapatnam", "Vijayawada", "Tirupati"],
+            "AR": ["Itanagar", "Pasighat"],
+            "AS": ["Guwahati", "Silchar"],
+            "BR": ["Patna", "Gaya"],
+            "CG": ["Raipur", "Bilaspur"],
+            "GA": ["Panaji", "Margao"],
+            "GJ": ["Gandhinagar", "Ahmedabad"],
+            "HR": ["Chandigarh", "Faridabad"],
+            "HP": ["Shimla", "Dharamshala"],
+            "JH": ["Ranchi", "Jamshedpur"],
+            "KA": ["Bengaluru", "Mysuru"],
+            "KL": ["Thiruvananthapuram", "Kochi"],
+            "MP": ["Bhopal", "Indore"],
+            "MH": ["Mumbai", "Pune"],
+            "MN": ["Imphal", "Thoubal"],
+            "ML": ["Shillong", "Tura"],
+            "MZ": ["Aizawl", "Lunglei"],
+            "NL": ["Kohima", "Dimapur"],
+            "OD": ["Bhubaneswar", "Cuttack"],
+            "PB": ["Chandigarh", "Ludhiana"],
+            "RJ": ["Jaipur", "Jodhpur"],
+            "SK": ["Gangtok", "Namchi"],
+            "TN": ["Chennai", "Coimbatore"],
+            "TG": ["Hyderabad", "Warangal"],
+            "TR": ["Agartala", "Udaipur"],
+            "UP": ["Lucknow", "Kanpur"],
+            "UT": ["Dehradun", "Haridwar"],
+            "WB": ["Kolkata", "Siliguri"]
+        };
+
+        if (cities[stateCode]) {
+            cities[stateCode].forEach(city => {
+                const option = document.createElement("option");
+                option.value = city;
+                option.text = city;
+                citySelect.appendChild(option);
+            });
+        }
+
+
+    }
+</script>

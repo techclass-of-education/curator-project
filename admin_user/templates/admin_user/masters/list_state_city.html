@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>List of States and Cities</title>
+       <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+ {% include "../menu.html" %}
+
+  <ul class="list-group">
+            <li class="list-group-item bg-info display-6 text-white pb-3">
+                <span class="border-bottom" style="padding-bottom:1px;border-width:2px !important;">List of States and Cities</span>
+
+            </li>
+            <li class="list-group-item" style="height:80vh;overflow:auto">
+                 <table class="table table-bordered table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>State</th>
+                <th>State Code</th>
+                <th>City</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for state, state_code, city in state_city_data %}
+                <tr>
+                    <td>{{ state }}</td>
+                    <td>{{ state_code }}</td>
+                    <td>{{ city }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+            </li>
+  </ul>
+
+</body>
+</html>

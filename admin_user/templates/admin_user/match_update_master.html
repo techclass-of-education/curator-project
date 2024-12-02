@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Match Details</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        th, td, input, select, label {
+            font-size: 80%;
+        }
+    </style>
+</head>
+<body>
+{% include "admin_user/menu.html" %}
+<div class="container mt-5">
+    <h1 class="mb-4">Update Match Details</h1>
+    <form method="POST" class="row g-3">
+        {% csrf_token %}
+
+        <!-- Match Type -->
+        <div class="col-md-6">
+            <label for="match_type" class="form-label">Match Type</label>
+            <select name="match_type" id="match_type" class="form-select" onchange="toggleFields()">
+                <option value="Multidays" {% if match.1 == 'Multidays' %}selected{% endif %}>Multidays</option>
+                <option value="One Day" {% if match.1 == 'One Day' %}selected{% endif %}>One Day</option>
+                <option value="T20" {% if match.1 == 'T20' %}selected{% endif %}>T20</option>
+            </select>
+        </div>
+
+        <!-- Name of Tournament -->
+        <div class="col-md-6">
+            <label for="name_tournament" class="form-label">Name of Tournament</label>
+            <input type="text" name="name_tournament" id="name_tournament" class="form-control" value="{{ match.2 }}" required>
+        </div>
+
+        <!-- Teams -->
+        <div class="col-md-6">
+            <label for="team1" class="form-label">Team 1</label>
+            <input type="text" name="team1" id="team1" class="form-control" value="{{ match.3 }}" required>
+        </div>
+        <div class="col-md-6">
+            <label for="team2" class="form-label">Team 2</label>
+            <input type="text" name="team2" id="team2" class="form-control" value="{{ match.4 }}" required>
+        </div>
+
+        <!-- Dates -->
+        <div class="col-md-6">
+            <label for="preparation_date" class="form-label">Preparation Date</label>
+            <input type="date" name="preparation_date" id="preparation_date" class="form-control" value="{{ match.5|date:'Y-m-d' }}" required>
+        </div>
+        <div class="col-md-6">
+            <label for="match_date" class="form-label">Match Date</label>
+            <input type="date" name="match_date" id="match_date" class="form-control" value="{{ match.6|date:'Y-m-d' }}" {% if match.1 == 'Multidays' %}disabled{% endif %}>
+        </div>
+        <div class="col-md-6">
+            <label for="from_date" class="form-label">From Date</label>
+            <input type="date" name="from_date" id="from_date" class="form-control" value="{{ match.7|date:'Y-m-d' }}" {% if match.1 != 'Multidays' %}disabled{% endif %}>
+        </div>
+        <div class="col-md-6">
+            <label for="to_date" class="form-label">To Date</label>
+            <input type="date" name="to_date" id="to_date" class="form-control" value="{{ match.8|date:'Y-m-d' }}" {% if match.1 != 'Multidays' %}disabled{% endif %}>
+        </div>
+        <div class="col-md-6">
+            <label for="days_count" class="form-label">Days Count</label>
+            <input type="number" name="days_count" id="days_count" class="form-control" value="{{ match.9 }}" readonly>
+        </div>
+
+        <!-- Time and Ground/Pitch -->
+        <div class="col-md-6">
+            <label for="start_time" class="form-label">Start Time</label>
+            <input type="time" name="start_time" id="start_time" class="form-control" value="{{ match.10|date:'H:i' }}" required>
+        </div>
+        <div class="col-md-6">
+            <label for="ground_id" class="form-label">Ground</label>
+            <select name="ground_id" id="ground_id" class="form-select">
+                <!-- Dynamically populated -->
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label for="pitch_id" class="form-label">Pitch</label>
+            <select name="pitch_id" id="pitch_id" class="form-select">
+                <!-- Dynamically populated -->
+            </select>
+        </div>
+
+        <!-- Conditions -->
+        <div class="col-md-6">
+            <label for="is_pitch_level" class="form-label">Is Pitch Level?</label>
+            <input type="checkbox" name="is_pitch_level" id="is_pitch_level" {% if match.12 %}checked{% endif %}>
+        </div>
+        <div class="col-md-6">
+            <label for="lawn_height" class="form-label">Lawn Height</label>
+            <input type="text" name="lawn_height" id="lawn_height" class="form-control" value="{{ match.14 }}" required>
+        </div>
+        <div class="col-md-6">
+            <label for="grass_cover" class="form-label">Grass Cover</label>
+            <select name="grass_cover" id="grass_cover" class="form-select" required>
+                <option value="uniform" {% if match.14 == 'uniform' %}selected{% endif %}>Uniform</option>
+                <option value="partially" {% if match.14 == 'partially' %}selected{% endif %}>Partially</option>
+                <option value="little/no grass" {% if match.14 == 'little/no grass' %}selected{% endif %}>Little/No Grass</option>
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label for="weather_condition" class="form-label">Weather Condition</label>
+            <input type="text" name="weather_condition" id="weather_condition" class="form-control" value="{{ match.15 }}">
+        </div>
+        <div class="col-md-6">
+            <label for="min_temp" class="form-label">Minimum Temperature</label>
+            <input type="text" name="min_temp" id="min_temp" class="form-control" value="{{ match.17 }}">
+        </div>
+        <div class="col-md-6">
+            <label for="max_temp" class="form-label">Maximum Temperature</label>
+            <input type="text" name="max_temp" id="max_temp" class="form-control" value="{{ match.18 }}">
+        </div>
+        <div class="col-md-6">
+            <label for="forecast" class="form-label">Forecast</label>
+            <textarea name="forecast" id="forecast" class="form-control">{{ match.19 }}</textarea>
+        </div>
+
+        <!-- Rolling -->
+        <div class="col-md-6">
+            <label for="moisture_upto" class="form-label">Moisture Upto</label>
+            <input type="text" name="moisture_upto" id="moisture_upto" class="form-control" value="{{ match.20 }}" required>
+        </div>
+        <div class="col-md-6">
+            <label for="rolling_pattern" class="form-label">Rolling Pattern</label>
+            <select name="rolling_pattern" id="rolling_pattern" class="form-select" required>
+                <option value="cross" {% if match.21 == 'cross' %}selected{% endif %}>Cross</option>
+                <option value="diagonal" {% if match.21 == 'diagonal' %}selected{% endif %}>Diagonal</option>
+                <option value="straight" {% if match.21 == 'straight' %}selected{% endif %}>Straight</option>
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label for="machinery_id" class="form-label">Machinery</label>
+            <select name="machinery_id" id="machinery_id" class="form-select">
+                <!-- Dynamically populated -->
+            </select>
+        </div>
+
+        <!-- Additional Fields -->
+        <div class="col-md-6">
+            <label for="dew_factor" class="form-label">Dew Factor</label>
+            <input type="text" name="dew_factor" id="dew_factor" class="form-control" value="{{ match.22 }}" required>
+        </div>
+        <div class="col-md-6">
+            <label for="access_bounce" class="form-label">Access Bounce</label>
+            <input type="text" name="access_bounce" id="access_bounce" class="form-control" value="{{ match.23 }}" required>
+        </div>
+        <div class="col-md-12">
+            <label for="remark_by_groundsman" class="form-label">Remarks by Groundsman</label>
+            <textarea name="remark_by_groundsman" id="remark_by_groundsman" class="form-control">{{ match.24 }}</textarea>
+        </div>
+
+        <!-- Submit -->
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Update</button>
+        </div>
+    </form>
+</div>
+    <!-- Bootstrap JS -->
+<!--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>-->
+
+    <!-- Custom JavaScript -->
+    <script>
+
+
+           $(document).ready(function () {
+            axios.get("/usr_admin/get_grounds").then((result) => {
+                $("#ground_id").html("")
+                $("#ground_id").append(`<option value=''>Select Ground</option>`)
+//                $("#ground_id").append(`<option value='all'>All Grounds</option>`)
+
+                result.data.grounds.forEach(function (g) {
+                    $("#ground_id").append(`<option value='${g.ground[0]}'>${g.ground[6]}</option>`)
+                })
+$("#ground_id").val("{{match.12}}")
+                 axios.get(`/usr_admin/get_pitches/{{match.12}}`).then((result) => {
+                    console.log(result.data.grounds)
+                    $("#pitch_id").html("")
+                    $("#pitch_id").append(`<option value=''>Select Pitch</option>`)
+//                    $("#pitch_id").append(`<option value='all'>All Pitches</option>`)
+
+                    result.data.grounds.forEach(function (p) {
+//                        console.log(p)
+                                                $("#pitch_id").append(`<option value='${p.pitch[0]}'>${p.pitch[0]}  ${p.pitch[5]}</option>`)
+
+                    })
+                     $("#pitch_id").val("{{match.11}}")
+                }).catch((error) => {
+                    console.log(error)
+
+                })
+            }).catch((error) => {
+                console.log(error)
+
+            })
+
+
+           // Function to calculate the difference in days between two dates
+            function calculateDays() {
+
+                var fromDate = $('#from_date').val();
+                var toDate = $('#to_date').val();
+
+                // Ensure both dates are selected
+                if (fromDate && toDate) {
+                    var from = new Date(fromDate);
+                    var to = new Date(toDate);
+
+                    // Calculate the difference in milliseconds and convert to days
+                    var timeDiff = to - from;
+                    var daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24)) + 1;  // +1 to include the start date
+
+                    // Update the days_count field with the calculated days
+                    $('#days_count').val(daysDiff);
+                } else {
+                    // Reset to default if dates are not selected
+                    $('#days_count').val(1);
+                }
+            }
+
+            // Trigger calculation on date change
+            $('#from_date, #to_date').on('change', calculateDays);
+
+
+                 $("#ground_id").change(function () {
+            const groundId = $(this).val().trim()
+            if (groundId == "all") {
+                axios.get(`/usr_admin/get_all_pitches`).then((result) => {
+                    // console.log(result.data.grounds)
+                    $("#pitch_id").html("")
+                    $("#pitch_id").append(`<option value=''>Select Pitch</option>`)
+//                    $("#pitch_id").append(`<option value='all'>All Pitches</option>`)
+
+                    result.data.grounds.forEach(function (p) {
+                        $("#pitch_id").append(`<option value='${p.pitches[0]}'>${p.pitches[0]}  ${p.pitches[5]}</option>`)
+                    })
+
+                }).catch((error) => {
+                    console.log(error)
+
+                })
+            } else {
+                axios.get(`/usr_admin/get_pitches/${groundId}`).then((result) => {
+                    console.log(result.data.grounds)
+                    $("#pitch_id").html("")
+                    $("#pitch_id").append(`<option value=''>Select Pitch</option>`)
+//                    $("#pitch_id").append(`<option value='all'>All Pitches</option>`)
+
+                    result.data.grounds.forEach(function (p) {
+//                        console.log(p)
+                                                $("#pitch_id").append(`<option value='${p.pitch[0]}'>${p.pitch[0]}  ${p.pitch[5]}</option>`)
+
+                    })
+                }).catch((error) => {
+                    console.log(error)
+
+                })
+            }
+
+        })
+
+        $("#pitch_id").change(function () {
+
+
+            const pitchId = $(this).val().trim()
+            const groundId = $("#ground_id").val().trim()
+            if (pitchId !== "all") {
+
+                axios.get(`/usr_admin/get_pitch/${pitchId}`).then((result) => {
+                    const pitch = result.data.grounds[0].pitch
+
+                    console.log(pitch)
+//                    $("#pitch_location").prop("disabled", false)
+//                    $("#pitch_location").prop("readonly", true)
+//                    $("#pitch_location").val(pitch[1])
+
+                }).catch((error) => {
+                    console.log(error)
+
+                })
+            } else if (pitchId === "all") {
+//                $("#pitch_location").prop("disabled", true)
+            }
+
+
+
+
+
+
+        })
+        })
+
+
+
+
+        function toggleFields() {
+            var matchType = document.getElementById('match_type').value;
+            if (matchType == 'Multidays') {
+                document.getElementById('from_date').disabled = false;
+                document.getElementById('to_date').disabled = false;
+                document.getElementById('match_date').disabled = true;
+            } else {
+                document.getElementById('from_date').disabled = true;
+                document.getElementById('to_date').disabled = true;
+                document.getElementById('match_date').disabled = false;
+            }
+        }
+
+        function toggleRollerWeight() {
+            var rollerType = document.getElementById('roller_type').value;
+            if (rollerType == 'Manually') {
+                document.getElementById('roller_weights').style.display = 'block';
+            } else {
+                document.getElementById('roller_weights').style.display = 'none';
+            }
+        }
+
+        window.onload = function() {
+            toggleFields();
+            toggleRollerWeight();
+        }
+
+
+        // Function to calculate the difference in days between two dates
+            function calculateDays() {
+
+                var fromDate = $('#from_date').val();
+                var toDate = $('#to_date').val();
+
+                // Ensure both dates are selected
+                if (fromDate && toDate) {
+                    var from = new Date(fromDate);
+                    var to = new Date(toDate);
+
+                    // Calculate the difference in milliseconds and convert to days
+                    var timeDiff = to - from;
+                    var daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24)) + 1;  // +1 to include the start date
+
+                    // Update the days_count field with the calculated days
+                    $('#days_count').val(daysDiff);
+                } else {
+                    // Reset to default if dates are not selected
+                    $('#days_count').val(1);
+                }
+            }
+
+            // Trigger calculation on date change
+            $('#from_date, #to_date').on('change', calculateDays);
+    </script>
+</body>
+
+</html>

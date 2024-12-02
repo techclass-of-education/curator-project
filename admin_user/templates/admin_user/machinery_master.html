@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Insert Machinery</title>
+    <style>
+         input,
+        label,
+        select,
+        button {
+            font-size: 70% !important;
+        }
+    </style>
+</head>
+<body>
+ {% include "admin_user/menu.html" %}
+<div class="container">
+
+<!--    <h2>Insert Machinery</h2>-->
+<!--    <form method="POST" action="{% url 'insert_machinery' %}">-->
+<!--        {% csrf_token %}-->
+<!--        <label for="equipment_name">Equipment Name:</label>-->
+<!--        <input required type="text" id="equipment_name" name="equipment_name" required><br>-->
+
+<!--        <label for="equipment_model">Equipment Model:</label>-->
+<!--        <input required type="text" id="equipment_model" name="equipment_model" required><br>-->
+
+<!--        <label for="type">Type:</label>-->
+<!--        <input required type="text" id="type" name="type" required><br>-->
+
+<!--        <label for="company">Company:</label>-->
+<!--        <input required type="text" id="company" name="company" required><br>-->
+
+<!--        <label for="specification">Specification:</label>-->
+<!--        <input required type="text" id="specification" name="specification" required><br>-->
+
+<!--        <label for="unit">Unit:</label>-->
+<!--        <input required type="text" id="unit" name="unit" required><br>-->
+
+<!--        <label for="value">Value:</label>-->
+<!--        <input required type="number" id="value" name="value" required><br>-->
+
+<!--        <button type="submit">Insert Machinery</button>-->
+<!--    </form>-->
+</div>
+
+
+ <div class="container">
+      <div class="row">
+            <div class="col-md-8 offset-md-2">
+                 <form method="POST" action="{% url 'insert_machinery' %}">
+        {% csrf_token %}
+                      <div class="row mt-3">
+                        <div class="col-md-12">
+                            <label for="equipment_name" class="form-label">Equipment Name:</label>
+        <input required type="text"  id="equipment_name" list="equipment_name_list" name="equipment_name" class="form-control" required>
+                             <datalist id="equipment_name_list"></datalist>
+ <button type="button" class="btn btn-primary mt-1" onclick="openModal('equipment_name')">Select</button>
+                        </div>
+                    </div>
+
+  <div class="row mt-3">
+                        <div class="col-md-12">
+                            <label for="model" class="form-label">Equipment Model:</label>
+        <input required type="text"  id="model" list="equipment_model_list" name="equipment_model"  class="form-control" required>
+                                                        <datalist id="equipment_model_list"></datalist>
+                             <button type="button" class="btn btn-primary mt-1" onclick="openModal('model')">Select</button>
+
+
+
+                        </div>
+                    </div>
+
+     <div class="row mt-3">
+                        <div class="col-md-12">
+                            <label for="type" class="form-label">Type:</label>
+                            <input required type="text" id="type" name="type" class="form-control" list="type_list">
+                            <datalist id="type_list"></datalist>
+                                                         <button type="button" class="btn btn-primary mt-1" onclick="openModal('type')">Select</button>
+
+                        </div>
+                    </div>
+
+<!--                     <div class="row mt-3">-->
+<!--                        <div class="col-md-12">-->
+<!--                            <label for="type" class="form-label">Type:</label>-->
+<!--        <input required type="text"  id="type" name="type"  class="form-control" required>-->
+
+<!--                        </div>-->
+<!--                    </div>-->
+
+
+                     <div class="row mt-3">
+                        <div class="col-md-12">
+                            <label for="specification" class="form-label">Specification:</label>
+        <input required type="text"  id="specification" name="specification"  list="specification_list" class="form-control" required>
+                                                                                    <datalist id="specification_list"></datalist>
+                                                         <button type="button" class="btn btn-primary mt-1" onclick="openModal('specification')">Select</button>
+
+
+
+                        </div>
+                    </div>
+ <div class="row mt-3">
+                        <div class="col-md-12">
+                            <label for="unit" class="form-label">Unit:</label>
+
+        <input required type="text"  id="unit" name="unit" list="unit_list"  class="form-control" required>
+                                                        <datalist id="unit_list"></datalist>
+                                                         <button type="button" class="btn btn-primary mt-1" onclick="openModal('unit')">Select</button>
+
+
+                        </div>
+                    </div>
+<div class="row mt-3">
+                        <div class="col-md-12">
+                            <label for="value" class="form-label">Value:</label>
+        <input required type="text"  id="value" name="value"  list="value_list" class="form-control" required>
+                                                        <datalist id="value_list"></datalist>
+                                                                                     <button type="button" class="btn btn-primary mt-1" onclick="openModal('value')">Select</button>
+
+
+
+                        </div>
+                    </div>
+
+
+
+
+        <button class="btn btn-danger mt-3" type="submit">Insert Machinery</button>
+    </form>
+            </div>
+      </div>
+ </div>
+
+  <!-- Bootstrap Modal -->
+    <div class="modal fade" id="selectionModal" tabindex="-1" aria-labelledby="selectionModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="selectionModalLabel">Select an Option</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul id="modalList" class="list-group"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+ let datalistData = {};
+        function changeMenuTitle(title) {
+            document.title = title;
+        }
+        changeMenuTitle("Update Machinery");
+
+        $(document).ready(function() {
+            axios.get("{% url 'machinery_data' %}")
+                .then(response => {
+                    const machineryData = response.data;
+datalistData=machineryData
+                    populateDatalist(machineryData, "equipment_name", "equipment_name_list");
+                    populateDatalist(machineryData, "model", "equipment_model_list");
+                    populateDatalist(machineryData, "type", "type_list");
+                    populateDatalist(machineryData, "specification", "specification_list");
+                    populateDatalist(machineryData, "unit", "unit_list");
+                    populateDatalist(machineryData, "value", "value_list");
+                })
+                .catch(error => console.error(error));
+        });
+
+        function populateDatalist(data, key, datalistId) {
+            const uniqueValues = [...new Set(data.map(item => item[key]))];
+            const datalist = document.getElementById(datalistId);
+            uniqueValues.forEach(value => {
+                if (value) {
+                    const option = document.createElement("option");
+                    option.value = value;
+                    datalist.appendChild(option);
+                }
+            });
+        }
+
+
+        let currentFieldId = '';
+
+        function openModal(fieldId) {
+            currentFieldId = fieldId;
+            const modalList = document.getElementById('modalList');
+            modalList.innerHTML = '';
+
+            const uniqueValues = [...new Set(datalistData.map(item => item[fieldId]))];
+            uniqueValues.forEach(value => {
+                if (value) {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = value;
+                    listItem.className = 'list-group-item list-group-item-action';
+                    listItem.style.cursor = 'pointer';
+                    listItem.onclick = function () {
+                        document.getElementById(fieldId).value = value;
+                        const modalInstance = bootstrap.Modal.getInstance(document.getElementById('selectionModal'));
+                        modalInstance.hide();
+                    };
+                    modalList.appendChild(listItem);
+                }
+            });
+
+            const modal = new bootstrap.Modal(document.getElementById('selectionModal'));
+            modal.show();
+        }     changeMenuTitle("Insert Machinery")
+</script>
+</body>
+</html>

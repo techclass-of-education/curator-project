@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curator Daily Recording Form</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+        .form-control {
+            margin-bottom: 10px;
+        }
+
+        .form-label {
+            margin-bottom: 5px;
+        }
+
+        input,
+        label,
+        select,
+        button,
+        textarea {
+            font-size: 70% !important;
+        }
+
+        label {
+            font-weight: 700;
+        }
+    </style>
+
+    <script>
+
+        const getWeather = (textField) => {
+
+            // Define your API key, location, and the date you want to get the forecast for
+            const apiKey = 'f201a1e4b5cf4e87a66103535240211';
+            const loc = 'Nagpur';
+            const date = textField.value // Replace with your desired date (YYYY-MM-DD)
+
+            // Construct the API URL for the forecast
+            const url = `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${loc}&dt=${date}&aqi=no`;
+
+            // Fetch the weather data
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    // Extract the forecast data for the day
+                    const forecast = data.forecast.forecastday[0].day;
+
+                    // Get the min, max temperature and weather condition description
+                    const minTemp = forecast.mintemp_c;
+                    const maxTemp = forecast.maxtemp_c;
+                    const condition = forecast.condition.text;
+
+                    document.getElementById("min_temp").value = minTemp
+                    document.getElementById("max_temp").value = maxTemp
+                    document.getElementById("forecast").value = condition
+
+                })
+                .catch(error => console.error('Error fetching weather data:', error));
+        }
+
+
+    </script>
+</head>
+
+<body>
+    {% include "admin_user/menu.html" %}
+    <div class="container mt-5">
+        <ul class="list-group">
+            <li class="list-group-item bg-info display-6 text-white pb-3">
+                Daily Maintenance Form
+            </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-8 offset-md-2">
+                        <!--                <h3 class="mb-3">Daily Maintenance Form</h3>-->
+                        <form method="post">
+                            {% csrf_token %}
+                            <fieldset class="form-group border mt-4 p-3">
+                                <!-- <legend class="w-auto px-2">Common Entries</legend> -->
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label for="recording_type" class="form-label">Select Recording Type</label>
+                                        <select  id="recording_type" name="recording_type" class="form-control">
+                                            <option value="daily">Daily</option>
+                                            <!-- <option value="match">Match Preperation</option>
+                                    <option value="both">Both</option> -->
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col">
+
+                                        <label for="ground_id" class="form-label">Select Ground:</label>
+                                        <select  id="ground_id"  name="ground_id" class="form-control">
+
+
+                                        </select>
+
+                                    </div>
+                                    <div class="col">
+                                        <label for="pitch_id" class="form-label">Select Pitch:</label>
+                                        <select  id="pitch_id"  name="pitch_id" class="form-control">
+                                            <!--                                <option value="all">All Pitches</option>-->
+
+                                            <!--                                {% for pitch in pitches %}-->
+                                            <!--                                <option value="{{ pitch.0 }}">(Pitch No:{{ pitch.3 }}) (Pitch-Type:{{ pitch.4 }})  (Ground ID: {{pitch.2}})</option>-->
+                                            <!--                                {% endfor %}-->
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label for="pitch_location" class="form-label">Pitch Location:</label>
+                                        <input  type="text" id="pitch_location"  name="pitch_location"
+                                            class="form-control">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label for="rolling_start_date" class="form-label">Date:</label>
+                                        <input  type="date" onchange="getWeather(this)" id="rolling_start_date"
+                                             name="rolling_start_date" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col">
+                                                <label for="min_temp" class="form-label">Minimum Temprature °C</label>
+                                                <input  type="text" id="min_temp" 
+                                                    placeholder="Minimum Temprature" name="min_temp"
+                                                    class="form-control">
+
+                                            </div>
+                                            <div class="col">
+                                                <label for="max_temp" class="form-label">Maximum Temprature °C</label>
+                                                <input  type="text"  placeholder="Maximum Temprature"
+                                                    id="max_temp" name="max_temp" class="form-control">
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label for="forecast" class="form-label">Forecast Prediction Available:</label>
+                                        <textarea id="forecast" name="forecast" 
+                                            placeholder="Forecast Prediction Available" class="form-control"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col">
+                                                <label for="moisture" class="form-label">Moisture</label>
+                                                <input  type="text" disabled id="moisture"
+                                                    placeholder="Moisture" name="moisture" class="form-control">
+
+                                            </div>
+                                            <div class="col">
+                                                <label for="clagg_hammer" class="form-label">Clagg Hammer</label>
+                                                <input  type="text" disabled placeholder="Clagg Hammer"
+                                                    id="clagg_hammer" name="clagg_hammer" class="form-control">
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <!--     curator name come from curator login..               -->
+                            <hr>
+                            <!-- <fieldset class="form-group border mt-4 bg-secondary text-white p-3">
+                        <legend class="w-auto px-2">Pitch Entries</legend>
+                        <div class="row">
+                            <div class="col-lg-6 col-sm-12">
+                                <label for="machinery_id" class="form-label">Select Machinery</label>
+                                <input  type="hidden" name="machinery_id" id="machinery_id">
+                                <input  type="text" name="machinery_name" id="machinery_name"
+                                    class="form-control" readonly placeholder="Click to select machinery">
+                            </div>
+                            <div class="col-lg-3 col-sm-12 d-flex">
+                                <button type="button" class="btn btn-dark mt-2 align-self-end" style="font-size:70%"
+                                    onclick="openMachineryModal('pitch')">Select Machinery</button>
+
+                            </div>
+
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="no_of_passes" class="form-label">Number of Passes:</label>
+                                <input  type="number" id="no_of_passes"  name="no_of_passes"
+                                    class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="rolling_speed" class="form-label">Rolling Speed:</label>
+                                <input  type="number" id="rolling_speed"  name="rolling_speed"
+                                    class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="last_watering_on" class="form-label">Last Watering On:</label>
+                                <input  type="date" id="last_watering_on" name="last_watering_on"
+                                    class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="quantity_of_water" class="form-label">Quantity of Water:</label>
+                                <input  type="number" id="quantity_of_water"  name="quantity_of_water"
+                                    class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="time_of_application" class="form-label">Time of Application/Roller:</label>
+                                <input  type="time" id="time_of_application"  name="time_of_application"
+                                    class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <div class="input-group mb-3 border rounded">
+                                    <div class="input-group-text bg-light border-0"
+                                        style="background-color:white !important;">
+                                        <input  class="form-check-input mt-0 border-left" type="checkbox"
+                                            aria-label="Checkbox for following text input" name="is_daily_watering">
+                                    </div>
+                                    <input  type="text" class="form-control border-0 mt-2"
+                                        value="Is Daily Watering" style="background-color:white" readonly
+                                        aria-label="Text input with checkbox">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-sm-12">
+                                <label for="mover_machinery_id" class="form-label">Select Machinery/Mover</label>
+                                <input  type="hidden" name="mover_machinery_id" id="mover_machinery_id">
+                                <input  type="text" name="mover_machinery_name" id="mover_machinery_name"
+                                    class="form-control" readonly placeholder="Click to select machinery">
+                            </div>
+                            <div class="col-lg-3 col-sm-12 d-flex">
+                                <button type="button" class="btn btn-secondary mt-2 align-self-end"
+                                    style="font-size:70%" onclick="openMachineryModal('mover')">Select
+                                    Machinery</button>
+
+                            </div>
+
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="date_mowing_done_last" class="form-label">Date Mowing Done Last:</label>
+                                <input  type="date" id="date_mowing_done_last" 
+                                    name="date_mowing_done_last" class="form-control">
+                            </div>
+                        </div>
+                         <div class="row">
+                            <div class="col-md-12">
+                                <label for="time_of_application_mover" class="form-label">Time of Application/Mover:</label>
+                                <input  type="time" id="time_of_application_mover"  name="time_of_application_mover"
+                                    class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="mowing_done_at_mm" class="form-label">Mowing Done at (mm):</label>
+                                <input  type="number" id="mowing_done_at_mm"  name="mowing_done_at_mm"
+                                    class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <div class="input-group mb-3 border rounded">
+                                    <div class="input-group-text bg-light border-0"
+                                        style="background-color:white !important;">
+                                        <input  class="form-check-input mt-0 border-left" type="checkbox"
+                                            aria-label="Checkbox for following text input" name="is_fertilizers_used">
+                                    </div>
+                                    <input  type="text" class="form-control border-0 mt-2"
+                                        value="Is Fertilizers Used" style="background-color:white" readonly
+                                        aria-label="Text input with checkbox">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="fertilizers_details" class="form-label">Chemical Details:</label>
+                                <div class="row">
+                                    <div class="col">
+                                        <select  id="fertilizers_details"  name="fertilizers_details"
+                                            class="form-control">
+                                            <option value="fertilizers">Fertilizers</option>
+                                            <option value="pesticides">Pesticides</option>
+                                            <option value="fungicides">Fungicides</option>
+                                            <option value="insecticides">Insecticides</option>
+                                            <option value="herbicides">Herbicides</option>
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <input  type="text" id="chemical_details_remark" placeholder="Remarks"
+                                            name="chemical_details_remark" class="form-control">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="remark_by_groundsman" class="form-label">Remark by Groundsman:</label>
+                                <textarea  id="remark_by_groundsman" placeholder="Pitch Curing Remarks" 
+                                    name="remark_by_groundsman" class="form-control"></textarea>
+                            </div>
+                        </div>
+
+                    </fieldset>
+                    <hr>
+                    <fieldset class="form-group border p-3 mt-4 text-white" style="background-color:darkgreen;">
+                        <legend class="w-auto px-2">Outfield Entries</legend>
+                        <div class="row">
+                            <div class="col-lg-6 col-sm-12">
+                                <label for="out_machinery_id" class="form-label">Select Machinery/Roller</label>
+                                <input  type="hidden" name="out_machinery_id" id="out_machinery_id">
+                                <input  type="text" name="out_machinery_name" id="out_machinery_name"
+                                    class="form-control" readonly placeholder="Click to select machinery">
+                            </div>
+                            <div class="col-lg-3 col-sm-12 d-flex">
+                                <button type="button" class="btn btn-secondary mt-2 align-self-end"
+                                    style="font-size:70%" onclick="openMachineryModal('out')">Select Machinery</button>
+
+                            </div>
+
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="out_no_of_passes" class="form-label">Number of Passes:</label>
+                                <input  type="number" id="out_no_of_passes"  name="out_no_of_passes"
+                                    class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="out_rolling_speed" class="form-label">Rolling Speed:</label>
+                                <input  type="number" id="out_rolling_speed"  name="out_rolling_speed"
+                                    class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="out_last_watering_on" class="form-label">Last Watering On:</label>
+                                <input  type="date" id="out_last_watering_on" name="out_last_watering_on"
+                                    class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="out_quantity_of_water" class="form-label">Quantity of Water:</label>
+                                <input  type="number" id="out_quantity_of_water" 
+                                    name="out_quantity_of_water" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="out_time_of_application" class="form-label">Time of Application:</label>
+                                <input  type="time" id="out_time_of_application" 
+                                    name="out_time_of_application" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <div class="input-group mb-3 border rounded">
+                                    <div class="input-group-text bg-light border-0"
+                                        style="background-color:white !important;">
+                                        <input  class="form-check-input mt-0 border-left" type="checkbox"
+                                            aria-label="Checkbox for following text input" name="out_is_daily_watering">
+                                    </div>
+                                    <input  type="text" class="form-control border-0 mt-2"
+                                        value="Is Daily Watering" style="background-color:white" readonly
+                                        aria-label="Text input with checkbox">
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-6 col-sm-12">
+                                <label for="out_machinery_id" class="form-label">Select Machinery/Mover</label>
+                                <input  type="hidden" name="out_mover_machinery_id" id="out_mover_machinery_id">
+                                <input  type="text" name="out_mover_machinery_name"
+                                    id="out_mover_machinery_name" class="form-control" readonly
+                                    placeholder="Click to select machinery">
+                            </div>
+                            <div class="col-lg-3 col-sm-12 d-flex">
+                                <button type="button" class="btn btn-secondary mt-2 align-self-end"
+                                    style="font-size:70%" onclick="openMachineryModal('out-mover')">Select
+                                    Machinery</button>
+
+                            </div>
+
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="out_date_mowing_done_last" class="form-label">Date Mowing Done Last:</label>
+                                <input  type="date" id="out_date_mowing_done_last" 
+                                    name="out_date_mowing_done_last" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="time_of_application_out_mover" class="form-label">Time of outfield Application/Mover:</label>
+                                <input  type="time" id="time_of_application_out_mover"  name="time_of_application_out_mover"
+                                    class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="out_mowing_done_at_mm" class="form-label">Mowing Done at (mm):</label>
+                                <input  type="number" id="out_mowing_done_at_mm" 
+                                    name="out_mowing_done_at_mm" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <div class="input-group mb-3 border rounded">
+                                    <div class="input-group-text bg-light border-0"
+                                        style="background-color:white !important;">
+                                        <input  class="form-check-input mt-0 border-left" type="checkbox"
+                                            aria-label="Checkbox for following text input"
+                                            name="out_is_fertilizers_used">
+                                    </div>
+                                    <input  type="text" class="form-control border-0 mt-2"
+                                        value="Is Fertilizers Used" style="background-color:white" readonly
+                                        aria-label="Text input with checkbox">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="out_fertilizers_details" class="form-label">Chemical Details:</label>
+                                <div class="row">
+                                    <div class="col">
+                                        <select  id="out_fertilizers_details" 
+                                            name="out_fertilizers_details" class="form-control">
+                                            <option value="fertilizers">Fertilizers</option>
+                                            <option value="pesticides">Pesticides</option>
+                                            <option value="fungicides">Fungicides</option>
+                                            <option value="insecticides">Insecticides</option>
+                                            <option value="herbicides">Herbicides</option>
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <input  type="text" id="out_chemical_details_remark"
+                                            placeholder="Remarks" name="out_chemical_details_remark"
+                                            class="form-control">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="out_remark_by_groundsman" class="form-label">Remarks by Groundsman:</label>
+                                <textarea  placeholder="Outfield Curing Remark" type="text"
+                                    id="out_remark_by_groundsman"  name="out_remark_by_groundsman"
+                                    class="form-control"></textarea>
+                            </div>
+                        </div>
+
+                    </fieldset> -->
+
+                            <!-- ////////////////////////////////////// -->
+
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item fs-4" role="presentation">
+                                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
+                                        data-bs-target="#home-tab-pane" type="button" role="tab"
+                                        aria-controls="home-tab-pane" aria-selected="true">
+                                        <u><b>Pitch Entry</b></u>
+                                    </button>
+                                </li>
+                                <li class="nav-item fs-4" role="presentation">
+                                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
+                                        data-bs-target="#profile-tab-pane" type="button" role="tab"
+                                        aria-controls="profile-tab-pane" aria-selected="false">
+                                        <u><b>Outfield Entry</b></u>
+                                    </button>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel"
+                                    aria-labelledby="home-tab" tabindex="0">
+                                    <div class="form-group border mt-4 bg-secondary text-white p-3">
+                                        <legend class="w-auto px-2">Pitch Entries</legend>
+
+
+
+
+                                        <div class="row">
+                                            <div class="col-sm-12 col-lg-6">
+                                                <fieldset class="form-group border mt-4 bg-secondary text-white p-3">
+                                                    <legend class="w-auto px-2">Watering</legend>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <label for="last_watering_on" class="form-label">Watering
+                                                                On:</label>
+                                                            <input type="date" id="last_watering_on"
+                                                                name="last_watering_on" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <label for="time_of_application" class="form-label">Time of
+                                                                Watering:</label>
+                                                            <input type="time" id="time_of_application"
+                                                                name="time_of_application" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <label for="quantity_of_water" class="form-label">Quantity
+                                                                of
+                                                                Water:</label>
+                                                            <input type="number" id="quantity_of_water"
+                                                                name="quantity_of_water" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
+
+                                            </div>
+                                            <div class="col-sm-12 col-lg-6">
+                                                <fieldset class="form-group border mt-4 bg-secondary text-white p-3">
+                                                    <legend class="w-auto px-2">Rolling</legend>
+                                                    <div class="row">
+                                                        <div class="col-lg-6 col-sm-12">
+                                                            <label for="machinery_id" class="form-label">Select
+                                                                Roller</label>
+                                                            <input type="hidden" name="machinery_id" id="machinery_id">
+                                                            <input type="text" name="machinery_name" id="machinery_name"
+                                                                class="form-control" readonly
+                                                                placeholder="Click to select machinery">
+                                                        </div>
+                                                        <div class="col-lg-3 col-sm-12 d-flex">
+                                                            <button type="button"
+                                                                class="btn btn-dark mt-2 align-self-end"
+                                                                style="font-size:70%"
+                                                                onclick="openMachineryModal('pitch')">Select
+                                                                Machinery</button>
+
+                                                        </div>
+
+                                                        <!--               <div id="roller_weight_div" class="col-lg-6 col-sm-12">-->
+                                                        <!--            <label for="weight_of_the_roller" class="form-label">Roller Weight</label>-->
+                                                        <!--            <select  name="weight_of_the_roller" class="form-select" id="weight_of_the_roller">-->
+                                                        <!--                <option value="Weight 1">Weight 1</option>-->
+                                                        <!--                <option value="Weight 2">Weight 2</option>-->
+                                                        <!--                <option value="Weight 3">Weight 3</option>-->
+                                                        <!--            </select>-->
+                                                        <!--        </div>-->
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <label for="time_of_application" class="form-label">Time of
+                                                            Rolling:</label>
+                                                        <input type="time" id="time_of_application_roller"
+                                                            name="time_of_application" class="form-control">
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <label for="rolling_speed" class="form-label">Rolling
+                                                                Speed:</label>
+                                                            <input type="number" id="rolling_speed" name="rolling_speed"
+                                                                class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <label for="no_of_passes" class="form-label">Number of
+                                                                Passes:</label>
+                                                            <input type="number" id="no_of_passes" name="no_of_passes"
+                                                                class="form-control">
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
+                                            </div>
+                                        </div>
+
+
+
+
+
+
+                                        <!--                                <div class="row mt-3">-->
+                                        <!--                                    <div class="col-md-12">-->
+                                        <!--                                        <div class="input-group mb-3 border rounded">-->
+                                        <!--                                            <div class="input-group-text bg-light border-0"-->
+                                        <!--                                                style="background-color:white !important;">-->
+                                        <!--                                                <input  class="form-check-input mt-0 border-left"-->
+                                        <!--                                                    type="checkbox" aria-label="Checkbox for following text input"-->
+                                        <!--                                                    name="is_daily_watering">-->
+                                        <!--                                            </div>-->
+                                        <!--                                            <input  type="text" class="form-control border-0 mt-2"-->
+                                        <!--                                                value="Is Daily Watering" style="background-color:white" readonly-->
+                                        <!--                                                aria-label="Text input with checkbox">-->
+                                        <!--                                        </div>-->
+                                        <!--                                    </div>-->
+                                        <!--                        <div class="col-md-12">-->
+                                        <!--                            <label for="is_daily_watering" class="form-label"></label>-->
+                                        <!--                            <input  type="checkbox" id="is_daily_watering" name="is_daily_watering" class="form-check-input">-->
+                                        <!--                        </div>-->
+
+                                        <div class="row mt-4">
+                                            <div class="col-lg-6 col-sm-12">
+                                                <label for="mover_machinery_id" class="form-label">Select
+                                                    Machinery/Mover</label>
+                                                <input type="hidden" name="mover_machinery_id" id="mover_machinery_id">
+                                                <input type="text" name="mover_machinery_name" id="mover_machinery_name"
+                                                    class="form-control" readonly
+                                                    placeholder="Click to select machinery">
+                                            </div>
+                                            <div class="col-lg-3 col-sm-12 d-flex">
+                                                <button type="button" class="btn btn-dark mt-2 align-self-end"
+                                                    style="font-size:70%" onclick="openMachineryModal('mover')">Select
+                                                    Machinery</button>
+
+                                            </div>
+
+                                            <!--               <div id="out_roller_weight_div" class="col-lg-6 col-sm-12">-->
+                                            <!--            <label for="out_weight_of_the_roller" class="form-label">Roller Weight</label>-->
+                                            <!--            <select  name="out_weight_of_the_roller" class="form-select" id="out_weight_of_the_roller">-->
+                                            <!--                <option value="Weight 1">Weight 1</option>-->
+                                            <!--                <option value="Weight 2">Weight 2</option>-->
+                                            <!--                <option value="Weight 3">Weight 3</option>-->
+                                            <!--            </select>-->
+                                            <!--        </div>-->
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label for="date_mowing_done_last" class="form-label">Date Mowing Done
+                                                    Last:</label>
+                                                <input type="date" id="date_mowing_done_last"
+                                                    name="date_mowing_done_last" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label for="time_of_application_mover" class="form-label">Time of
+                                                    Application Mover:</label>
+                                                <input type="time" id="time_of_application_mover"
+                                                    name="time_of_application_mover" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label for="mowing_done_at_mm" class="form-label">Mowing Height
+                                                    (mm):</label>
+                                                <input type="number" id="mowing_done_at_mm" name="mowing_done_at_mm"
+                                                    class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="row mt-3">
+                                            <div class="col-md-12">
+                                                <div class="input-group mb-3 border rounded">
+                                                    <div class="input-group-text bg-light border-0"
+                                                        style="background-color:white !important;">
+                                                        <input class="form-check-input mt-0 border-left" type="checkbox"
+                                                            aria-label="Checkbox for following text input"
+                                                            name="is_fertilizers_used" id="is_fertilizers_used">
+                                                    </div>
+                                                    <input type="text" class="form-control border-0 mt-2"
+                                                        value="Is Fertilizers Used" style="background-color:white"
+                                                        readonly aria-label="Text input with checkbox">
+                                                </div>
+                                            </div>
+                                            <!--                        <div class="col-md-12">-->
+
+                                            <!--                            <label for="is_fertilizers_used" class="form-label">Is Fertilizers Used:</label>-->
+                                            <!--                            <input  type="checkbox" id="is_fertilizers_used" name="is_fertilizers_used" class="form-check-input">-->
+                                            <!--                        </div>-->
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label for="fertilizers_details" class="form-label">Chemical
+                                                    Details:</label>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <select id="fertilizers_details" name="fertilizers_details"
+                                                            class="form-control">
+                                                            <option value="">Select Any Chemical</option>
+                                                            <option value="fertilizers">Fertilizers</option>
+                                                            <option value="pesticides">Pesticides</option>
+                                                            <option value="fungicides">Fungicides</option>
+                                                            <option value="insecticides">Insecticides</option>
+                                                            <option value="herbicides">Herbicides</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col">
+                                                        <input type="text" id="chemical_details_remark"
+                                                            placeholder="Remarks" name="chemical_details_remark"
+                                                            class="form-control">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label for="remark_by_groundsman" class="form-label">Remark by
+                                                    Groundsman:</label>
+                                                <textarea id="remark_by_groundsman" placeholder="Pitch Curing Remarks"
+                                                    name="remark_by_groundsman" class="form-control"></textarea>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <hr>
+                                </div>
+
+                                <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel"
+                                    aria-labelledby="profile-tab" tabindex="0">
+                                    <div class="form-group border mt-4 bg-success text-white p-3">
+                                        <legend class="w-auto px-2">Outfield Entries</legend>
+
+
+
+
+                                        <div class="row">
+                                            <div class="col-sm-12 col-lg-6">
+                                                <fieldset class="form-group border mt-4 bg-success text-white p-3">
+                                                    <legend class="w-auto px-2">Watering</legend>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <label for="out_last_watering_on"
+                                                                class="form-label">Watering
+                                                                On:</label>
+                                                            <input type="date" id="out_last_watering_on"
+                                                                name="out_last_watering_on" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <label for="out_time_of_application" class="form-label">Time
+                                                                of
+                                                                Watering:</label>
+                                                            <input type="time" id="out_time_of_application"
+                                                                name="out_time_of_application" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <label for="out_quantity_of_water"
+                                                                class="form-label">Quantity of
+                                                                Water:</label>
+                                                            <input type="number" id="out_quantity_of_water"
+                                                                name="out_quantity_of_water" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
+
+                                            </div>
+                                            <div class="col-sm-12 col-lg-6">
+                                                <fieldset class="form-group border mt-4 bg-success text-white p-3">
+                                                    <legend class="w-auto px-2">Rolling</legend>
+                                                    <div class="row">
+                                                        <div class="col-lg-6 col-sm-12">
+                                                            <label for="out_machinery_id" class="form-label">Select
+                                                                Roller</label>
+                                                            <input type="hidden" name="out_machinery_id"
+                                                                id="out_machinery_id">
+                                                            <input type="text" name="out_machinery_name"
+                                                                id="out_machinery_name" class="form-control" readonly
+                                                                placeholder="Click to select machinery">
+                                                        </div>
+                                                        <div class="col-lg-3 col-sm-12 d-flex">
+                                                            <button type="button"
+                                                                class="btn btn-dark mt-2 align-self-end"
+                                                                style="font-size:70%"
+                                                                onclick="openMachineryModal('pitch')">Select
+                                                                Machinery</button>
+
+                                                        </div>
+
+                                                        <!--               <div id="out_roller_weight_div" class="col-lg-6 col-sm-12">-->
+                                                        <!--            <label for="out_weight_of_the_roller" class="form-label">Roller Weight</label>-->
+                                                        <!--            <select  name="weight_of_the_roller" class="form-select" id="out_weight_of_the_roller">-->
+                                                        <!--                <option value="Weight 1">Weight 1</option>-->
+                                                        <!--                <option value="Weight 2">Weight 2</option>-->
+                                                        <!--                <option value="Weight 3">Weight 3</option>-->
+                                                        <!--            </select>-->
+                                                        <!--        </div>-->
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <label for="out_time_of_application" class="form-label">Time of
+                                                            Rolling:</label>
+                                                        <input type="time" id="out_time_of_application_roller"
+                                                            name="out_time_of_application" class="form-control">
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <label for="out_rolling_speed" class="form-label">Rolling
+                                                                Speed:</label>
+                                                            <input type="number" id="out_rolling_speed"
+                                                                name="out_rolling_speed" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <label for="out_no_of_passes" class="form-label">Number of
+                                                                Passes:</label>
+                                                            <input type="number" id="out_no_of_passes"
+                                                                name="out_no_of_passes" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
+                                            </div>
+                                        </div>
+
+
+
+
+
+
+                                        <!--                                <div class="row mt-3">-->
+                                        <!--                                    <div class="col-md-12">-->
+                                        <!--                                        <div class="input-group mb-3 border rounded">-->
+                                        <!--                                            <div class="input-group-text bg-light border-0"-->
+                                        <!--                                                style="background-color:white !important;">-->
+                                        <!--                                                <input  class="form-check-input mt-0 border-left"-->
+                                        <!--                                                    type="checkbox" aria-label="Checkbox for following text input"-->
+                                        <!--                                                    name="is_daily_watering">-->
+                                        <!--                                            </div>-->
+                                        <!--                                            <input  type="text" class="form-control border-0 mt-2"-->
+                                        <!--                                                value="Is Daily Watering" style="background-color:white" readonly-->
+                                        <!--                                                aria-label="Text input with checkbox">-->
+                                        <!--                                        </div>-->
+                                        <!--                                    </div>-->
+                                        <!--                        <div class="col-md-12">-->
+                                        <!--                            <label for="out_is_daily_watering" class="form-label"></label>-->
+                                        <!--                            <input  type="checkbox" id="out_is_daily_watering" name="is_daily_watering" class="form-check-input">-->
+                                        <!--                        </div>-->
+
+                                        <div class="row mt-4">
+                                            <div class="col-lg-6 col-sm-12">
+                                                <label for="out_mover_machinery_id" class="form-label">Select
+                                                    Machinery/Mover</label>
+                                                <input type="hidden" name="out_mover_machinery_id"
+                                                    id="out_mover_machinery_id">
+                                                <input type="text" name="out_mover_machinery_name"
+                                                    id="out_mover_machinery_name" class="form-control" readonly
+                                                    placeholder="Click to select machinery">
+                                            </div>
+                                            <div class="col-lg-3 col-sm-12 d-flex">
+                                                <button type="button" class="btn btn-dark mt-2 align-self-end"
+                                                    style="font-size:70%" onclick="openMachineryModal('mover')">Select
+                                                    Machinery</button>
+
+                                            </div>
+
+                                            <!--               <div id="out_out_roller_weight_div" class="col-lg-6 col-sm-12">-->
+                                            <!--            <label for="out_out_weight_of_the_roller" class="form-label">Roller Weight</label>-->
+                                            <!--            <select  name="out_weight_of_the_roller" class="form-select" id="out_out_weight_of_the_roller">-->
+                                            <!--                <option value="Weight 1">Weight 1</option>-->
+                                            <!--                <option value="Weight 2">Weight 2</option>-->
+                                            <!--                <option value="Weight 3">Weight 3</option>-->
+                                            <!--            </select>-->
+                                            <!--        </div>-->
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label for="out_date_mowing_done_last" class="form-label">Date Mowing
+                                                    Done
+                                                    Last:</label>
+                                                <input type="date" id="out_date_mowing_done_last"
+                                                    name="out_date_mowing_done_last" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label for="out_time_of_application_mover" class="form-label">Time of
+                                                    Application Mover:</label>
+                                                <input type="time" id="out_time_of_application_mover"
+                                                    name="out_time_of_application_mover" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label for="out_mowing_done_at_mm" class="form-label">Mowing Height
+                                                    (mm):</label>
+                                                <input type="number" id="out_mowing_done_at_mm"
+                                                    name="out_mowing_done_at_mm" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="row mt-3">
+                                            <div class="col-md-12">
+                                                <div class="input-group mb-3 border rounded">
+                                                    <div class="input-group-text bg-light border-0"
+                                                        style="background-color:white !important;">
+                                                        <input class="form-check-input mt-0 border-left" type="checkbox"
+                                                            aria-label="Checkbox for following text input"
+                                                            name="out_is_fertilizers_used" id="out_is_fertilizers_used">
+                                                    </div>
+                                                    <input type="text" class="form-control border-0 mt-2"
+                                                        value="Is Fertilizers Used" style="background-color:white"
+                                                        readonly aria-label="Text input with checkbox">
+                                                </div>
+                                            </div>
+                                            <!--                        <div class="col-md-12">-->
+
+                                            <!--                            <label for="out_is_fertilizers_used" class="form-label">Is Fertilizers Used:</label>-->
+                                            <!--                            <input  type="checkbox" id="out_is_fertilizers_used" name="is_fertilizers_used" class="form-check-input">-->
+                                            <!--                        </div>-->
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label for="out_fertilizers_details" class="form-label">Chemical
+                                                    Details:</label>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <select id="out_fertilizers_details"
+                                                            name="out_fertilizers_details" class="form-control">
+                                                            <option value="fertilizers">Fertilizers</option>
+                                                            <option value="pesticides">Pesticides</option>
+                                                            <option value="fungicides">Fungicides</option>
+                                                            <option value="insecticides">Insecticides</option>
+                                                            <option value="herbicides">Herbicides</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col">
+                                                        <input type="text" id="out_chemical_details_remark"
+                                                            placeholder="Remarks" name="out_chemical_details_remark"
+                                                            class="form-control">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label for="out_remark_by_groundsman" class="form-label">Remark by
+                                                    Groundsman:</label>
+                                                <textarea id="out_remark_by_groundsman"
+                                                    placeholder="Pitch Curing Remarks" name="out_remark_by_groundsman"
+                                                    class="form-control"></textarea>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ///////////////////////////////////// -->
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <input type="submit" value="Submit" class="btn btn-primary">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </li>
+    </div>
+
+    <div class="modal fade" id="machineryModal" tabindex="-1" aria-labelledby="machineryModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="machineryModalLabel">Select Machinery</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul class="list-group" id="machineryList">
+                        <!-- Machinery items will be populated here -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        changeMenuTitle("Daily Maintenance")
+        $(document).ready(function () {
+            axios.get("/usr_admin/get_grounds").then((result) => {
+                $("#ground_id").html("")
+                $("#ground_id").append(`<option value=''>Select Ground</option>`)
+                $("#ground_id").append(`<option value='all'>All Grounds</option>`)
+
+                result.data.grounds.forEach(function (g) {
+                    $("#ground_id").append(`<option value='${g.ground[0]}'>${g.ground[6]}</option>`)
+                })
+
+            }).catch((error) => {
+                console.log(error)
+
+            })
+        })
+
+
+        $("#out_is_fertilizers_used").change(function () {
+            if ($(this).prop("checked") === true) {
+                $("#out_fertilizers_details").prop("required", true)
+            }
+            else {
+                $("#out_fertilizers_details").prop("required", false)
+            }
+
+
+        });
+        $("#is_fertilizers_used").change(function () {
+            if ($(this).prop("checked") === true) {
+                $("#fertilizers_details").prop("required", true)
+            }
+            else {
+                $("#fertilizers_details").prop("required", false)
+            }
+
+
+        });
+
+
+        $("#ground_id").change(function () {
+            const groundId = $(this).val().trim()
+            if (groundId == "all") {
+                axios.get(`/usr_admin/get_all_pitches`).then((result) => {
+                    // console.log(result.data.grounds)
+                    $("#pitch_id").html("")
+                    $("#pitch_id").append(`<option value=''>Select Pitch</option>`)
+                    $("#pitch_id").append(`<option value='all'>All Pitches</option>`)
+
+                    result.data.grounds.forEach(function (p) {
+                        $("#pitch_id").append(`<option value='${p.pitches[0]}'>${p.pitches[0]}  ${p.pitches[5]}</option>`)
+                    })
+                }).catch((error) => {
+                    console.log(error)
+
+                })
+            } else {
+                axios.get(`/usr_admin/get_pitches/${groundId}`).then((result) => {
+                    console.log(result.data.grounds)
+                    $("#pitch_id").html("")
+                    $("#pitch_id").append(`<option value=''>Select Pitch</option>`)
+                    $("#pitch_id").append(`<option value='all'>All Pitches</option>`)
+
+                    result.data.grounds.forEach(function (p) {
+                        $("#pitch_id").append(`<option value='${p.pitch[0]}'>${p.pitch[0]}  ${p.pitch[5]}</option>`)
+                    })
+                }).catch((error) => {
+                    console.log(error)
+
+                })
+            }
+
+        })
+
+        $("#pitch_id").change(function () {
+
+
+            const pitchId = $(this).val().trim()
+            const groundId = $("#ground_id").val().trim()
+            if (pitchId !== "all") {
+
+                axios.get(`/usr_admin/get_pitch/${pitchId}`).then((result) => {
+                    const pitch = result.data.grounds[0].pitch
+
+                    console.log(pitch)
+                    $("#pitch_location").prop("disabled", false)
+                    $("#pitch_location").prop("readonly", true)
+                    $("#pitch_location").val(pitch[14])
+
+                }).catch((error) => {
+                    console.log(error)
+
+                })
+            } else if (pitchId === "all") {
+                $("#pitch_location").prop("disabled", true)
+            }
+        })
+
+        $("#recording_type").change(function () {
+            if ($(this).val().trim() === "match") {
+                $("#moisture").prop("disabled", false)
+                $("#clagg_hammer").prop("disabled", false)
+            }
+            else {
+                $("#moisture").prop("disabled", true)
+                $("#clagg_hammer").prop("disabled", true)
+            }
+
+        })
+
+
+
+
+    </script>
+
+
+    <script>
+
+
+        function openMachineryModal(type) {
+            // Fetch machinery data and populate the modal list
+            axios.get("{% url 'machinery_data' %}")
+                .then((result) => {
+                    const machineryList = document.getElementById('machineryList');
+                    machineryList.innerHTML = ""; // Reset list
+
+                    // Populate the list with machinery options
+                    result.data.forEach((machine) => {
+                        const listItem = document.createElement('li');
+                        listItem.className = "list-group-item list-group-item-action";
+                        listItem.style.cursor = "pointer";
+
+                        // Format the list item text with machinery details
+                        listItem.textContent = `${machine.equipment_name} - Model= ${machine.model} Type= ${machine.type}  ${machine.value} ${machine.unit}   Spec= ${machine.specification}`;
+
+                        // Set machinery ID on click and close modal
+                        listItem.onclick = function () {
+                            if (type == "out") {
+                                document.getElementById('out_machinery_id').value = machine.id;
+                                document.getElementById('out_machinery_name').value = `${machine.equipment_name} - Model= ${machine.model} Type= ${machine.type} ${machine.value} ${machine.unit}`;
+                            }
+                            else if (type == "pitch") {
+                                document.getElementById('machinery_id').value = machine.id;
+                                document.getElementById('machinery_name').value = `${machine.equipment_name} - Model= ${machine.model} Type= ${machine.type} ${machine.value} ${machine.unit}`;
+                            }
+                            else if (type == "out-mover") {
+                                document.getElementById('out_mover_machinery_id').value = machine.id;
+                                document.getElementById('out_mover_machinery_name').value = `${machine.equipment_name} - Model= ${machine.model} Type= ${machine.type} ${machine.value} ${machine.unit}`;
+                            }
+                            else if ("out-pitch") {
+                                document.getElementById('mover_machinery_id').value = machine.id;
+                                document.getElementById('mover_machinery_name').value = `${machine.equipment_name} - Model= ${machine.model} Type= ${machine.type} ${machine.value} ${machine.unit}`;
+                            }
+
+                            $('#machineryModal').modal('hide');
+                        };
+
+                        machineryList.appendChild(listItem);
+                    });
+
+                    // Show the modal
+                    $('#machineryModal').modal('show');
+                })
+                .catch((error) => {
+                    console.log("Error fetching machinery data:", error);
+                });
+        }
+
+
+
+
+    </script>
+
+</body>
+
+</html>
