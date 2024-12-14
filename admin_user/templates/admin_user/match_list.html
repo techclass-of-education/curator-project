@@ -62,15 +62,17 @@
                         <th>Days Count</th>
                         <th>Start Time</th>
                         <th>Pitch ID</th>
+                        <th>Ground ID</th>
                         <th>Is Pitch Level?</th>
                         <th>Lawn Height</th>
                         <th>Grass Cover</th>
-                        <th>Weather Condition</th>
+                        <th>Min temperature</th>
+                        <th>Max temperature</th>
+                        <th>Forecast</th>
                         <th>Moisture Upto</th>
-                        <th>Rolling Time</th>
-                        <th>Rolling Pattern</th>
+                       
                         <th>Machinery Details</th>
-                        <th>Roller Weight</th>
+                     
                         <th>Dew Factor</th>
                         <th>Access Bounce</th>
                         <th class="text-center">Action</th>
@@ -92,21 +94,22 @@
                         <td>{{ match.9 }}</td> <!-- Days Count -->
                         <td>{{ match.10 }}</td> <!-- Start Time -->
                         <td>{{ match.11 }}</td> <!-- Pitch ID -->
-                        <td>{{ match.12|yesno:"Yes,No" }}</td> <!-- Is Pitch Level? -->
-                        <td>{{ match.13 }}</td> <!-- Lawn Height -->
-                        <td>{{ match.14 }}</td> <!-- Grass Cover -->
-                        <td>{{ match.15 }}</td> <!-- Weather Condition -->
-                        <td>{{ match.17 }}%</td> <!-- Moisture Upto -->
-                        <td>{{ match.18 }}</td> <!-- Rolling Time -->
-                        <td>{{ match.19 }}</td> <!-- Rolling Pattern -->
+                        <td>{{ match.12 }}</td> <!-- Ground ID -->
+                        <td>{{ match.13|yesno:"Yes,No" }}</td> <!-- Is Pitch Level? -->
+                        <td>{{ match.14 }}</td> <!-- Lawn Height -->
+                        <td>{{ match.15 }}</td> <!-- Grass Cover -->
+                        <td>{{ match.16 }}Deg C</td> <!-- Min temp -->
+                        <td>{{ match.17 }}Deg C</td> <!-- Max temp -->
+                        <td>{{ match.18 }}</td> <!-- Forecast -->
+                        <td>{{ match.19 }}</td> <!-- Moisture upto -->
                         <td id="machinery_details_{{ match.0 }}">Loading...</td> <!-- Machinery Details -->
-                        <td>{{ match.21 }}</td> <!-- Roller Weight -->
-                        <td>{{ match.22 }}</td> <!-- Dew Factor -->
-                        <td>{{ match.23 }}</td> <!-- Access Bounce -->
+                        
+                        <td>{{ match.20 }}</td> <!-- Dew Factor -->
+                        <td>{{ match.21 }}</td> <!-- Access Bounce -->
                         <td class="d-flex flex-column align-items-center justify-content-center">
-                            <a class="btn btn-success w-75 mb-2" href="{% url 'update_match' match.0 %}">Edit</a>
-                            <a class="btn btn-warning w-75 mb-2" href="{% url 'add_score' match.0 %}">Add Scores</a>
-                            <a class="btn btn-danger w-75 mb-2" href="{% url 'match_scores_list' match.0 %}">List Scores</a>
+                            <a class="btn btn-success w-100 mb-2" href="{% url 'update_match' match.0 %}">Edit</a>
+                            <a class="btn btn-warning w-100 mb-2" href="{% url 'add_score' match.0 %}">Add Scores</a>
+                            <a class="btn btn-danger w-100 mb-2" href="{% url 'match_scores_list' match.0 %}">List Scores</a>
                         </td>
                     </tr>
                     {% endfor %}

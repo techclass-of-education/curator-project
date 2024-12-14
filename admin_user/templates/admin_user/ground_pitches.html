@@ -24,9 +24,12 @@
     </tr>
     {% endfor %}
     </table>
+   
     <table class="table table-bordered text-center">
+        <caption class="caption-top text-center text-white bg-success py-2">Main/Center Pitches</caption>
         <tr>
             <th> Pitche Id</th>
+            <th>Pitch Type</th>
             <th>Pitch No</th>
             <th>Ground Id</th>
             <th>Actions</th>
@@ -34,14 +37,47 @@
 
 
 
+
             {% for pitch in pitches %}
+            {% if  pitch.5 == "main" %}
         <tr style="text-align:center">
              <td>{{ pitch.0 }}</td>
-            <td>Pitch No: {{ pitch.4 }}</td><td> Ground Id: {{ pitch.2 }}</td>
+            <td class="text-capitalize"> {{ pitch.5 }}</td>
+            <td>{{ pitch.4 }}</td>
+            <td>  {{ pitch.2 }}</td>
             <td> <a href="/usr_admin/edit_pitch/{{ pitch.0 }}/{{pitch.2}}">Edit</a></td>
             </tr>
+            {% endif %}
             {% endfor %}
 
-</table>
+
+        </table>
+    <table class="table table-bordered text-center mt-3">
+        <caption class="caption-top text-center text-white bg-primary py-2">Practice Pitches</caption>
+        <tr>
+            <th> Pitche Id</th>
+            <th>Pitch Type</th>
+            <th>Pitch No</th>
+            <th>Ground Id</th>
+            <th>Actions</th>
+        </tr>
+
+
+
+
+            {% for pitch in pitches %}
+            {% if  pitch.5 == "practice" %}
+        <tr style="text-align:center">
+             <td>{{ pitch.0 }}</td>
+            <td class="text-capitalize"> {{ pitch.5 }}</td>
+            <td>{{ pitch.4 }}</td>
+            <td>  {{ pitch.2 }}</td>
+            <td> <a href="/usr_admin/edit_pitch/{{ pitch.0 }}/{{pitch.2}}">Edit</a></td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+
+
+        </table>
 </body>
 </html>

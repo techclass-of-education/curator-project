@@ -48,7 +48,12 @@
                     document.getElementById("min_temp").value = minTemp
                     document.getElementById("max_temp").value = maxTemp
                     document.getElementById("forecast").value = condition
-
+                    // Log the results
+                    // console.log(`Date: ${date}`);
+                    // console.log(`Location: ${loc}`);
+                    // console.log(`Min Temp: ${minTemp} °C`);
+                    // console.log(`Max Temp: ${maxTemp} °C`);
+                    // console.log(`Weather: ${condition}`);
                 })
                 .catch(error => console.error('Error fetching weather data:', error));
         }
@@ -73,7 +78,8 @@
                     <!-- Match Type -->
                     <div class="col-md-6">
                         <label for="match_type" class="form-label">Match Type</label>
-                        <select name="match_type" id="match_type" class="form-select" onchange="toggleFields()">
+                        <select  name="match_type" id="match_type" class="form-select"
+                            onchange="toggleFields()">
                             <option value="">Select Match Type</option>
                             <option value="Multidays">Multidays</option>
                             <option value="One Day">One Day</option>
@@ -84,54 +90,48 @@
                     <!-- Tournament Name -->
                     <div class="col-md-6">
                         <label for="name_tournament" class="form-label">Name of Tournament</label>
-                        <input type="text" name="name_tournament" value="{{match.2}}" placeholder="Tournament Name"
+                        <input  type="text" name="name_tournament" placeholder="Tournament Name"
                             class="form-control" id="name_tournament">
                     </div>
 
                     <!-- Ground ID -->
                     <div class="col-md-6">
-                        <label id="ground_id_label d-block">Ground Id: {{match.12}}</label>
-                        <input type="hidden" name="ground_id_text" id="ground_id_text" value="{{match.12}}" />
-                        <br>
                         <label for="ground_id" class="form-label">Select Ground:</label>
-                        <select id="ground_id" name="ground_id" class="form-control"></select>
+                        <select  id="ground_id" name="ground_id" class="form-control"></select>
 
                     </div>
 
                     <!-- Pitch ID -->
                     <div class="col-md-6">
-                        <label id="pitch_id_label d-block">Pitch Id: {{match.11}}</label>
-                        <input type="hidden" name="pitch_id_text"  id="pitch_id_text" value="{{match.11}}" />
-                        <br>
                         <label for="pitch_id" class="form-label">Select Pitch:</label>
-                        <select id="pitch_id" name="pitch_id" class="form-control"></select>
+                        <select  id="pitch_id" name="pitch_id" class="form-control"></select>
                     </div>
 
                     <!-- Team 1 -->
                     <div class="col-md-6">
                         <label for="team1" class="form-label">Team 1</label>
-                        <input type="text" name="team1" value="{{match.3}}" class="form-control" placeholder="Team Name"
+                        <input  type="text" name="team1" class="form-control" placeholder="Team Name"
                             id="team1">
                     </div>
 
                     <!-- Team 2 -->
                     <div class="col-md-6">
                         <label for="team2" class="form-label">Team 2</label>
-                        <input type="text" name="team2" value="{{match.4}}" class="form-control" placeholder="Team Name"
+                        <input  type="text" name="team2" class="form-control" placeholder="Team Name"
                             id="team2">
                     </div>
 
                     <!-- Preparation Date -->
                     <div class="col-md-6">
                         <label for="preparation_date" class="form-label">Preparation Date</label>
-                        <input type="date" value="{{match.5}}" onchange="getWeather(this)" name="preparation_date"
+                        <input  type="date" onchange="getWeather(this)" name="preparation_date"
                             class="form-control" id="preparation_date">
                     </div>
 
                     <!-- Match Date / From Date / To Date -->
                     <div class="col-md-6" id="match-date-div">
                         <label for="match_date" class="form-label">Match Date</label>
-                        <input type="date" value="{{match.6}}" name="match_date" class="form-control" id="match_date" {%if match.1 == 'Multidays' %}disabled{%endif%}>
+                        <input  type="date" name="match_date" class="form-control" id="match_date" disabled>
                     </div>
 
                     <div class="row">
@@ -139,14 +139,14 @@
                             <div class="row">
                                 <div class="col">
                                     <label for="min_temp" class="form-label">Minimum Temprature °C</label>
-                                    <input type="text" id="min_temp" value="{{match.16}}"
-                                        placeholder="Minimum Temprature" name="min_temp" class="form-control">
+                                    <input  type="text" id="min_temp"  placeholder="Minimum Temprature"
+                                        name="min_temp" class="form-control">
 
                                 </div>
                                 <div class="col">
                                     <label for="max_temp" class="form-label">Maximum Temprature °C</label>
-                                    <input type="text" placeholder="Maximum Temprature" id="max_temp" name="max_temp"
-                                        value="{{match.17}}" class="form-control">
+                                    <input  type="text"  placeholder="Maximum Temprature" id="max_temp"
+                                        name="max_temp" class="form-control">
 
                                 </div>
                             </div>
@@ -156,32 +156,32 @@
                     <div class="row">
                         <div class="col-md-12">
                             <label for="forecast" class="form-label">Forecast Prediction Available:</label>
-                            <textarea id="forecast" name="forecast" placeholder="Forecast Prediction Available"
-                                class="form-control">{{match.18}}</textarea>
+                            <textarea id="forecast" name="forecast"  placeholder="Forecast Prediction Available"
+                                class="form-control"></textarea>
                         </div>
                     </div>
 
                     <div class="col-md-6" id="from-date-div">
                         <label for="from_date" class="form-label">From Date</label>
-                        <input type="date" name="from_date" value="{{match.7}}" class="form-control" id="from_date" {%if match.1 == 'One Day' or match.1 == 'T20' %}disabled{%endif%}>
+                        <input  type="date" name="from_date" class="form-control" id="from_date" disabled>
                     </div>
 
                     <div class="col-md-6" id="to-date-div">
                         <label for="to_date" class="form-label">To Date</label>
-                        <input type="date" name="to_date" value="{{match.8}}" class="form-control" id="to_date" {%if match.1 == 'One Day' or match.1 == 'T20' %}disabled{%endif%}>
+                        <input  type="date" name="to_date" class="form-control" id="to_date" disabled>
                     </div>
 
                     <!-- Days Count -->
                     <div class="col-md-6">
                         <label for="days_count" class="form-label">Days Count</label>
-                        <input type="number" name="days_count" readonly class="form-control" placeholder="Total days"
-                            value="{{match.11}}" id="days_count" value="1">
+                        <input  type="number" name="days_count" readonly class="form-control"
+                            placeholder="Total days" id="days_count" value="1">
                     </div>
 
                     <!-- Start Time -->
                     <div class="col-md-6">
                         <label for="start_time" class="form-label">Match Start Time</label>
-                        <input type="time" name="start_time" value="{{match.10}}" class="form-control" id="start_time">
+                        <input  type="time" name="start_time" class="form-control" id="start_time">
                     </div>
 
 
@@ -189,61 +189,127 @@
 
                     <!-- Is Pitch Level -->
                     <div class="col-md-6 form-check">
-                        <input type="checkbox" name="is_pitch_level" class="form-check-input" id="is_pitch_level" {% if match.13 %}checked{% endif %}>
+                        <input  type="checkbox" name="is_pitch_level" class="form-check-input"
+                            id="is_pitch_level">
                         <label for="is_pitch_level" class="form-check-label">Is Pitch Level?</label>
                     </div>
 
                     <!-- Lawn Height -->
                     <div class="col-md-6">
                         <label for="lawn_height" class="form-label">Lawn Height (mm)</label>
-                        <input type="number" name="lawn_height" value="{{match.14}}" step="0.01" class="form-control"
+                        <input  type="number" name="lawn_height" step="0.01" class="form-control"
                             placeholder="Lawn Height" id="lawn_height">
                     </div>
 
                     <!-- Grass Cover -->
                     <div class="col-md-6">
                         <label for="grass_cover" class="form-label">Grass Cover</label>
-                        <select name="grass_cover" class="form-select" id="grass_cover">
+                        <select  name="grass_cover" class="form-select" id="grass_cover">
                             <option value="uniform">Uniform</option>
                             <option value="partially">Partially</option>
                             <option value="little/no grass">Little/No Grass</option>
                         </select>
                     </div>
 
+                    <!-- Weather Condition -->
+
+
+                    <!--                    <div class="col-md-6">-->
+                    <!--                        <label for="weather_condition" class="form-label">Weather Condition</label>-->
+                    <!--                        <input  type="text" name="weather_condition" class="form-control"-->
+                    <!--                            placeholder="Weather Condition" id="weather_condition">-->
+                    <!--                    </div>-->
 
                     <!-- Moisture Upto -->
                     <div class="col-md-6">
                         <label for="moisture_upto" class="form-label">Moisture Upto (inches)</label>
-                        <input type="number" name="moisture_upto" value="{{match.19}}" step="0.01" class="form-control"
+                        <input  type="number" name="moisture_upto" step="0.01" class="form-control"
                             placeholder="Moisture Upto" id="moisture_upto">
                     </div>
 
 
 
-
+                    <!--        &lt;!&ndash; Roller Type and Weight &ndash;&gt;-->
+                    <!--        <div class="col-md-6">-->
+                    <!--            <label for="roller_type" class="form-label">Roller Type</label>-->
+                    <!--            <select  name="roller_type" id="roller_type" class="form-select" onchange="toggleRollerOptions()">-->
+                    <!--                <option value="">Select Roller Type</option>-->
+                    <!--                <option value="manually">Manually</option>-->
+                    <!--                <option value="machinery">Machinery</option>-->
+                    <!--            </select>-->
+                    <!--        </div>-->
+                    <!-- Machinery Selection -->
+                    <!--<div class="col-md-6">-->
+                    <!--    <label for="machinery_id" class="form-label">Select Machinery</label>-->
+                    <!--    <select  name="machinery_id" class="form-select" id="machinery_id">-->
+                    <!--        <option value="">Select Machinery</option>-->
+                    <!--    </select>-->
+                    <!--</div>-->
+                    <!--                    <div id="roller_weight_div" class="col-md-6" style="display: none;">-->
+                    <!--                        <label for="roller_weight" class="form-label">Roller Weight</label>-->
+                    <!--                        <select  name="roller_weight" class="form-select" id="roller_weight">-->
+                    <!--                            <option value="Weight 1">Weight 1</option>-->
+                    <!--                            <option value="Weight 2">Weight 2</option>-->
+                    <!--                            <option value="Weight 3">Weight 3</option>-->
+                    <!--                        </select>-->
+                    <!--                    </div>-->
 
                     <!-- Dew Factor -->
                     <div class="col-md-6">
                         <label for="dew_factor" class="form-label">Dew Factor</label>
-                        <input type="text" name="dew_factor" value="{{match.20}}" class="form-control"
-                            placeholder="Dew Factor" id="dew_factor">
+                        <input  type="text" name="dew_factor" class="form-control" placeholder="Dew Factor"
+                            id="dew_factor">
                     </div>
 
                     <!-- Access Bounce -->
                     <div class="col-md-6">
                         <label for="access_bounce" class="form-label">Access Bounce/Clagg Hammer</label>
-                        <input type="text" name="access_bounce" value="{{match.21}}" class="form-control"
+                        <input  type="text" name="access_bounce" class="form-control"
                             placeholder="Access Bounce" id="access_bounce">
                     </div>
 
+                    <!-- Rolling Time -->
+                    <!-- <div class="col-md-6">
+                        <label for="rolling_time" class="form-label">Rolling Time</label>
+                        <input  type="time" name="rolling_time" class="form-control" id="rolling_time">
+                    </div> -->
 
+                    <!-- Rolling Pattern -->
+                    <!-- <div class="col-md-6">
+                        <label for="rolling_pattern" class="form-label">Rolling Pattern</label>
+                        <select  name="rolling_pattern" class="form-select" id="rolling_pattern">
+                            <option value="cross">Cross</option>
+                            <option value="diagonal">Diagonal</option>
+                            <option value="straight">Straight</option>
+                        </select>
+                    </div> -->
+
+
+
+                    <!-- <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-lg-9 col-sm-12">
+                                <label for="machinery_id" class="form-label">Select Machinery</label>
+                                <input  type="hidden" name="machinery_id" id="machinery_id">
+                                <input  type="text" name="machinery_name" id="machinery_name"
+                                    class="form-control" readonly placeholder="Click to select machinery">
+                            </div>
+                            <div class="col-lg-3 col-sm-12 d-flex">
+                                <button type="button" class="btn btn-secondary mt-2 align-self-end"
+                                    style="font-size:70%" onclick="openMachineryModal()">Select Machinery</button>
+
+                            </div>
+                        </div>
+
+                    </div> -->
+                    <!-- Submit Button -->
                     <hr class="mt-5 bg-info p-1">
 
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item fs-4" role="presentation">
                             <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
-                                data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane"
-                                aria-selected="true">
+                                data-bs-target="#home-tab-pane" type="button" role="tab"
+                                aria-controls="home-tab-pane" aria-selected="true">
                                 <u><b>Pitch Entry</b></u>
                             </button>
                         </li>
@@ -263,6 +329,9 @@
                             <div class="form-group border mt-4 bg-secondary text-white p-3">
                                 <legend class="w-auto px-2">Pitch Entries</legend>
 
+
+
+
                                 <div class="row">
                                     <div class="col-sm-12 col-lg-6">
                                         <fieldset class="form-group border mt-4 bg-secondary text-white p-3">
@@ -271,7 +340,7 @@
                                                 <div class="col-md-12">
                                                     <label for="last_watering_on" class="form-label">Watering
                                                         On:</label>
-                                                    <input type="date" id="last_watering_on" value="{{match.25}}"
+                                                    <input type="date" id="last_watering_on"
                                                         name="last_watering_on" class="form-control">
                                                 </div>
                                             </div>
@@ -280,8 +349,7 @@
                                                     <label for="time_of_application" class="form-label">Time of
                                                         Watering:</label>
                                                     <input type="time" id="time_of_application"
-                                                        name="time_of_application" value="{{match.27 }}"
-                                                        class="form-control">
+                                                        name="time_of_application" class="form-control">
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -289,8 +357,8 @@
                                                     <label for="quantity_of_water" class="form-label">Quantity
                                                         of
                                                         Water:</label>
-                                                    <input type="number" id="quantity_of_water" name="quantity_of_water"
-                                                        value="{{match.26}}" class="form-control">
+                                                    <input type="number" id="quantity_of_water"
+                                                        name="quantity_of_water" class="form-control">
                                                 </div>
                                             </div>
                                         </fieldset>
@@ -301,45 +369,51 @@
                                             <legend class="w-auto px-2">Rolling</legend>
                                             <div class="row">
                                                 <div class="col-lg-6 col-sm-12">
-                                                    <label id="machinery_id_label"></label>
-                                                    <br>
                                                     <label for="machinery_id" class="form-label">Select
                                                         Roller</label>
-                                                    <input type="hidden" value="{{match.22}}" name="machinery_id"
-                                                        id="machinery_id">
+                                                    <input type="hidden" name="machinery_id" id="machinery_id">
                                                     <input type="text" name="machinery_name" id="machinery_name"
                                                         class="form-control" readonly
                                                         placeholder="Click to select machinery">
                                                 </div>
                                                 <div class="col-lg-3 col-sm-12 d-flex">
-                                                    <button type="button" class="btn btn-dark mt-2 align-self-end"
+                                                    <button type="button"
+                                                        class="btn btn-dark mt-2 align-self-end"
                                                         style="font-size:70%"
                                                         onclick="openMachineryModal('roller')">Select
                                                         Machinery</button>
 
                                                 </div>
 
+                                                <!--               <div id="roller_weight_div" class="col-lg-6 col-sm-12">-->
+                                                <!--            <label for="weight_of_the_roller" class="form-label">Roller Weight</label>-->
+                                                <!--            <select  name="weight_of_the_roller" class="form-select" id="weight_of_the_roller">-->
+                                                <!--                <option value="Weight 1">Weight 1</option>-->
+                                                <!--                <option value="Weight 2">Weight 2</option>-->
+                                                <!--                <option value="Weight 3">Weight 3</option>-->
+                                                <!--            </select>-->
+                                                <!--        </div>-->
                                             </div>
                                             <div class="col-md-12">
                                                 <label for="time_of_application" class="form-label">Time of
                                                     Rolling:</label>
-                                                <input type="time" id="time_of_application_roller" name="time_roller"
-                                                    value="{{match.28}}" class="form-control">
+                                                <input type="time" id="time_of_application_roller"
+                                                    name="time_roller" class="form-control">
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <label for="rolling_speed" class="form-label">Rolling
                                                         Speed:</label>
-                                                    <input type="number" value="{{match.24}}" id="rolling_speed"
-                                                        name="rolling_speed" class="form-control">
+                                                    <input type="number" id="rolling_speed" name="rolling_speed"
+                                                        class="form-control">
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <label for="no_of_passes" class="form-label">Number of
                                                         Passes:</label>
-                                                    <input type="number" value="{{match.23}}" id="no_of_passes"
-                                                        name="no_of_passes" class="form-control">
+                                                    <input type="number" id="no_of_passes" name="no_of_passes"
+                                                        class="form-control">
                                                 </div>
                                             </div>
                                         </fieldset>
@@ -351,16 +425,33 @@
 
 
 
+                                <!--                                <div class="row mt-3">-->
+                                <!--                                    <div class="col-md-12">-->
+                                <!--                                        <div class="input-group mb-3 border rounded">-->
+                                <!--                                            <div class="input-group-text bg-light border-0"-->
+                                <!--                                                style="background-color:white !important;">-->
+                                <!--                                                <input  class="form-check-input mt-0 border-left"-->
+                                <!--                                                    type="checkbox" aria-label="Checkbox for following text input"-->
+                                <!--                                                    name="is_daily_watering">-->
+                                <!--                                            </div>-->
+                                <!--                                            <input  type="text" class="form-control border-0 mt-2"-->
+                                <!--                                                value="Is Daily Watering" style="background-color:white" readonly-->
+                                <!--                                                aria-label="Text input with checkbox">-->
+                                <!--                                        </div>-->
+                                <!--                                    </div>-->
+                                <!--                        <div class="col-md-12">-->
+                                <!--                            <label for="is_daily_watering" class="form-label"></label>-->
+                                <!--                            <input  type="checkbox" id="is_daily_watering" name="is_daily_watering" class="form-check-input">-->
+                                <!--                        </div>-->
+
                                 <div class="row mt-4">
                                     <div class="col-lg-6 col-sm-12">
-                                        <label id="mover_machinery_id_label"></label>
-                                        <br>
                                         <label for="mover_machinery_id" class="form-label">Select
                                             Machinery/Mover</label>
-                                        <input type="hidden" value="{{match.30}}" name="mover_machinery_id"
-                                            id="mover_machinery_id">
+                                        <input type="hidden" name="mover_machinery_id" id="mover_machinery_id">
                                         <input type="text" name="mover_machinery_name" id="mover_machinery_name"
-                                            class="form-control" readonly placeholder="Click to select machinery">
+                                            class="form-control" readonly
+                                            placeholder="Click to select machinery">
                                     </div>
                                     <div class="col-lg-3 col-sm-12 d-flex">
                                         <button type="button" class="btn btn-dark mt-2 align-self-end"
@@ -369,13 +460,20 @@
 
                                     </div>
 
-
+                                    <!--               <div id="out_roller_weight_div" class="col-lg-6 col-sm-12">-->
+                                    <!--            <label for="out_weight_of_the_roller" class="form-label">Roller Weight</label>-->
+                                    <!--            <select  name="out_weight_of_the_roller" class="form-select" id="out_weight_of_the_roller">-->
+                                    <!--                <option value="Weight 1">Weight 1</option>-->
+                                    <!--                <option value="Weight 2">Weight 2</option>-->
+                                    <!--                <option value="Weight 3">Weight 3</option>-->
+                                    <!--            </select>-->
+                                    <!--        </div>-->
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <label for="date_mowing_done_last" class="form-label">Date Mowing Done
                                             Last:</label>
-                                        <input type="date" id="date_mowing_done_last" value="{{match.31}}"
+                                        <input type="date" id="date_mowing_done_last"
                                             name="date_mowing_done_last" class="form-control">
                                     </div>
                                 </div>
@@ -383,7 +481,7 @@
                                     <div class="col-md-12">
                                         <label for="time_of_application_mover" class="form-label">Time of
                                             Application Mover:</label>
-                                        <input type="time" id="time_of_application_mover" value="{{match.32}}"
+                                        <input type="time" id="time_of_application_mover"
                                             name="time_of_application_mover" class="form-control">
                                     </div>
                                 </div>
@@ -391,8 +489,8 @@
                                     <div class="col-md-12">
                                         <label for="mowing_done_at_mm" class="form-label">Mowing Height
                                             (mm):</label>
-                                        <input type="number" id="mowing_done_at_mm" value="{{match.33}}"
-                                            name="mowing_done_at_mm" class="form-control">
+                                        <input type="number" id="mowing_done_at_mm" name="mowing_done_at_mm"
+                                            class="form-control">
                                     </div>
                                 </div>
                                 <div class="row mt-3">
@@ -401,15 +499,19 @@
                                             <div class="input-group-text bg-light border-0"
                                                 style="background-color:white !important;">
                                                 <input class="form-check-input mt-0 border-left" type="checkbox"
-                                                    aria-label="Checkbox for following text input" {% if match.34 %}checked{% endif %} name="is_fertilizers_used"
-                                                    id="is_fertilizers_used">
+                                                    aria-label="Checkbox for following text input"
+                                                    name="is_fertilizers_used" id="is_fertilizers_used">
                                             </div>
                                             <input type="text" class="form-control border-0 mt-2"
-                                                value="Is Fertilizers Used" style="background-color:white" readonly
-                                                aria-label="Text input with checkbox">
+                                                value="Is Fertilizers Used" style="background-color:white"
+                                                readonly aria-label="Text input with checkbox">
                                         </div>
                                     </div>
+                                    <!--                        <div class="col-md-12">-->
 
+                                    <!--                            <label for="is_fertilizers_used" class="form-label">Is Fertilizers Used:</label>-->
+                                    <!--                            <input  type="checkbox" id="is_fertilizers_used" name="is_fertilizers_used" class="form-check-input">-->
+                                    <!--                        </div>-->
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
@@ -428,9 +530,9 @@
                                                 </select>
                                             </div>
                                             <div class="col">
-                                                <input type="text" id="chemical_details_remark" placeholder="Remarks"
-                                                    name="chemical_details_remark" class="form-control"
-                                                    value="{{match.36}}">
+                                                <input type="text" id="chemical_details_remark"
+                                                    placeholder="Remarks" name="chemical_details_remark"
+                                                    class="form-control">
                                             </div>
                                         </div>
 
@@ -441,7 +543,7 @@
                                         <label for="remark_by_groundsman" class="form-label">Remark by
                                             Groundsman:</label>
                                         <textarea id="remark_by_groundsman" placeholder="Pitch Curing Remarks"
-                                            name="remark_by_groundsman" class="form-control">{{match.37}}</textarea>
+                                            name="remark_by_groundsman" class="form-control"></textarea>
                                     </div>
                                 </div>
 
@@ -449,8 +551,8 @@
                             <hr>
                         </div>
 
-                        <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
-                            tabindex="0">
+                        <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel"
+                            aria-labelledby="profile-tab" tabindex="0">
                             <div class="form-group border mt-4 bg-success text-white p-3">
                                 <legend class="w-auto px-2">Outfield Entries</legend>
 
@@ -463,9 +565,10 @@
                                             <legend class="w-auto px-2">Watering</legend>
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <label for="out_last_watering_on" class="form-label">Watering
+                                                    <label for="out_last_watering_on"
+                                                        class="form-label">Watering
                                                         On:</label>
-                                                    <input type="date" id="out_last_watering_on" value="{{match.41}}"
+                                                    <input type="date" id="out_last_watering_on"
                                                         name="out_last_watering_on" class="form-control">
                                                 </div>
                                             </div>
@@ -474,15 +577,16 @@
                                                     <label for="out_time_of_application" class="form-label">Time
                                                         of
                                                         Watering:</label>
-                                                    <input type="time" id="out_time_of_application" value="{{match.43}}"
+                                                    <input type="time" id="out_time_of_application"
                                                         name="out_time_of_application" class="form-control">
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <label for="out_quantity_of_water" class="form-label">Quantity of
+                                                    <label for="out_quantity_of_water"
+                                                        class="form-label">Quantity of
                                                         Water:</label>
-                                                    <input type="number" id="out_quantity_of_water" value="{{match.42}}"
+                                                    <input type="number" id="out_quantity_of_water"
                                                         name="out_quantity_of_water" class="form-control">
                                                 </div>
                                             </div>
@@ -494,37 +598,43 @@
                                             <legend class="w-auto px-2">Rolling</legend>
                                             <div class="row">
                                                 <div class="col-lg-6 col-sm-12">
-                                                    <label id="out_machinery_id_label"></label>
-                                                    <br>
                                                     <label for="out_machinery_id" class="form-label">Select
                                                         Roller</label>
-                                                    <input type="hidden" value="{{match.38}}" name="out_machinery_id"
+                                                    <input type="hidden" name="out_machinery_id"
                                                         id="out_machinery_id">
-                                                    <input type="text" name="out_machinery_name" id="out_machinery_name"
-                                                        class="form-control" readonly
+                                                    <input type="text" name="out_machinery_name"
+                                                        id="out_machinery_name" class="form-control" readonly
                                                         placeholder="Click to select machinery">
                                                 </div>
                                                 <div class="col-lg-3 col-sm-12 d-flex">
-                                                    <button type="button" class="btn btn-dark mt-2 align-self-end"
+                                                    <button type="button"
+                                                        class="btn btn-dark mt-2 align-self-end"
                                                         style="font-size:70%"
                                                         onclick="openMachineryModal('out_roller')">Select
                                                         Machinery</button>
 
                                                 </div>
 
-
+                                                <!--               <div id="out_roller_weight_div" class="col-lg-6 col-sm-12">-->
+                                                <!--            <label for="out_weight_of_the_roller" class="form-label">Roller Weight</label>-->
+                                                <!--            <select  name="weight_of_the_roller" class="form-select" id="out_weight_of_the_roller">-->
+                                                <!--                <option value="Weight 1">Weight 1</option>-->
+                                                <!--                <option value="Weight 2">Weight 2</option>-->
+                                                <!--                <option value="Weight 3">Weight 3</option>-->
+                                                <!--            </select>-->
+                                                <!--        </div>-->
                                             </div>
                                             <div class="col-md-12">
                                                 <label for="out_time_of_application" class="form-label">Time of
                                                     Rolling:</label>
                                                 <input type="time" id="out_time_of_application_roller"
-                                                    value="{{match.44}}" name="out_time_roller" class="form-control">
+                                                    name="out_time_roller" class="form-control">
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <label for="out_rolling_speed" class="form-label">Rolling
                                                         Speed:</label>
-                                                    <input type="number" id="out_rolling_speed" value="{{match.40}}"
+                                                    <input type="number" id="out_rolling_speed"
                                                         name="out_rolling_speed" class="form-control">
                                                 </div>
                                             </div>
@@ -532,7 +642,7 @@
                                                 <div class="col-md-12">
                                                     <label for="out_no_of_passes" class="form-label">Number of
                                                         Passes:</label>
-                                                    <input type="number" id="out_no_of_passes" value="{{match.39}}"
+                                                    <input type="number" id="out_no_of_passes"
                                                         name="out_no_of_passes" class="form-control">
                                                 </div>
                                             </div>
@@ -542,16 +652,37 @@
 
 
 
+
+
+
+                                <!--                                <div class="row mt-3">-->
+                                <!--                                    <div class="col-md-12">-->
+                                <!--                                        <div class="input-group mb-3 border rounded">-->
+                                <!--                                            <div class="input-group-text bg-light border-0"-->
+                                <!--                                                style="background-color:white !important;">-->
+                                <!--                                                <input  class="form-check-input mt-0 border-left"-->
+                                <!--                                                    type="checkbox" aria-label="Checkbox for following text input"-->
+                                <!--                                                    name="is_daily_watering">-->
+                                <!--                                            </div>-->
+                                <!--                                            <input  type="text" class="form-control border-0 mt-2"-->
+                                <!--                                                value="Is Daily Watering" style="background-color:white" readonly-->
+                                <!--                                                aria-label="Text input with checkbox">-->
+                                <!--                                        </div>-->
+                                <!--                                    </div>-->
+                                <!--                        <div class="col-md-12">-->
+                                <!--                            <label for="out_is_daily_watering" class="form-label"></label>-->
+                                <!--                            <input  type="checkbox" id="out_is_daily_watering" name="is_daily_watering" class="form-check-input">-->
+                                <!--                        </div>-->
+
                                 <div class="row mt-4">
                                     <div class="col-lg-6 col-sm-12">
-                                        <label id="out_mover_machinery_id_label"></label>
-                                        <br>
                                         <label for="out_mover_machinery_id" class="form-label">Select
                                             Machinery/Mover</label>
-                                        <input type="hidden" value="{{match.46}}" name="out_mover_machinery_id"
+                                        <input type="hidden" name="out_mover_machinery_id"
                                             id="out_mover_machinery_id">
-                                        <input type="text" name="out_mover_machinery_name" id="out_mover_machinery_name"
-                                            class="form-control" readonly placeholder="Click to select machinery">
+                                        <input type="text" name="out_mover_machinery_name"
+                                            id="out_mover_machinery_name" class="form-control" readonly
+                                            placeholder="Click to select machinery">
                                     </div>
                                     <div class="col-lg-3 col-sm-12 d-flex">
                                         <button type="button" class="btn btn-dark mt-2 align-self-end"
@@ -560,14 +691,21 @@
 
                                     </div>
 
-
+                                    <!--               <div id="out_out_roller_weight_div" class="col-lg-6 col-sm-12">-->
+                                    <!--            <label for="out_out_weight_of_the_roller" class="form-label">Roller Weight</label>-->
+                                    <!--            <select  name="out_weight_of_the_roller" class="form-select" id="out_out_weight_of_the_roller">-->
+                                    <!--                <option value="Weight 1">Weight 1</option>-->
+                                    <!--                <option value="Weight 2">Weight 2</option>-->
+                                    <!--                <option value="Weight 3">Weight 3</option>-->
+                                    <!--            </select>-->
+                                    <!--        </div>-->
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <label for="out_date_mowing_done_last" class="form-label">Date Mowing
                                             Done
                                             Last:</label>
-                                        <input type="date" id="out_date_mowing_done_last" value="{{match.47}}"
+                                        <input type="date" id="out_date_mowing_done_last"
                                             name="out_date_mowing_done_last" class="form-control">
                                     </div>
                                 </div>
@@ -575,7 +713,7 @@
                                     <div class="col-md-12">
                                         <label for="out_time_of_application_mover" class="form-label">Time of
                                             Application Mover:</label>
-                                        <input type="time" id="out_time_of_application_mover" value="{{match.48}}"
+                                        <input type="time" id="out_time_of_application_mover"
                                             name="out_time_of_application_mover" class="form-control">
                                     </div>
                                 </div>
@@ -583,7 +721,7 @@
                                     <div class="col-md-12">
                                         <label for="out_mowing_done_at_mm" class="form-label">Mowing Height
                                             (mm):</label>
-                                        <input type="number" id="out_mowing_done_at_mm" value="{{match.49}}"
+                                        <input type="number" id="out_mowing_done_at_mm"
                                             name="out_mowing_done_at_mm" class="form-control">
                                     </div>
                                 </div>
@@ -594,15 +732,18 @@
                                                 style="background-color:white !important;">
                                                 <input class="form-check-input mt-0 border-left" type="checkbox"
                                                     aria-label="Checkbox for following text input"
-                                                    name="out_is_fertilizers_used" {% if match.50 %}checked{% endif %}
-                                                    id="out_is_fertilizers_used">
+                                                    name="out_is_fertilizers_used" id="out_is_fertilizers_used">
                                             </div>
                                             <input type="text" class="form-control border-0 mt-2"
-                                                value="Is Fertilizers Used" style="background-color:white" readonly
-                                                aria-label="Text input with checkbox">
+                                                value="Is Fertilizers Used" style="background-color:white"
+                                                readonly aria-label="Text input with checkbox">
                                         </div>
                                     </div>
+                                    <!--                        <div class="col-md-12">-->
 
+                                    <!--                            <label for="out_is_fertilizers_used" class="form-label">Is Fertilizers Used:</label>-->
+                                    <!--                            <input  type="checkbox" id="out_is_fertilizers_used" name="is_fertilizers_used" class="form-check-input">-->
+                                    <!--                        </div>-->
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
@@ -610,8 +751,8 @@
                                             Details:</label>
                                         <div class="row">
                                             <div class="col">
-                                                <select id="out_fertilizers_details" name="out_fertilizers_details"
-                                                    class="form-control">
+                                                <select id="out_fertilizers_details"
+                                                    name="out_fertilizers_details" class="form-control">
                                                     <option value="fertilizers">Fertilizers</option>
                                                     <option value="pesticides">Pesticides</option>
                                                     <option value="fungicides">Fungicides</option>
@@ -622,7 +763,7 @@
                                             <div class="col">
                                                 <input type="text" id="out_chemical_details_remark"
                                                     placeholder="Remarks" name="out_chemical_details_remark"
-                                                    value="{{match.52}}" class="form-control">
+                                                    class="form-control">
                                             </div>
                                         </div>
 
@@ -632,8 +773,9 @@
                                     <div class="col-md-12">
                                         <label for="out_remark_by_groundsman" class="form-label">Remark by
                                             Groundsman:</label>
-                                        <textarea id="out_remark_by_groundsman" placeholder="Pitch Curing Remarks"
-                                            name="out_remark_by_groundsman" class="form-control">{{match.53}}</textarea>
+                                        <textarea id="out_remark_by_groundsman"
+                                            placeholder="Pitch Curing Remarks" name="out_remark_by_groundsman"
+                                            class="form-control"></textarea>
                                     </div>
                                 </div>
 
@@ -648,9 +790,9 @@
                         <div class="col-md-12">
                             <label for="brief_match_pitch_assessment" class="form-label">Brief Assessment of thr match
                                 pitch:</label>
-                            <textarea placeholder="Brief Assessment of thr match pitch" type="text"
-                                id="brief_match_pitch_assessment" name="brief_match_pitch_assessment"
-                                class="form-control">{{match.54}}</textarea>
+                            <textarea  placeholder="Brief Assessment of thr match pitch" type="text"
+                                id="brief_match_pitch_assessment"  name="brief_match_pitch_assessment"
+                                class="form-control"></textarea>
                         </div>
                     </div>
 
@@ -685,7 +827,7 @@
     <!-- Custom Scripts -->
     <script>
 
-        function openMachineryModal(type) {
+function openMachineryModal(type) {
             // Fetch machinery data and populate the modal list
             axios.get("{% url 'machinery_data' %}")
                 .then((result) => {
@@ -797,25 +939,6 @@
 
             })
 
-
-            function getMachinery(id, label) {
-                axios.get("/usr_admin/machinery/" + id).then((result) => {
-
-                    const m = result.data.machinery
-                    $(`#${label}`).text(`ID: ${m.id} Equipment :${m.equipment_name}`)
-
-
-                }).catch((error) => {
-                    console.log(error)
-
-                })
-            }
-
-            getMachinery("{{match.22}}", "machinery_id_label")
-            getMachinery("{{match.30}}", "mover_machinery_id_label")
-            getMachinery("{{match.38}}", "out_machinery_id_label")
-            getMachinery("{{match.46}}", "out_mover_machinery_id_label")
-
             // Function to calculate the difference in days between two dates
             function calculateDays() {
 
@@ -866,7 +989,6 @@
 
         $("#ground_id").change(function () {
             const groundId = $(this).val().trim()
-            $("#ground_id_text").val(groundId)
             if (groundId == "all") {
                 axios.get(`/usr_admin/get_all_pitches`).then((result) => {
                     // console.log(result.data.grounds)
@@ -904,10 +1026,6 @@
 
             const pitchId = $(this).val().trim()
             const groundId = $("#ground_id").val().trim()
-
-            $("#pitch_id_text").val(pitchId)
-            $("#ground_id_text").val(groundId)
-
             if (pitchId !== "all") {
 
                 axios.get(`/usr_admin/get_pitch/${pitchId}`).then((result) => {
@@ -930,20 +1048,72 @@
 
 
     </script>
+    <script>
+        //    $(document).ready(function () {
+        //        // Function to fetch machinery data and populate the dropdown on page load
+        //        function fetchMachineryData() {
+        //            axios.get("{% url 'machinery_data' %}")
+        //                .then((result) => {
+        //                    const machineryDropdown = document.getElementById('machinery_id');
+        //                    machineryDropdown.innerHTML = `<option value="">Select Machinery</option>`; // Reset dropdown options
+        //
+        //                    result.data.forEach((machine) => {
+        //                        const option = document.createElement('option');
+        //                        option.value = machine.id; // Assuming 'id' is the unique identifier for the machinery
+        //                        option.textContent = `${machine.equipment_name} - Model: ${machine.model}, Type: ${machine.type}, ${machine.value} ${machine.unit},   Spec: ${machine.specification}`;
+        //                        machineryDropdown.appendChild(option);
+        //                    });
+        //                })
+        //                .catch((error) => {
+        //                    console.log("Error fetching machinery data:", error);
+        //                });
+        //        }
+        //
+        //        // Fetch machinery data when the page loads
+        //        fetchMachineryData();
+        //    });
+
+    </script>
+
+    <script>
+        // function openMachineryModal() {
+        //     // Fetch machinery data and populate the modal list
+        //     axios.get("{% url 'machinery_data' %}")
+        //         .then((result) => {
+        //             const machineryList = document.getElementById('machineryList');
+        //             machineryList.innerHTML = ""; // Reset list
+
+        //             // Populate the list with machinery options
+        //             result.data.forEach((machine) => {
+        //                 const listItem = document.createElement('li');
+        //                 listItem.className = "list-group-item list-group-item-action";
+        //                 listItem.style.cursor = "pointer";
+
+        //                 // Format the list item text with machinery details
+        //                 listItem.textContent = `${machine.equipment_name} - Model: ${machine.model}, Type: ${machine.type}, ${machine.value} ${machine.unit},   Spec: ${machine.specification}`;
+
+        //                 // Set machinery ID on click and close modal
+        //                 listItem.onclick = function () {
+        //                     document.getElementById('machinery_id').value = machine.id;
+        //                     document.getElementById('machinery_name').value = `${machine.equipment_name} - Model: ${machine.model}, Type: ${machine.type}, ${machine.value} ${machine.unit}`;
+        //                     $('#machineryModal').modal('hide');
+        //                 };
+
+        //                 machineryList.appendChild(listItem);
+        //             });
+
+        //             // Show the modal
+        //             $('#machineryModal').modal('show');
+        //         })
+        //         .catch((error) => {
+        //             console.log("Error fetching machinery data:", error);
+        //         });
+        // }
+
+
+    </script>
 
 
 </body>
-
-
-<script>
-    $(document).ready(function () {
-
-        $("#match_type").val("{{match.1}}")
-        $("#fertilizers_details").val("{{match.35}}")
-        $("#out_fertilizers_details").val("{{match.51}}")
-
-
-    })
-</script>
 
 </html>

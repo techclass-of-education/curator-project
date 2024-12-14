@@ -70,17 +70,20 @@
 </head>
 
 <body>
+
     {% include "admin_user/menu.html" %}
     <div class="container my-4 container-main">
         <!--        <h3 class="text-center mb-4">Ground Master Form</h3>-->
         <ul class="list-group">
             <li class="list-group-item bg-info display-6 text-white pb-3">
-                <span class="border-bottom" style="padding-bottom:1px;border-width:2px !important;">Ground Master</span>
+                <span class="border-bottom" style="padding-bottom:1px;border-width:2px !important;">Update Ground Master</span>
 
             </li>
             <li class="list-group-item">
                 <form method="post" id="contactForm">
                     {% csrf_token %}
+
+                    <input type="hidden" value="{{ground.0}}" name="id" />
                     <div class="row g-3">
                         <!-- Column 1 -->
                         <div class="col-md-6">
@@ -93,26 +96,32 @@
                             <div class="mb-2">
                                 <label for="ground_name" class="form-label">Ground Name:</label>
                                 <input type="text" class="form-control form-control-sm" id="ground_name"
-                                    name="ground_name">
+                                    value="{{ground.6}}" name="ground_name">
                             </div>
 
                             <div class="mb-2">
                                 <label for="google_location" class="form-label">Google Location:</label>
                                 <input type="text" class="form-control form-control-sm" id="google_location"
-                                    name="google_location">
+                                    value="{{ground.2}}" name="google_location">
                             </div>
                             <div class="mb-2">
                                 <label for="year_of_construction" class="form-label">Year of Construction:</label>
                                 <input type="number" pattern="[0-9]{4}" class="form-control form-control-sm"
-                                    id="year_of_construction" name="year_of_construction">
+                                    value="{{ground.3}}" id="year_of_construction" name="year_of_construction">
                             </div>
                             <div class="mb-2">
                                 <div id="phoneNumbers">
-                                    <label for="phone0" class="form-label">Phone Number:</label>
+                                    <input type="hidden" value="{{ground.4}}" name="oldPhoneNumbers" />
+
+                                    <label for="phone0" class="form-label">Phone Number:
+                                        <label class="ms-2" style="font-weight: 700; font-size: 110% !important;">
+                                            {{ground.4}}
+                                        </label>
+                                    </label>
 
                                     <div class="phone-field">
                                         <input class="form-control form-control-sm" type="tel" id="phone0"
-                                            name="phone[]" required>
+                                            name="phone[]" placeholder="Phone/mobile number">
                                         <button type="button" class="remove-btn btn btn-sm"
                                             onclick="removePhoneField(this)" disabled>-</button>
                                     </div>
@@ -121,9 +130,9 @@
                                     Number</button>
                             </div>
                             <!-- Hidden field to store all phone numbers -->
-                            <input type="hidden" id="allPhoneNumbers" name="phone_numbers" value="">
+                            <input type="hidden" id="allPhoneNumbers" name="phone_numbers" value="{{ground.4}}">
 
-                            <input type="hidden" id="state_code" name="state_code">
+                            <input type="hidden" id="state_code" value="{{ground.7}}" name="state_code">
 
                             <div class="mb-2">
                                 <label for="state_name" class="form-label">State Name:</label>
@@ -136,32 +145,34 @@
                             </div>
 
                             <div class="mb-2">
-                                <label for="city_name" class="form-label">City Name:</label>
-                                <select class="form-select form-select-sm" required name="city_name" id="city_name">
+                                <label for="city_name" class="form-label">City Name: <label class="ms-2"
+                                        style="font-weight: 700; font-size: 110% !important;">
+                                        {{ground.9}}
+                                    </label> </label>
+                                <input type="hidden" name="city_text" id="city_text" value="{{ground.9}}" />
+                                <select class="form-select form-select-sm" name="city_name" id="city_name">
                                     <option value="">Select City</option>
                                 </select>
                             </div>
 
-                            <div class="mb-2">
-                                <label for="count_main_pitches" class="form-label">No. of Main Pitches:</label>
-                                <input type="number" class="form-control form-control-sm" id="count_main_pitches"
-                                    name="count_main_pitches">
-                            </div>
 
-                            <div class="mb-2">
-                                <label for="count_practice_pitches" class="form-label">No. of Practice Pitches:</label>
-                                <input type="number" class="form-control form-control-sm" id="count_practice_pitches"
-                                    name="count_practice_pitches">
-                            </div>
+                            <input type="hidden" class="form-control form-control-sm" id="count_main_pitches"
+                                name="count_main_pitches" value="{{ground.10}}">
+
+
+
+                            <input type="hidden" class="form-control form-control-sm" id="count_practice_pitches"
+                                value="{{ground.11}}" name="count_practice_pitches">
+
                             <div class="mb-2">
                                 <label for="slop_ratio" class="form-label">Slop Ratio:</label>
                                 <input type="text" placeholder="1:100" required pattern="[0-9]{1,5}:[0-9]{2,5}"
-                                    class="form-control form-control-sm" id="slop_ratio" name="slop_ratio">
+                                    value="{{ground.5}}" class="form-control form-control-sm" id="slop_ratio"
+                                    name="slop_ratio">
                             </div>
 
                             <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="is_side_screen"
-                                    name="is_side_screen">
+                                <input class="form-check-input" type="checkbox" id="is_side_screen" {% if ground.12 == 1 %}checked{% endif %} name="is_side_screen">
                                 <label class="form-check-label" for="is_side_screen">Is Side Screen</label>
                             </div>
 
@@ -173,15 +184,13 @@
                             </div> -->
 
                             <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="is_broadcasting_facility"
-                                    name="is_broadcasting_facility">
+                                <input class="form-check-input" type="checkbox" id="is_broadcasting_facility" {% if ground.14 == 1 %}checked{% endif %} name="is_broadcasting_facility">
                                 <label class="form-check-label" for="is_broadcasting_facility">Is Broadcasting
                                     Facility</label>
                             </div>
 
                             <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="is_irrigation_pitches"
-                                    name="is_irrigation_pitches">
+                                <input class="form-check-input" type="checkbox" id="is_irrigation_pitches" {% if ground.15 == 1 %}checked{% endif %} name="is_irrigation_pitches">
                                 <label class="form-check-label" for="is_irrigation_pitches">Is Irrigation
                                     Pitches</label>
                             </div>
@@ -189,24 +198,23 @@
                             <div class="mb-2">
                                 <label for="count_hydrants" class="form-label">No. of Hydrants:</label>
                                 <input type="number" class="form-control form-control-sm" id="count_hydrants"
-                                    name="count_hydrants">
+                                    value="{{ground.16}}" name="count_hydrants">
                             </div>
 
                             <div class="mb-2">
                                 <label for="count_pumps" class="form-label">No. of Pumps:</label>
                                 <input type="number" class="form-control form-control-sm" id="count_pumps"
-                                    name="count_pumps">
+                                    value="{{ground.17}}" name="count_pumps">
                             </div>
 
                             <div class="mb-2">
                                 <label for="count_showers" class="form-label">No. of Showers:</label>
                                 <input type="number" class="form-control form-control-sm" id="count_showers"
-                                    name="count_showers">
+                                    value="{{ground.18}}" name="count_showers">
                             </div>
 
                             <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="is_lawn_nursary"
-                                    name="is_lawn_nursary">
+                                <input class="form-check-input" type="checkbox" id="is_lawn_nursary" {% if ground.19 == 1 %}checked{% endif %} name="is_lawn_nursary">
                                 <label class="form-check-label" for="is_lawn_nursary">Is Lawn Nursary</label>
                             </div>
 
@@ -216,14 +224,12 @@
                     </div> -->
 
                             <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="is_curator_room"
-                                    name="is_curator_room">
+                                <input class="form-check-input" type="checkbox" id="is_curator_room" {% if ground.21 == 1 %}checked{% endif %} name="is_curator_room">
                                 <label class="form-check-label" for="is_curator_room">Is Curator Room</label>
                             </div>
 
                             <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="is_seperate_practice_area"
-                                    name="is_seperate_practice_area">
+                                <input class="form-check-input" type="checkbox" id="is_seperate_practice_area" {% if ground.22 == 1 %}checked{% endif %} name="is_seperate_practice_area">
                                 <label class="form-check-label" for="is_seperate_practice_area">Is Seperate Practice
                                     Area</label>
                             </div>
@@ -233,55 +239,42 @@
                         <div class="col-md-6">
                             <div class="mb-2">
                                 <label for="outfield" class="form-label">Outfield:</label>
-                                <input type="text" class="form-control form-control-sm" id="outfield" name="outfield">
+                                <input type="text" value="{{ground.23}}" class="form-control form-control-sm"
+                                    id="outfield" name="outfield">
                             </div>
 
                             <div class="mb-2">
                                 <label for="profile_of_outfield" class="form-label">Profile of the Outfield:</label>
                                 <textarea type="text" class="form-control form-control-sm" id="profile_of_outfield"
-                                    name="profile_of_outfield"></textarea>
+                                    name="profile_of_outfield">{{ground.24}}</textarea>
                             </div>
 
                             <div class="mb-2">
                                 <label for="lawn_species" class="form-label">Lawn Species:</label>
                                 <input type="text" class="form-control form-control-sm" id="lawn_species"
-                                    name="lawn_species">
+                                    value="{{ground.25}}" name="lawn_species">
                             </div>
 
                             <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="is_drainage_system_available"
-                                    name="is_drainage_system_available">
+                                <input class="form-check-input" type="checkbox" id="is_drainage_system_available" {% if ground.26 == 1 %}checked{% endif %} name="is_drainage_system_available">
                                 <label class="form-check-label" for="is_drainage_system_available">Is Drainage System
                                     Available</label>
                             </div>
 
-                            <!-- <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="is_water_drainage_system"
-                                    name="is_water_drainage_system">
-                                <label class="form-check-label" for="is_water_drainage_system">Is Water Drainage
-                                    System</label>
-                            </div>
 
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="is_irrigation_system_available"
-                                    name="is_irrigation_system_available">
-                                <label class="form-check-label" for="is_irrigation_system_available">Is Irrigation
-                                    System Available</label>
-                            </div> -->
 
-                           
+
                             <div class="row">
                                 <div class="col-sm-12 col-lg-6">
                                     <div class="form-check mb-2">
-                                        <input class="form-check-input" type="checkbox" id="is_availability_of_water"
-                                            name="is_availability_of_water">
-                                        <label class="form-check-label" for="is_availability_of_water">Is Water Source Available</label>
+                                        <input class="form-check-input" type="checkbox" id="is_availability_of_water" {% if ground.27 == 1 %}checked{% endif %} name="is_availability_of_water">
+                                        <label class="form-check-label" for="is_availability_of_water">Is Water Source
+                                            Available</label>
                                     </div>
                                 </div>
                                 <div class="col-sm-12 col-lg-6">
                                     <div class="form-check mb-2">
-                                        <select class="form-control" id="water_source"
-                                        name="water_source">
+                                        <select class="form-control" id="water_source" name="water_source">
                                             <option value="">Select Water Source</option>
                                             <option value="wellorborewell">Well/Borewell</option>
                                             <option value="tanker">Tanker</option>
@@ -297,44 +290,40 @@
                             <div class="mb-2">
                                 <label for="storage_capacity_in_litres" class="form-label">Storage Capacity in
                                     Litres:</label>
-                                <input type="number" class="form-control form-control-sm"
+                                <input type="number" class="form-control form-control-sm" value="{{ground.31}}"
                                     id="storage_capacity_in_litres" name="storage_capacity_in_litres">
                             </div>
 
                             <div class="mb-2">
                                 <label for="count_pop_ups" class="form-label">Number of Pop Ups:</label>
                                 <input type="number" class="form-control form-control-sm" id="count_pop_ups"
-                                    name="count_pop_ups">
+                                    value="{{ground.32}}" name="count_pop_ups">
                             </div>
 
                             <div class="mb-2">
                                 <label for="size_of_pumps" class="form-label">Size of Pumps:</label>
                                 <input type="text" class="form-control form-control-sm" id="size_of_pumps"
-                                    name="size_of_pumps">
+                                    value="{{ground.33}}" name="size_of_pumps">
                             </div>
 
                             <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="is_automation_if_any"
-                                    name="is_automation_if_any">
+                                <input class="form-check-input" type="checkbox" id="is_automation_if_any" {% if ground.34 == 1 %}checked{% endif %} name="is_automation_if_any">
                                 <label class="form-check-label" for="is_automation_if_any">Is Automation If Any</label>
                             </div>
 
                             <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="is_ground_equipments"
-                                    name="is_ground_equipments">
+                                <input class="form-check-input" type="checkbox" id="is_ground_equipments" {% if ground.35 == 1 %}checked{% endif %} name="is_ground_equipments">
                                 <label class="form-check-label" for="is_ground_equipments">Is Ground Equipments</label>
                             </div>
 
                             <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="is_maintenance_contract"
-                                    name="is_maintenance_contract">
+                                <input class="form-check-input" type="checkbox" id="is_maintenance_contract" {% if ground.36 == 1 %}checked{% endif %} name="is_maintenance_contract">
                                 <label class="form-check-label" for="is_maintenance_contract">Is Maintenance
                                     Contract</label>
                             </div>
 
                             <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="is_maintenance_agency"
-                                    name="is_maintenance_agency">
+                                <input class="form-check-input" type="checkbox" id="is_maintenance_agency" {% if ground.37 == 1 %}checked{% endif %} name="is_maintenance_agency">
                                 <label class="form-check-label" for="is_maintenance_agency">Is Maintenance
                                     Agency</label>
                             </div>
@@ -371,41 +360,40 @@
                                             placeholder="South side">
                                     </div>
                                 </div>
-                               
-                                
-                               
-                                
+
+
+
+
                             </div>
 
                             <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="is_availability_of_mot"
-                                    name="is_availability_of_mot">
+                                <input class="form-check-input" type="checkbox" id="is_availability_of_mot" {% if ground.39 == 1 %}checked{% endif %} name="is_availability_of_mot">
                                 <label class="form-check-label" for="is_availability_of_mot">Is Availability of
                                     MOT</label>
                             </div>
 
                             <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="is_machine_shed"
-                                    name="is_machine_shed">
+                                <input class="form-check-input" type="checkbox" id="is_machine_shed" {% if ground.40 == 1  %}checked{% endif %} name="is_machine_shed">
                                 <label class="form-check-label" for="is_machine_shed">Is Machine Shed</label>
                             </div>
 
                             <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="is_soil_shed" name="is_soil_shed">
+                                <input class="form-check-input" type="checkbox" {% if ground.41 == 1 %}checked{% endif %}
+                                    id="is_soil_shed" name="is_soil_shed">
                                 <label class="form-check-label" for="is_soil_shed">Is Soil Shed</label>
                             </div>
 
                             <div class="form-check mb-2">
                                 <input class="form-check-input" type="checkbox" id="is_pitch_or_run_up_covers"
-                                    name="is_pitch_or_run_up_covers">
+                                    name="is_pitch_or_run_up_covers" {% if ground.42 == 1 %}checked{% endif %}>
                                 <label class="form-check-label" for="is_pitch_or_run_up_covers">Is Pitch or Run Up
                                     Covers</label>
                             </div>
 
                             <div class="mb-2">
                                 <label for="size_of_covers_in_mtrs" class="form-label">Size of Covers (Meters):</label>
-                                <input type="text" class="form-control form-control-sm" id="size_of_covers_in_mtrs"
-                                    name="size_of_covers_in_mtrs">
+                                <input type="text" class="form-control form-control-sm" value="{{ground.43}}"
+                                    id="size_of_covers_in_mtrs" name="size_of_covers_in_mtrs">
                             </div>
 
                             <div class="d-grid mt-4">
@@ -522,8 +510,27 @@
 
         });
 
-      
+        $(document).ready(function () {
+            $("#state_name").val("{{ground.8}}")
+            // $("#city_name").val("{{ground.9}}")
+            $("#water_source").val("{{ground.30}}")
+            const boundry = "{{ground.38}}".split("#")
 
+            $("#boundary_size_mtrs-E").val(boundry[0])
+            $("#boundary_size_mtrs-W").val(boundry[1])
+            $("#boundary_size_mtrs-N").val(boundry[2])
+            $("#boundary_size_mtrs-S").val(boundry[3])
+
+
+            $("#city_name").change(function () {
+
+                $("#city_text").val($(this).val())
+
+
+            })
+        })
+
+      
     </script>
 </body>
 

@@ -241,6 +241,7 @@ def create_ground_master(request):
     # else:
     #     form = GroundMasterForm(initial={'org_id':request.session["org_id"]},request=request)
     # return render(request, 'admin_user/create_ground_master.html', {'form': form})
+    try:
         org_id = request.session["org_id"]
         if request.method == "POST":
             org_id = request.POST['org_id']
@@ -255,25 +256,25 @@ def create_ground_master(request):
             count_main_pitches = request.POST['count_main_pitches']
             count_practice_pitches = request.POST['count_practice_pitches']
             is_side_screen = request.POST.get('is_side_screen',False)
-            print("is_side_screen",is_side_screen)
-            count_placement_side_screen = request.POST['count_placement_side_screen']
+            # print("is_side_screen",is_side_screen)
+            count_placement_side_screen = 0 
             is_broadcasting_facility = request.POST.get('is_broadcasting_facility', False)
             is_irrigation_pitches = request.POST.get('is_irrigation_pitches', False)
             count_hydrants = request.POST['count_hydrants']
             count_pumps = request.POST['count_pumps']
             count_showers = request.POST['count_showers']
             is_lawn_nursary = request.POST.get('is_lawn_nursary', False)
-            name_centre_square = request.POST['name_centre_square']
+            name_centre_square = ""
             is_curator_room = request.POST.get('is_curator_room', False)
             is_seperate_practice_area = request.POST.get('is_seperate_practice_area', False)
             outfield = request.POST['outfield']
             profile_of_outfield = request.POST['profile_of_outfield']
             lawn_species = request.POST['lawn_species']
             is_drainage_system_available = request.POST.get('is_drainage_system_available', False)
-            is_water_drainage_system = request.POST.get('is_water_drainage_system', False)
+            is_water_drainage_system = ""
             is_irrigation_system_available = request.POST.get('is_irrigation_system_available', False)
             is_availability_of_water = request.POST.get('is_availability_of_water', False)
-            is_water_source = request.POST.get('is_water_source', False)
+            water_source = request.POST.get('water_source')
             storage_capacity_in_litres = request.POST['storage_capacity_in_litres']
             count_pop_ups = request.POST['count_pop_ups']
             size_of_pumps = request.POST['size_of_pumps']
@@ -281,7 +282,7 @@ def create_ground_master(request):
             is_ground_equipments = request.POST.get('is_ground_equipments', False)
             is_maintenance_contract = request.POST.get('is_maintenance_contract', False)
             is_maintenance_agency = request.POST.get('is_maintenance_agency', False)
-            boundary_size_mtrs = request.POST['boundary_size_mtrs']
+            boundary_size_mtrs = f'''{request.POST['boundary_size_mtrs-E']}#{request.POST['boundary_size_mtrs-W']}#{request.POST['boundary_size_mtrs-N']}#{request.POST['boundary_size_mtrs-S']}'''
             is_availability_of_mot = request.POST.get('is_availability_of_mot', False)
             is_machine_shed = request.POST.get('is_machine_shed', False)
             is_soil_shed = request.POST.get('is_soil_shed', False)
@@ -300,21 +301,19 @@ def create_ground_master(request):
                         is_side_screen, count_placement_side_screen, is_broadcasting_facility, is_irrigation_pitches, count_hydrants, 
                         count_pumps, count_showers, is_lawn_nursary, name_centre_square, is_curator_room, is_seperate_practice_area, 
                         outfield, profile_of_outfield, lawn_species, is_drainage_system_available,
-                           is_water_drainage_system
-                          , 
                         is_irrigation_system_available, is_availability_of_water, water_source, storage_capacity_in_litres, 
                         count_pop_ups, size_of_pumps, is_automation_if_any, is_ground_equipments, is_maintenance_contract, 
                         is_maintenance_agency, boundary_size_mtrs, is_availability_of_mot, is_machine_shed, is_soil_shed, 
                         is_pitch_or_run_up_covers, size_of_covers_in_mtrs) 
-                    VALUES (%s,%s,%s,%s,%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+                    VALUES (%s,%s,%s,%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
                     [org_id, google_location,year_of_construction,phone_numbers,slop_ratio,ground_name, state_code, state_name, city_name, count_main_pitches, count_practice_pitches,
                      is_side_screen, count_placement_side_screen, is_broadcasting_facility, is_irrigation_pitches,
                      count_hydrants,
                      count_pumps, count_showers, is_lawn_nursary, name_centre_square, is_curator_room,
                      is_seperate_practice_area,
                      outfield, profile_of_outfield, lawn_species, is_drainage_system_available,
-                     is_water_drainage_system,
-                     is_irrigation_system_available, is_availability_of_water, is_water_source,
+                    #  is_water_drainage_system,
+                     is_irrigation_system_available, is_availability_of_water, water_source,
                      storage_capacity_in_litres,
                      count_pop_ups, size_of_pumps, is_automation_if_any, is_ground_equipments, is_maintenance_contract,
                      is_maintenance_agency, boundary_size_mtrs, is_availability_of_mot, is_machine_shed, is_soil_shed,
@@ -355,8 +354,199 @@ def create_ground_master(request):
                 state_data = cursor.fetchall()
                 print(state_data)
         return render(request, 'admin_user/create_ground_master.html',{'org_id':request.session["org_id"],'state_data':state_data})
+    except Exception as e:
+        print(e)
 
+def update_ground_master(request, ground_id):
+    try:
+        org_id = request.session.get("org_id")
+        with connection.cursor() as cursor:
+            cursor.execute(f'SELECT * FROM {org_id}_ground_master WHERE id = %s', [ground_id])
+            ground = cursor.fetchone()
 
+        if request.method == "POST":
+                org_id = request.POST['org_id']
+                google_location = request.POST['google_location']
+                year_of_construction = request.POST['year_of_construction']
+                phone_numbers = request.POST['phone_numbers']
+                old_phone_numbers = request.POST['oldPhoneNumbers']
+                if(phone_numbers!=old_phone_numbers):
+                    phone_numbers=old_phone_numbers.strip()+", "+phone_numbers.strip()
+
+                
+                slop_ratio = request.POST['slop_ratio']
+                ground_name = request.POST['ground_name']
+                state_code = request.POST['state_code']
+                state_name = request.POST['state_name']
+                city_name = request.POST['city_text']
+                count_main_pitches = request.POST['count_main_pitches']
+                count_practice_pitches = request.POST['count_practice_pitches']
+                is_side_screen = True if request.POST.get('is_side_screen',False)=="on" else False
+                print(is_side_screen)
+                # print("is_side_screen",is_side_screen)
+                count_placement_side_screen = 0 
+                is_broadcasting_facility = True if request.POST.get('is_broadcasting_facility',False)=="on" else False
+                is_irrigation_pitches =  True if request.POST.get('is_irrigation_pitches',False)=="on" else False
+                count_hydrants = request.POST['count_hydrants']
+                count_pumps = request.POST['count_pumps']
+                count_showers = request.POST['count_showers']
+                is_lawn_nursary = True if request.POST.get('is_lawn_nursary',False)=="on" else False
+                name_centre_square = ""
+                is_curator_room =True if request.POST.get('is_curator_room',False)=="on" else False
+                is_seperate_practice_area =  True if request.POST.get('is_seperate_practice_area',False)=="on" else False
+                outfield = request.POST['outfield']
+                profile_of_outfield = request.POST['profile_of_outfield']
+                lawn_species = request.POST['lawn_species']
+                is_drainage_system_available =  True if request.POST.get('is_drainage_system_available',False)=="on" else False
+                is_water_drainage_system = ""
+                is_irrigation_system_available =  True if request.POST.get('is_irrigation_system_available',False)=="on" else False
+                is_availability_of_water =True if request.POST.get('is_availability_of_water',False)=="on" else False
+                water_source = request.POST.get('water_source')
+                storage_capacity_in_litres = request.POST['storage_capacity_in_litres']
+                count_pop_ups = request.POST['count_pop_ups']
+                size_of_pumps = request.POST['size_of_pumps']
+                is_automation_if_any = True if request.POST.get('is_automation_if_any',False)=="on" else False
+                is_ground_equipments = True if request.POST.get('is_ground_equipments',False)=="on" else False
+                is_maintenance_contract =  True if request.POST.get('is_maintenance_contract',False)=="on" else False
+                is_maintenance_agency =  True if request.POST.get('is_maintenance_agency',False)=="on" else False
+                boundary_size_mtrs = f'''{request.POST['boundary_size_mtrs-E']}#{request.POST['boundary_size_mtrs-W']}#{request.POST['boundary_size_mtrs-N']}#{request.POST['boundary_size_mtrs-S']}'''
+                is_availability_of_mot = True if request.POST.get('is_availability_of_mot',False)=="on" else False
+                is_machine_shed = True if request.POST.get('is_machine_shed',False)=="on" else False
+                is_soil_shed =True if request.POST.get('is_soil_shed',False)=="on" else False
+                is_pitch_or_run_up_covers = True if request.POST.get('is_pitch_or_run_up_covers',False)=="on" else False
+                size_of_covers_in_mtrs = request.POST['size_of_covers_in_mtrs']
+
+                with connection.cursor() as cursor:
+                    # Insert into Ground Master table
+                    cursor.execute(f'''
+                                SELECT state, state_code
+                                FROM {org_id}_state_master''')
+                    state_data = cursor.fetchall()
+                    cursor.execute(
+                        f"""update {org_id}_ground_master set
+                            org_id=%s, 
+                            google_location=%s,
+                            year_of_construction=%s ,
+                            phone_numbers=%s ,
+                            slop_ratio=%s, 
+                            ground_name=%s, 
+                            state_code=%s, 
+                            state_name=%s, 
+                            city_name=%s, 
+                            count_main_pitches=%s, 
+                            count_practice_pitches=%s, 
+                            is_side_screen=%s, 
+                            count_placement_side_screen=%s, 
+                            is_broadcasting_facility=%s, 
+                            is_irrigation_pitches=%s, 
+                            count_hydrants=%s, 
+                            count_pumps=%s, 
+                            count_showers=%s, 
+                            is_lawn_nursary=%s, 
+                            name_centre_square=%s, 
+                            is_curator_room=%s, 
+                            is_seperate_practice_area=%s, 
+                            outfield=%s, 
+                            profile_of_outfield=%s, 
+                            lawn_species=%s, 
+                            is_drainage_system_available=%s,
+                            is_irrigation_system_available=%s, 
+                            is_availability_of_water=%s, 
+                            water_source=%s, 
+                            storage_capacity_in_litres=%s, 
+                            count_pop_ups=%s, 
+                            size_of_pumps=%s, 
+                            is_automation_if_any=%s, 
+                            is_ground_equipments=%s, 
+                            is_maintenance_contract=%s, 
+                            is_maintenance_agency=%s, 
+                            boundary_size_mtrs=%s, 
+                            is_availability_of_mot=%s, 
+                            is_machine_shed=%s, 
+                            is_soil_shed=%s, 
+                            is_pitch_or_run_up_covers=%s, 
+                            size_of_covers_in_mtrs=%s 
+                            where id=%s""",
+                        [org_id, 
+                         google_location,
+                         year_of_construction,
+                         phone_numbers,
+                         slop_ratio,
+                         ground_name, 
+                         state_code, 
+                         state_name, 
+                         city_name, 
+                         count_main_pitches, 
+                         count_practice_pitches,
+                        is_side_screen, 
+                        count_placement_side_screen, 
+                        is_broadcasting_facility, 
+                        is_irrigation_pitches,
+                        count_hydrants,
+                        count_pumps, 
+                        count_showers, 
+                        is_lawn_nursary, 
+                        name_centre_square, 
+                        is_curator_room,
+                        is_seperate_practice_area,
+                        outfield, 
+                        profile_of_outfield, 
+                        lawn_species, 
+                        is_drainage_system_available,
+                        #  is_water_drainage_system,
+                        is_irrigation_system_available, 
+                        is_availability_of_water, 
+                        water_source,
+                        storage_capacity_in_litres,
+                        count_pop_ups, 
+                        size_of_pumps, 
+                        is_automation_if_any, 
+                        is_ground_equipments, 
+                        is_maintenance_contract,
+                        is_maintenance_agency, 
+                        boundary_size_mtrs, 
+                        is_availability_of_mot, 
+                        is_machine_shed, 
+                        is_soil_shed,
+                        is_pitch_or_run_up_covers, 
+                        size_of_covers_in_mtrs,
+                        ground_id]
+                    )
+                  
+                return redirect('ground_pitches',ground_id)
+        with connection.cursor() as cursor:
+                    # Insert into Ground Master table
+                    cursor.execute(f'''
+                                SELECT id,state, state_code
+                                FROM {org_id}_state_master''')
+                    state_data = cursor.fetchall()
+                    print(state_data)
+        return render(request, 'admin_user/update_ground_master.html',
+                      {'org_id':request.session["org_id"],'state_data':state_data,"ground":ground})
+    except Exception as e:
+        print(e)
+    
+
+@csrf_exempt
+def delete_ground_master(request, ground_id):
+    try:
+        org_id = request.session["org_id"]
+        if request.method == 'DELETE':
+            with connection.cursor() as cursor:
+                # Delete score by id
+                cursor.execute(f"""DELETE FROM {org_id}_ground_master WHERE id = %s""", [ground_id])
+                cursor.execute(f"""DELETE FROM {org_id}_pitch_master WHERE ground_id = %s""", [ground_id])
+
+            return JsonResponse({'status':True,'msg': 'success'})
+        else:
+            return JsonResponse({'status':False,'msg': 'failed'})
+    except Exception as e:
+        print(e)
+        return JsonResponse({'status':False,'msg': f'failed error:{e}'})
+
+    
+
+@csrf_exempt
 def update_pitches(request, ground_id):
     org_id = request.session.get("org_id")
     with connection.cursor() as cursor:
@@ -475,35 +665,50 @@ def save_edit_pitch(request):
         pitch_in_out = request.POST.get('pitch_in_out')
         pitch_placement = request.POST.get('pitch_placement')
         size_pitch = request.POST.get('size_pitch')
-        soil_types = request.POST.get('soil_type')
+        pitch_details = request.POST.get('pitch_details')
+        print(pitch_details)
+
+        st=request.POST.get('soil_type')
+        if(st=="mixed"):
+            soil_types = request.POST.get("soil_type_mixed")
+        else:
+             soil_types=st
+
+        
 
         with connection.cursor() as cursor:
-                cursor.execute(
-                    f"""UPDATE {org_id}_pitch_master 
-                    SET pitch_type=%s, profile_of_pitches=%s,size_pitch_square=%s, last_used_date=%s, last_used_match=%s, is_uniformtiy_of_grass=%s, 
-                        size_of_grass=%s, mowing_last_date=%s, mowing_size=%s,date_pitch_construction=%s, start_date_of_pitch_preparation=%s, soil_type=%s,
-                        pitch_in_out=%s,pitch_placement=%s,size_pitch=%s
-                    WHERE id=%s and ground_id=%s""",
-                    [pitch_types, profile_of_pitches_list,size_pitch_square, last_used_dates, last_used_matches,
-                     is_uniformity_of_grasses,
-                     size_of_grasses, mowing_last_dates, mowing_sizes,date_pitch_construction, start_dates_of_pitch_preparation,
-                     soil_types,pitch_in_out,pitch_placement,size_pitch, pitch_ids,ground_id]
-                )
+                try:
+                    cursor.execute(
+                        f"""UPDATE {org_id}_pitch_master 
+                        SET pitch_type=%s, profile_of_pitches=%s,size_pitch_square=%s, last_used_date=%s, last_used_match=%s, is_uniformtiy_of_grass=%s, 
+                            size_of_grass=%s, mowing_last_date=%s, mowing_size=%s,date_pitch_construction=%s, start_date_of_pitch_preparation=%s, soil_type=%s,
+                            pitch_in_out=%s,pitch_placement=%s,size_pitch=%s,pitch_details=%s
+                        WHERE id=%s and ground_id=%s""",
+                        [pitch_types, profile_of_pitches_list,size_pitch_square, last_used_dates, last_used_matches,
+                        is_uniformity_of_grasses,
+                        size_of_grasses, mowing_last_dates, mowing_sizes,date_pitch_construction, start_dates_of_pitch_preparation,
+                        soil_types,pitch_in_out,pitch_placement,size_pitch,pitch_details, pitch_ids,ground_id]
+                    )
+                except Exception as e:
+                    print(e)
 
         return redirect(f'/usr_admin/ground_pitches/{ground_id}')
 
 def edit_pitch(request,pitch_id,ground_id):
-    org_id = request.session["org_id"]
-    with connection.cursor() as cursor:
-        cursor.execute(f'SELECT * FROM {org_id}_pitch_master where id=%s',[pitch_id])
-        pitch = cursor.fetchall()
-    with connection.cursor() as cursor:
-        cursor.execute(f'SELECT * FROM {org_id}_ground_master where id=%s',[ground_id])
-        ground = cursor.fetchall()
+    try:
+        org_id = request.session["org_id"]
+        with connection.cursor() as cursor:
+            cursor.execute(f'SELECT * FROM {org_id}_pitch_master where id=%s',[pitch_id])
+            pitch = cursor.fetchall()
+        with connection.cursor() as cursor:
+            cursor.execute(f'SELECT * FROM {org_id}_ground_master where id=%s',[ground_id])
+            ground = cursor.fetchall()
 
-        print(pitch)
-        print(ground)
-    return render(request, 'admin_user/edit_pitch.html', {'pitch': pitch[0],'ground':ground[0]})
+            # print(pitch)
+            # print(ground)
+        return render(request, 'admin_user/edit_pitch.html', {'pitch': pitch[0],'ground':ground[0]})
+    except Exception as e:
+        print(e)
 
 
 def get_cities(request):
@@ -566,43 +771,7 @@ def curator_daily_recording_form(request):
                 pitch_id = -1
                 all_pitches = 1
 
-            # pitch_location = request.POST['pitch_location']
-            # rolling_start_date = request.POST['rolling_start_date']
-            # weight_of_the_roller = request.POST['weight_of_the_roller']
-            # no_of_passes = request.POST['no_of_passes']
-            # rolling_speed = request.POST['rolling_speed']
-            # last_watering_on = request.POST['last_watering_on']
-            # quantity_of_water = request.POST['quantity_of_water']
-            # time_of_application = request.POST['time_of_application']
-            # is_daily_watering = request.POST.get('is_daily_watering', 'off') == 'on'
-            # remark_by_groundsman = request.POST['remark_by_groundsman']
-            # date_mowing_done_last = request.POST['date_mowing_done_last']
-            # mowing_done_at_mm = request.POST['mowing_done_at_mm']
-            # is_fertilizers_used = request.POST.get('is_fertilizers_used', 'off') == 'on'
-            # fertilizers_details = request.POST['fertilizers_details']
-            # recording_type = request.POST['recording_type']
-            #
-            # min_temp = request.POST['min_temp']
-            # max_temp = request.POST['max_temp']
-            # forecast = request.POST['forecast']
-            # chemical_details_remark = request.POST['chemical_details_remark']
-            # clagg_hammer = "NA" if recording_type=="daily" or recording_type=="both" else request.POST['clagg_hammer']
-            # moisture = "NA" if recording_type=="daily" or recording_type=="both" else request.POST['moisture']
-            # ground_id = request.POST['ground_id']
-            # with connection.cursor() as cursor:
-            #     cursor.execute(
-            #         f"""INSERT INTO {org_id}_curator_daily_recording_master (pitch_id,pitch_location, rolling_start_date, weight_of_the_roller, no_of_passes,
-            #         rolling_speed, last_watering_on, quantity_of_water, time_of_application, is_daily_watering, remark_by_groundsman,
-            #         date_mowing_done_last, mowing_done_at_mm, is_fertilizers_used, fertilizers_details,recording_type,min_temp,max_temp,forecast,clagg_hammer,moisture,ground_id,all_pitches,chemical_details_remark)
-            #         VALUES (%s, %s, %s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s)""",
-            #         [pitch_id, pitch_location, rolling_start_date, weight_of_the_roller, no_of_passes, rolling_speed,
-            #          last_watering_on,
-            #          quantity_of_water, time_of_application, is_daily_watering, remark_by_groundsman, date_mowing_done_last,
-            #          mowing_done_at_mm,
-            #          is_fertilizers_used, fertilizers_details, recording_type, min_temp, max_temp, forecast, clagg_hammer,
-            #          moisture, ground_id, all_pitches, chemical_details_remark]
-            #     )
-
+         
             recording_type = request.POST['recording_type']
             ground_id = request.POST['ground_id']
             pitch_id = request.POST['pitch_id']
@@ -620,8 +789,9 @@ def curator_daily_recording_form(request):
             last_watering_on = request.POST['last_watering_on']
             quantity_of_water = request.POST['quantity_of_water']
             time_of_application = request.POST['time_of_application']
+            time_roller = request.POST['time_roller']
             # is_daily_watering = request.POST.get('is_daily_watering', 'off') == 'on'
-            is_daily_watering = "1" if request.POST.get('is_daily_watering', 'off') == 'on' else "0"
+            # is_daily_watering = "1" if request.POST.get('is_daily_watering', 'off') == 'on' else "0"
             mover_machinery_id = request.POST['mover_machinery_id']
             date_mowing_done_last = request.POST['date_mowing_done_last']
             time_of_application_mover = request.POST['time_of_application_mover']
@@ -639,11 +809,12 @@ def curator_daily_recording_form(request):
             out_last_watering_on = request.POST['out_last_watering_on']
             out_quantity_of_water = request.POST['out_quantity_of_water']
             out_time_of_application = request.POST['out_time_of_application']
+            out_time_roller = request.POST['out_time_roller']
             # out_is_daily_watering = request.POST.get('out_is_daily_watering', 'off') == 'on'
-            out_is_daily_watering = "1" if request.POST.get('out_is_daily_watering', 'off') == 'on' else "0"
+            # out_is_daily_watering = "1" if request.POST.get('out_is_daily_watering', 'off') == 'on' else "0"
             out_mover_machinery_id = request.POST['out_mover_machinery_id']
             out_date_mowing_done_last = request.POST['out_date_mowing_done_last']
-            time_of_application_out_mover = request.POST['time_of_application_out_mover']
+            out_time_of_application_mover = request.POST['out_time_of_application_mover']
             out_mowing_done_at_mm = request.POST['out_mowing_done_at_mm']
             # out_is_fertilizers_used = request.POST.get('out_is_fertilizers_used', 'off') == 'on'
             out_is_fertilizers_used = "1" if request.POST.get('out_is_fertilizers_used', 'off') == 'on' else "0"
@@ -655,28 +826,28 @@ def curator_daily_recording_form(request):
             with connection.cursor() as cursor:
                 query = f"""
                     INSERT INTO {org_id}_curator_daily_recording_master (
-                        pitch_id, pitch_location, rolling_start_date, min_temp, max_temp, forecast, clagg_hammer, moisture, 
-                        machinery_id, no_of_passes, rolling_speed, last_watering_on, quantity_of_water, time_of_application, 
-                        is_daily_watering, mover_machinery_id, date_mowing_done_last, time_of_application_mover, mowing_done_at_mm, 
+                        pitch_id,recording_type, ground_id, pitch_location, rolling_start_date, min_temp, max_temp, forecast, clagg_hammer, moisture, 
+                        machinery_id, no_of_passes, rolling_speed, last_watering_on, quantity_of_water, time_of_application,time_roller,out_time_roller,
+                         mover_machinery_id, date_mowing_done_last, time_of_application_mover, mowing_done_at_mm, 
                         is_fertilizers_used, fertilizers_details, chemical_details_remark, remark_by_groundsman, 
                         out_machinery_id, out_no_of_passes, out_rolling_speed, out_last_watering_on, out_quantity_of_water, 
-                        out_time_of_application, out_is_daily_watering, out_mover_machinery_id, out_date_mowing_done_last, 
+                        out_time_of_application, out_mover_machinery_id, out_date_mowing_done_last, 
                         time_of_application_out_mover, out_mowing_done_at_mm, out_is_fertilizers_used, out_fertilizers_details, 
-                        out_chemical_details_remark, out_remark_by_groundsman, recording_type, ground_id
+                        out_chemical_details_remark, out_remark_by_groundsman, 
                     ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 
                               %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s)
                     """
                 values = [
-                    pitch_id, pitch_location, rolling_start_date, min_temp, max_temp, forecast, clagg_hammer, moisture,
-                    machinery_id, no_of_passes, rolling_speed, last_watering_on, quantity_of_water, time_of_application,
-                    is_daily_watering, mover_machinery_id, date_mowing_done_last, time_of_application_mover,
+                    pitch_id, recording_type, ground_id,pitch_location, rolling_start_date, min_temp, max_temp, forecast, clagg_hammer, moisture,
+                    machinery_id, no_of_passes, rolling_speed, last_watering_on, quantity_of_water, time_of_application,time_roller,out_time_roller,
+                     mover_machinery_id, date_mowing_done_last, time_of_application_mover,
                     mowing_done_at_mm,
                     is_fertilizers_used, fertilizers_details, chemical_details_remark, remark_by_groundsman,
                     out_machinery_id, out_no_of_passes, out_rolling_speed, out_last_watering_on, out_quantity_of_water,
-                    out_time_of_application, out_is_daily_watering, out_mover_machinery_id, out_date_mowing_done_last,
-                    time_of_application_out_mover, out_mowing_done_at_mm, out_is_fertilizers_used,
+                    out_time_of_application, out_mover_machinery_id, out_date_mowing_done_last,
+                    out_time_of_application_mover, out_mowing_done_at_mm, out_is_fertilizers_used,
                     out_fertilizers_details,
-                    out_chemical_details_remark, out_remark_by_groundsman, recording_type, ground_id
+                    out_chemical_details_remark, out_remark_by_groundsman, 
                 ]
 
                 # Debugging: Print the query and values
@@ -697,6 +868,194 @@ def curator_daily_recording_form(request):
     except Exception as e:
         print(e)
 
+def update_daily(request,daily_id):
+    try:
+        org_id = request.session["org_id"]
+       
+        with connection.cursor() as cursor:
+            cursor.execute(f'SELECT * FROM {org_id}_curator_daily_recording_master WHERE id = %s', [daily_id])
+            dailyRecord = cursor.fetchone()
+
+        if not dailyRecord:
+            raise Exception("dailyRecord not found")
+        if request.method == "POST":
+
+            if request.POST['pitch_id_text'] != "all":
+                pitch_id_text = request.POST['pitch_id_text']
+                all_pitches = 0
+            elif request.POST['pitch_id_text'] == "all":
+                pitch_id_text = -1
+                all_pitches = 1
+
+         
+            id = request.POST['id']
+            recording_type = request.POST['recording_type']
+            # ground_id = request.POST['ground_id']
+            # pitch_id = request.POST['pitch_id']
+            pitch_location = request.POST['pitch_location']
+            rolling_start_date = request.POST['rolling_start_date']
+            min_temp = request.POST['min_temp']
+            max_temp = request.POST['max_temp']
+            forecast = request.POST['forecast']
+            clagg_hammer = "NA" if recording_type in ["daily", "both"] else request.POST.get('clagg_hammer', 'NA')
+            moisture = "NA" if recording_type in ["daily", "both"] else request.POST.get('moisture', 'NA')
+            # Extract pitch entries
+            pitch_id_text = request.POST['pitch_id_text']
+            ground_id_text = request.POST['ground_id_text']
+            print(pitch_id_text,ground_id_text)
+            machinery_id = request.POST['machinery_id']
+            no_of_passes = request.POST['no_of_passes']
+            rolling_speed = request.POST['rolling_speed']
+            last_watering_on = request.POST['last_watering_on']
+            quantity_of_water = request.POST['quantity_of_water']
+            time_of_application = request.POST['time_of_application']
+            time_roller = request.POST['time_roller']
+            # is_daily_watering = request.POST.get('is_daily_watering', 'off') == 'on'
+            # is_daily_watering = "1" if request.POST.get('is_daily_watering', 'off') == 'on' else "0"
+            mover_machinery_id = request.POST['mover_machinery_id']
+            date_mowing_done_last = request.POST['date_mowing_done_last']
+            time_of_application_mover = request.POST['time_of_application_mover']
+            mowing_done_at_mm = request.POST['mowing_done_at_mm']
+            # is_fertilizers_used = request.POST.get('is_fertilizers_used', 'off') == 'on'
+            is_fertilizers_used = "1" if request.POST.get('is_fertilizers_used', 'off') == 'on' else "0"
+            fertilizers_details = request.POST['fertilizers_details']
+            chemical_details_remark = request.POST['chemical_details_remark']
+            remark_by_groundsman = request.POST['remark_by_groundsman']
+
+            # Extract outfield entries
+            out_machinery_id = request.POST['out_machinery_id']
+            out_no_of_passes = request.POST['out_no_of_passes']
+            out_rolling_speed = request.POST['out_rolling_speed']
+            out_last_watering_on = request.POST['out_last_watering_on']
+            out_quantity_of_water = request.POST['out_quantity_of_water']
+            out_time_of_application = request.POST['out_time_of_application']
+            out_time_roller = request.POST['out_time_roller']
+            # out_is_daily_watering = request.POST.get('out_is_daily_watering', 'off') == 'on'
+            # out_is_daily_watering = "1" if request.POST.get('out_is_daily_watering', 'off') == 'on' else "0"
+            out_mover_machinery_id = request.POST['out_mover_machinery_id']
+            out_date_mowing_done_last = request.POST['out_date_mowing_done_last']
+            out_time_of_application_mover = request.POST['out_time_of_application_mover']
+            out_mowing_done_at_mm = request.POST['out_mowing_done_at_mm']
+            # out_is_fertilizers_used = request.POST.get('out_is_fertilizers_used', 'off') == 'on'
+            out_is_fertilizers_used = "1" if request.POST.get('out_is_fertilizers_used', 'off') == 'on' else "0"
+            out_fertilizers_details = request.POST['out_fertilizers_details']
+            out_chemical_details_remark = request.POST['out_chemical_details_remark']
+            out_remark_by_groundsman = request.POST['out_remark_by_groundsman']
+
+            # Insert data into the database
+            with connection.cursor() as cursor:
+                query = f"""UPDATE  {org_id}_curator_daily_recording_master set 
+                        pitch_id=%s,
+                        recording_type=%s, 
+                        ground_id=%s, 
+                        pitch_location=%s, 
+                        rolling_start_date=%s, 
+                        min_temp=%s,
+                        max_temp=%s,
+                        forecast=%s, 
+                        clagg_hammer=%s,
+                        moisture=%s, 
+                        machinery_id=%s, 
+                        no_of_passes=%s, 
+                        rolling_speed=%s, 
+                        last_watering_on=%s, 
+                        quantity_of_water=%s, 
+                        time_of_application=%s,
+                        time_roller=%s,
+                        out_time_roller=%s,
+                         mover_machinery_id=%s, 
+                         date_mowing_done_last=%s, 
+                         time_of_application_mover=%s, 
+                         mowing_done_at_mm=%s, 
+                        is_fertilizers_used=%s, 
+                        fertilizers_details=%s, 
+                        chemical_details_remark=%s, 
+                        remark_by_groundsman=%s, 
+                        out_machinery_id=%s, 
+                        out_no_of_passes=%s, 
+                        out_rolling_speed=%s, 
+                        out_last_watering_on=%s, 
+                        out_quantity_of_water=%s, 
+                        out_time_of_application=%s, 
+                        out_mover_machinery_id=%s, 
+                        out_date_mowing_done_last=%s, 
+                        time_of_application_out_mover=%s, 
+                        out_mowing_done_at_mm=%s, 
+                        out_is_fertilizers_used=%s, 
+                        out_fertilizers_details=%s, 
+                        out_chemical_details_remark=%s, 
+                        out_remark_by_groundsman=%s 
+                        WHERE `id`=%s"""
+                values = [
+                    pitch_id_text, 
+                    recording_type, 
+                    ground_id_text,
+                    pitch_location, 
+                    rolling_start_date, 
+                    min_temp, 
+                    max_temp,
+                      forecast, 
+                      clagg_hammer, 
+                      moisture,
+                    machinery_id, 
+                    no_of_passes, 
+                    rolling_speed, 
+                    last_watering_on, 
+                    quantity_of_water,
+                      time_of_application,
+                      time_roller,
+                      out_time_roller,
+                     mover_machinery_id,
+                       date_mowing_done_last, 
+                       time_of_application_mover,
+                    mowing_done_at_mm,
+                    is_fertilizers_used, 
+                    fertilizers_details, 
+                    chemical_details_remark, 
+                    remark_by_groundsman,
+                    out_machinery_id, 
+                    out_no_of_passes,
+                      out_rolling_speed,
+                        out_last_watering_on,
+                          out_quantity_of_water,
+                    out_time_of_application, 
+                    out_mover_machinery_id, 
+                    out_date_mowing_done_last,
+                    out_time_of_application_mover, 
+                    out_mowing_done_at_mm, 
+                    out_is_fertilizers_used,
+                    out_fertilizers_details,
+                    out_chemical_details_remark, 
+                    out_remark_by_groundsman, 
+                    id
+                ]
+
+                # Debugging: Print the query and values
+                print("Query:", query)
+                print("Values:", values)
+
+                cursor.execute(query, values)
+                # print("Hello")
+            return redirect('curator_daily_recording_list')
+
+
+        
+
+        return render(request, 'admin_user/update_daily_recording_form.html', {'daily': dailyRecord})
+    except Exception as e:
+        print(e)
+
+@csrf_exempt
+def delete_daily(request,daily_id):
+    org_id = request.session["org_id"]
+    if request.method == 'DELETE':
+        with connection.cursor() as cursor:
+            # Delete score by id
+            cursor.execute(f"""DELETE FROM {org_id}_curator_daily_recording_master WHERE id = %s""", [daily_id])
+
+        return JsonResponse({'status': 'success'})
+
+    
 
 def curator_daily_recording_list(request):
     org_id = request.session["org_id"]
@@ -707,7 +1066,7 @@ def curator_daily_recording_list(request):
         except Exception as e:
             print(e)
             return messages.error(request,e)
-    return render(request, 'admin_user/curator_daily_recording_list.html', {'recordings': recordings})
+    return render(request, 'admin_user/curator_daily_recording_list.html', {'recordings': recordings,"flag":True})
 
 
 # Fetch All Machinery
@@ -853,14 +1212,7 @@ def add_score(request, match_id):
 
             return redirect('list_matches')
 
-        # match_data = {
-        #     'id': match[0],
-        #     'match_type': match[1],
-        #     'team1': match[2],
-        #     'team2': match[3],
-        #     'match_date': match[4],
-        #     'venue': match[5]
-        # }
+     
         print(match)
 
         return render(request, 'admin_user/score_form.html', {'match': match})
@@ -975,49 +1327,11 @@ def update_score(request, score_id):
     except Exception as e:
         print(e)
 
-  # match_type = request.POST['match_type']
-            # name_tournament = request.POST['name_tournament']
-            # team1 = request.POST['team1']
-            # team2 = request.POST['team2']
-            # preparation_date = request.POST['preparation_date']
-            # match_date = request.POST.get('match_date')
-            # from_date = request.POST.get('from_date')
-            # to_date = request.POST.get('to_date')
-            # days_count = request.POST['days_count']
-            # start_time = request.POST['start_time']
-            # pitch_id = request.POST['pitch_id']
-            # ground_id = request.POST['ground_id']
-            # is_pitch_level =   1 if request.POST.get('is_pitch_level')=="on" else 0
-            # lawn_height = request.POST['lawn_height']
-            # grass_cover = request.POST['grass_cover']
-            # weather_condition = request.POST['weather_condition']
-            # moisture_upto = request.POST['moisture_upto']
-            # rolling_time = request.POST['rolling_time']
-            # rolling_pattern = request.POST['rolling_pattern']
-            # roller_type = request.POST['machinery_id']
-            # # roller_weight = request.POST.get('roller_weight', None)
-            # roller_weight = "weight"
-            # dew_factor = request.POST['dew_factor']
-            # access_bounce = request.POST['access_bounce']
-            #
-            # # Construct the SQL query to insert the values
-            # with connection.cursor() as cursor:
-            #     cursor.execute(f'''
-            #         INSERT INTO {org_id}_match_master
-            #         (match_type, name_tournament, team1, team2, preparation_date, match_date, from_date, to_date,
-            #          days_count, start_time, pitch_id,ground_id, is_pitch_level, lawn_height, grass_cover, weather_condition,
-            #          moisture_upto, rolling_time, rolling_pattern, roller_type, roller_weight, dew_factor, access_bounce)
-            #         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-            #     ''', [
-            #         match_type, name_tournament, team1, team2, preparation_date, match_date, from_date, to_date,
-            #         days_count, start_time, pitch_id,ground_id, is_pitch_level, lawn_height, grass_cover, weather_condition,
-            #         moisture_upto, rolling_time, rolling_pattern, roller_type, roller_weight, dew_factor, access_bounce
-            #     ])
+ 
 def insert_match(request):
     try:
         org_id = request.session["org_id"]
         if request.method == 'POST':
-
             match_type = request.POST['match_type']
             name_tournament = request.POST['name_tournament']
             team1 = request.POST['team1']
@@ -1037,21 +1351,47 @@ def insert_match(request):
             max_temp = request.POST['max_temp']
             forecast = request.POST['forecast']
             moisture_upto = request.POST['moisture_upto']
+            dew_factor =request.POST['dew_factor']
+            access_bounce =request.POST['access_bounce']
             # rolling_time = request.POST['rolling_time']
             # rolling_pattern = request.POST['rolling_pattern']
             machinery_id = request.POST['machinery_id']
-            dew_factor = request.POST['dew_factor']
-            access_bounce = request.POST['access_bounce']
-            remark_by_groundsman = request.POST['remark_by_groundsman']
+            no_of_passes = request.POST['no_of_passes']
+            rolling_speed = request.POST['rolling_speed']
+            last_watering_on = request.POST['last_watering_on']
+            quantity_of_water = request.POST['quantity_of_water']
+            time_of_application = request.POST['time_of_application']
+            time_roller = request.POST['time_roller']
+            # is_daily_watering = request.POST.get('is_daily_watering', 'off') == 'on'
+            # is_daily_watering = "1" if request.POST.get('is_daily_watering', 'off') == 'on' else "0"
+            mover_machinery_id = request.POST['mover_machinery_id']
+            date_mowing_done_last = request.POST['date_mowing_done_last']
+            time_of_application_mover = request.POST['time_of_application_mover']
+            mowing_done_at_mm = request.POST['mowing_done_at_mm']
+            # is_fertilizers_used = request.POST.get('is_fertilizers_used', 'off') == 'on'
+            is_fertilizers_used = "1" if request.POST.get('is_fertilizers_used', 'off') == 'on' else "0"
+            fertilizers_details = request.POST['fertilizers_details']
             chemical_details_remark = request.POST['chemical_details_remark']
+            remark_by_groundsman = request.POST['remark_by_groundsman']
+
+            # Extract outfield entries
+            out_machinery_id = request.POST['out_machinery_id']
             out_no_of_passes = request.POST['out_no_of_passes']
             out_rolling_speed = request.POST['out_rolling_speed']
             out_last_watering_on = request.POST['out_last_watering_on']
             out_quantity_of_water = request.POST['out_quantity_of_water']
             out_time_of_application = request.POST['out_time_of_application']
-            out_is_daily_watering = request.POST.get('out_is_daily_watering', 'off') == 'on'
-            out_machinery_id = request.POST['out_machinery_id']
+            out_time_roller = request.POST['out_time_roller']
+            # out_is_daily_watering = request.POST.get('out_is_daily_watering', 'off') == 'on'
+            # out_is_daily_watering = "1" if request.POST.get('out_is_daily_watering', 'off') == 'on' else "0"
+            out_mover_machinery_id = request.POST['out_mover_machinery_id']
+            out_date_mowing_done_last = request.POST['out_date_mowing_done_last']
+            out_time_of_application_mover = request.POST['out_time_of_application_mover']
             out_mowing_done_at_mm = request.POST['out_mowing_done_at_mm']
+            # out_is_fertilizers_used = request.POST.get('out_is_fertilizers_used', 'off') == 'on'
+            out_is_fertilizers_used = "1" if request.POST.get('out_is_fertilizers_used', 'off') == 'on' else "0"
+            out_fertilizers_details = request.POST['out_fertilizers_details']
+            out_chemical_details_remark = request.POST['out_chemical_details_remark']
             out_remark_by_groundsman = request.POST['out_remark_by_groundsman']
             brief_match_pitch_assessment = request.POST['brief_match_pitch_assessment']
 
@@ -1059,23 +1399,42 @@ def insert_match(request):
             with connection.cursor() as cursor:
                 sql=f'''
                           INSERT INTO {org_id}_match_master 
-                          (match_type, name_tournament, team1, team2, preparation_date, match_date, from_date, to_date,
-                           days_count, start_time, pitch_id, ground_id, is_pitch_level, lawn_height, grass_cover, 
-                           min_temp, max_temp, forecast, moisture_upto, machinery_id,
-                           dew_factor, access_bounce, remark_by_groundsman, chemical_details_remark, out_no_of_passes, 
-                           out_rolling_speed, out_last_watering_on, out_quantity_of_water, out_time_of_application, 
-                           out_is_daily_watering, out_machinery_id, out_mowing_done_at_mm, out_remark_by_groundsman, 
-                           brief_match_pitch_assessment) 
-                          VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 
-                                  %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s)
+                          (match_type, name_tournament, team1, team2,dew_factor,access_bounce, 
+                          preparation_date, match_date, from_date, to_date,
+                           days_count, start_time, pitch_id, ground_id, is_pitch_level, lawn_height, 
+                           grass_cover, 
+                           min_temp, max_temp, forecast, moisture_upto,  machinery_id, no_of_passes, 
+                           rolling_speed, last_watering_on,
+                             quantity_of_water, time_of_application,time_roller,out_time_roller,
+                         mover_machinery_id, date_mowing_done_last, time_of_application_mover, 
+                         mowing_done_at_mm, 
+                        is_fertilizers_used, fertilizers_details, chemical_details_remark, 
+                        remark_by_groundsman, 
+                        out_machinery_id, out_no_of_passes, out_rolling_speed, out_last_watering_on, 
+                        out_quantity_of_water, 
+                        out_time_of_application, out_mover_machinery_id, out_date_mowing_done_last, 
+                        time_of_application_out_mover, out_mowing_done_at_mm, out_is_fertilizers_used,
+                          out_fertilizers_details, 
+                        out_chemical_details_remark, out_remark_by_groundsman, 
+                        brief_match_pitch_assessment
+                    ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
+ %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 
+ %s, %s) 
+                         
                       '''
                 values=[
-                    match_type, name_tournament, team1, team2, preparation_date, match_date, from_date, to_date,
+                    match_type, name_tournament, team1, team2,dew_factor, access_bounce,preparation_date, match_date, from_date, to_date,
                     days_count, start_time, pitch_id, ground_id, is_pitch_level, lawn_height, grass_cover,
-                    min_temp, max_temp, forecast, moisture_upto, machinery_id,
-                    dew_factor, access_bounce, remark_by_groundsman, chemical_details_remark, out_no_of_passes,
-                    out_rolling_speed, out_last_watering_on, out_quantity_of_water, out_time_of_application,
-                    out_is_daily_watering, out_machinery_id, out_mowing_done_at_mm, out_remark_by_groundsman,
+                    min_temp, max_temp, forecast, moisture_upto,  machinery_id, no_of_passes, rolling_speed, 
+                    last_watering_on, quantity_of_water, time_of_application,time_roller,out_time_roller,
+                     mover_machinery_id, date_mowing_done_last, time_of_application_mover,
+                    mowing_done_at_mm,
+                    is_fertilizers_used, fertilizers_details, chemical_details_remark, remark_by_groundsman,
+                    out_machinery_id, out_no_of_passes, out_rolling_speed, out_last_watering_on, out_quantity_of_water,
+                    out_time_of_application, out_mover_machinery_id, out_date_mowing_done_last,
+                    out_time_of_application_mover, out_mowing_done_at_mm, out_is_fertilizers_used,
+                    out_fertilizers_details,
+                    out_chemical_details_remark, out_remark_by_groundsman,
                     brief_match_pitch_assessment
                 ]
                 print(sql)
@@ -1114,8 +1473,12 @@ def update_match(request, match_id):
             to_date = request.POST.get('to_date')
             days_count = request.POST['days_count']
             start_time = request.POST['start_time']
-            pitch_id = request.POST['pitch_id']
-            ground_id = request.POST['ground_id']
+            # pitch_id = request.POST['pitch_id'] if request.POST['pitch_id'] else ""
+            pitch_id_text = request.POST['pitch_id_text']
+            # ground_id = request.POST['ground_id']
+            ground_id_text = request.POST['ground_id_text']
+            # print(pitch_id, ground_id)
+            print(pitch_id_text, ground_id_text)
             is_pitch_level = request.POST.get('is_pitch_level', 'off') == 'on'
             lawn_height = request.POST['lawn_height']
             grass_cover = request.POST['grass_cover']
@@ -1123,19 +1486,47 @@ def update_match(request, match_id):
             max_temp = request.POST['max_temp']
             forecast = request.POST['forecast']
             moisture_upto = request.POST['moisture_upto']
+            dew_factor =request.POST['dew_factor']
+            access_bounce =request.POST['access_bounce']
+            # rolling_time = request.POST['rolling_time']
+            # rolling_pattern = request.POST['rolling_pattern']
             machinery_id = request.POST['machinery_id']
-            dew_factor = request.POST['dew_factor']
-            access_bounce = request.POST['access_bounce']
-            remark_by_groundsman = request.POST['remark_by_groundsman']
+            no_of_passes = request.POST['no_of_passes']
+            rolling_speed = request.POST['rolling_speed']
+            last_watering_on = request.POST['last_watering_on']
+            quantity_of_water = request.POST['quantity_of_water']
+            time_of_application = request.POST['time_of_application']
+            time_roller = request.POST['time_roller']
+            # is_daily_watering = request.POST.get('is_daily_watering', 'off') == 'on'
+            # is_daily_watering = "1" if request.POST.get('is_daily_watering', 'off') == 'on' else "0"
+            mover_machinery_id = request.POST['mover_machinery_id']
+            date_mowing_done_last = request.POST['date_mowing_done_last']
+            time_of_application_mover = request.POST['time_of_application_mover']
+            mowing_done_at_mm = request.POST['mowing_done_at_mm']
+            # is_fertilizers_used = request.POST.get('is_fertilizers_used', 'off') == 'on'
+            is_fertilizers_used = "1" if request.POST.get('is_fertilizers_used', 'off') == 'on' else "0"
+            fertilizers_details = request.POST['fertilizers_details']
             chemical_details_remark = request.POST['chemical_details_remark']
+            remark_by_groundsman = request.POST['remark_by_groundsman']
+
+            # Extract outfield entries
+            out_machinery_id = request.POST['out_machinery_id']
             out_no_of_passes = request.POST['out_no_of_passes']
             out_rolling_speed = request.POST['out_rolling_speed']
             out_last_watering_on = request.POST['out_last_watering_on']
             out_quantity_of_water = request.POST['out_quantity_of_water']
             out_time_of_application = request.POST['out_time_of_application']
-            out_is_daily_watering = request.POST.get('out_is_daily_watering', 'off') == 'on'
-            out_machinery_id = request.POST['out_machinery_id']
+            out_time_roller = request.POST['out_time_roller']
+            # out_is_daily_watering = request.POST.get('out_is_daily_watering', 'off') == 'on'
+            # out_is_daily_watering = "1" if request.POST.get('out_is_daily_watering', 'off') == 'on' else "0"
+            out_mover_machinery_id = request.POST['out_mover_machinery_id']
+            out_date_mowing_done_last = request.POST['out_date_mowing_done_last']
+            out_time_of_application_mover = request.POST['out_time_of_application_mover']
             out_mowing_done_at_mm = request.POST['out_mowing_done_at_mm']
+            # out_is_fertilizers_used = request.POST.get('out_is_fertilizers_used', 'off') == 'on'
+            out_is_fertilizers_used = "1" if request.POST.get('out_is_fertilizers_used', 'off') == 'on' else "0"
+            out_fertilizers_details = request.POST['out_fertilizers_details']
+            out_chemical_details_remark = request.POST['out_chemical_details_remark']
             out_remark_by_groundsman = request.POST['out_remark_by_groundsman']
             brief_match_pitch_assessment = request.POST['brief_match_pitch_assessment']
 
@@ -1143,23 +1534,40 @@ def update_match(request, match_id):
             with connection.cursor() as cursor:
                 sql = f'''
                     UPDATE {org_id}_match_master 
-                    SET match_type=%s, name_tournament=%s, team1=%s, team2=%s, preparation_date=%s, match_date=%s, 
-                        from_date=%s, to_date=%s, days_count=%s, start_time=%s, pitch_id=%s, ground_id=%s, 
-                        is_pitch_level=%s, lawn_height=%s, grass_cover=%s, min_temp=%s, max_temp=%s, forecast=%s, 
-                        moisture_upto=%s, machinery_id=%s, dew_factor=%s, access_bounce=%s, 
-                        remark_by_groundsman=%s, chemical_details_remark=%s, out_no_of_passes=%s, 
-                        out_rolling_speed=%s, out_last_watering_on=%s, out_quantity_of_water=%s, out_time_of_application=%s, 
-                        out_is_daily_watering=%s, out_machinery_id=%s, out_mowing_done_at_mm=%s, 
-                        out_remark_by_groundsman=%s, brief_match_pitch_assessment=%s
+                    SET match_type=%s, name_tournament=%s, team1=%s, team2=%s,dew_factor=%s,access_bounce=%s, 
+                          preparation_date=%s, match_date=%s, from_date=%s, to_date=%s,
+                           days_count=%s, start_time=%s, pitch_id=%s, ground_id=%s, is_pitch_level=%s, lawn_height=%s, 
+                           grass_cover=%s, 
+                           min_temp=%s, max_temp=%s, forecast=%s, moisture_upto=%s,  machinery_id=%s, no_of_passes=%s, 
+                           rolling_speed=%s, last_watering_on=%s,
+                             quantity_of_water=%s, time_of_application=%s,time_roller=%s,out_time_roller=%s,
+                         mover_machinery_id=%s, date_mowing_done_last=%s, time_of_application_mover=%s, 
+                         mowing_done_at_mm=%s, 
+                        is_fertilizers_used=%s, fertilizers_details=%s, chemical_details_remark=%s, 
+                        remark_by_groundsman=%s, 
+                        out_machinery_id=%s, out_no_of_passes=%s, out_rolling_speed=%s, out_last_watering_on=%s, 
+                        out_quantity_of_water=%s, 
+                        out_time_of_application=%s, out_mover_machinery_id=%s, out_date_mowing_done_last=%s, 
+                        time_of_application_out_mover=%s, out_mowing_done_at_mm=%s, out_is_fertilizers_used=%s,
+                          out_fertilizers_details=%s, 
+                        out_chemical_details_remark=%s, out_remark_by_groundsman=%s, 
+                        brief_match_pitch_assessment=%s
                     WHERE id=%s
                 '''
                 values = [
-                    match_type, name_tournament, team1, team2, preparation_date, match_date, from_date, to_date,
-                    days_count, start_time, pitch_id, ground_id, is_pitch_level, lawn_height, grass_cover,
-                    min_temp, max_temp, forecast, moisture_upto, machinery_id, dew_factor, access_bounce,
-                    remark_by_groundsman, chemical_details_remark, out_no_of_passes, out_rolling_speed,
-                    out_last_watering_on, out_quantity_of_water, out_time_of_application, out_is_daily_watering,
-                    out_machinery_id, out_mowing_done_at_mm, out_remark_by_groundsman, brief_match_pitch_assessment,
+                   match_type, name_tournament, team1, team2,dew_factor, access_bounce,preparation_date, match_date, from_date, to_date,
+                    days_count, start_time, pitch_id_text, ground_id_text, is_pitch_level, lawn_height, grass_cover,
+                    min_temp, max_temp, forecast, moisture_upto,  machinery_id, no_of_passes, rolling_speed, 
+                    last_watering_on, quantity_of_water, time_of_application,time_roller,out_time_roller,
+                     mover_machinery_id, date_mowing_done_last, time_of_application_mover,
+                    mowing_done_at_mm,
+                    is_fertilizers_used, fertilizers_details, chemical_details_remark, remark_by_groundsman,
+                    out_machinery_id, out_no_of_passes, out_rolling_speed, out_last_watering_on, out_quantity_of_water,
+                    out_time_of_application, out_mover_machinery_id, out_date_mowing_done_last,
+                    out_time_of_application_mover, out_mowing_done_at_mm, out_is_fertilizers_used,
+                    out_fertilizers_details,
+                    out_chemical_details_remark, out_remark_by_groundsman,
+                    brief_match_pitch_assessment,
                     match_id
                 ]
                 cursor.execute(sql, values)

@@ -165,13 +165,13 @@
                                         <div class="row">
                                             <div class="col">
                                                 <label for="moisture" class="form-label">Moisture</label>
-                                                <input  type="text" disabled id="moisture"
+                                                <input  type="text"  id="moisture"
                                                     placeholder="Moisture" name="moisture" class="form-control">
 
                                             </div>
                                             <div class="col">
                                                 <label for="clagg_hammer" class="form-label">Clagg Hammer</label>
-                                                <input  type="text" disabled placeholder="Clagg Hammer"
+                                                <input  type="text"  placeholder="Clagg Hammer"
                                                     id="clagg_hammer" name="clagg_hammer" class="form-control">
 
                                             </div>
@@ -568,7 +568,7 @@
                                                             <button type="button"
                                                                 class="btn btn-dark mt-2 align-self-end"
                                                                 style="font-size:70%"
-                                                                onclick="openMachineryModal('pitch')">Select
+                                                                onclick="openMachineryModal('roller')">Select
                                                                 Machinery</button>
 
                                                         </div>
@@ -586,7 +586,7 @@
                                                         <label for="time_of_application" class="form-label">Time of
                                                             Rolling:</label>
                                                         <input type="time" id="time_of_application_roller"
-                                                            name="time_of_application" class="form-control">
+                                                            name="time_roller" class="form-control">
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-12">
@@ -798,7 +798,7 @@
                                                             <button type="button"
                                                                 class="btn btn-dark mt-2 align-self-end"
                                                                 style="font-size:70%"
-                                                                onclick="openMachineryModal('pitch')">Select
+                                                                onclick="openMachineryModal('out_roller')">Select
                                                                 Machinery</button>
 
                                                         </div>
@@ -816,7 +816,7 @@
                                                         <label for="out_time_of_application" class="form-label">Time of
                                                             Rolling:</label>
                                                         <input type="time" id="out_time_of_application_roller"
-                                                            name="out_time_of_application" class="form-control">
+                                                            name="out_time_roller" class="form-control">
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-12">
@@ -874,7 +874,7 @@
                                             </div>
                                             <div class="col-lg-3 col-sm-12 d-flex">
                                                 <button type="button" class="btn btn-dark mt-2 align-self-end"
-                                                    style="font-size:70%" onclick="openMachineryModal('mover')">Select
+                                                    style="font-size:70%" onclick="openMachineryModal('out_mover')">Select
                                                     Machinery</button>
 
                                             </div>
@@ -1099,17 +1099,17 @@
             }
         })
 
-        $("#recording_type").change(function () {
-            if ($(this).val().trim() === "match") {
-                $("#moisture").prop("disabled", false)
-                $("#clagg_hammer").prop("disabled", false)
-            }
-            else {
-                $("#moisture").prop("disabled", true)
-                $("#clagg_hammer").prop("disabled", true)
-            }
+        // $("#recording_type").change(function () {
+        //     if ($(this).val().trim() === "match") {
+        //         $("#moisture").prop("disabled", false)
+        //         $("#clagg_hammer").prop("disabled", false)
+        //     }
+        //     else {
+        //         $("#moisture").prop("disabled", true)
+        //         $("#clagg_hammer").prop("disabled", true)
+        //     }
 
-        })
+        // })
 
 
 
@@ -1138,19 +1138,19 @@
 
                         // Set machinery ID on click and close modal
                         listItem.onclick = function () {
-                            if (type == "out") {
+                            if (type == "out_roller") {
                                 document.getElementById('out_machinery_id').value = machine.id;
                                 document.getElementById('out_machinery_name').value = `${machine.equipment_name} - Model= ${machine.model} Type= ${machine.type} ${machine.value} ${machine.unit}`;
                             }
-                            else if (type == "pitch") {
+                            else if (type == "roller") {
                                 document.getElementById('machinery_id').value = machine.id;
                                 document.getElementById('machinery_name').value = `${machine.equipment_name} - Model= ${machine.model} Type= ${machine.type} ${machine.value} ${machine.unit}`;
                             }
-                            else if (type == "out-mover") {
+                            else if (type == "out_mover") {
                                 document.getElementById('out_mover_machinery_id').value = machine.id;
                                 document.getElementById('out_mover_machinery_name').value = `${machine.equipment_name} - Model= ${machine.model} Type= ${machine.type} ${machine.value} ${machine.unit}`;
                             }
-                            else if ("out-pitch") {
+                            else if ("mover") {
                                 document.getElementById('mover_machinery_id').value = machine.id;
                                 document.getElementById('mover_machinery_name').value = `${machine.equipment_name} - Model= ${machine.model} Type= ${machine.type} ${machine.value} ${machine.unit}`;
                             }

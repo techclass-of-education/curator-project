@@ -41,7 +41,7 @@
                             <div class="mb-3">
                                 <label for="pitch_no" class="form-label">Ground No/ID</label>
 
-                                <input required type="text" class="form-control" id="ground_no" value="{{ pitch.2 }}"
+                                <input  type="text" class="form-control" id="ground_no" value="{{ pitch.2 }}"
                                     readonly>
                             </div>
                         </div>
@@ -49,7 +49,7 @@
                             <div class="mb-3">
                                 <label for="pitch_no" class="form-label">Pitch No</label>
 
-                                <input required type="text" class="form-control" id="pitch_no" value="{{ pitch.4 }}"
+                                <input  type="text" class="form-control" id="pitch_no" value="{{ pitch.4 }}"
                                     readonly>
                             </div>
 
@@ -58,7 +58,7 @@
                             <div class="mb-3">
                                 <label for="pitch_id" class="form-label">Pitch ID</label>
 
-                                <input required type="text" class="form-control" id="pitch_id" value="{{ pitch.0 }}"
+                                <input  type="text" class="form-control" id="pitch_id" value="{{ pitch.0 }}"
                                     readonly>
                             </div>
                         </div>
@@ -69,7 +69,7 @@
                             <div class="col">
                                 <label for="pitch_type" class="form-label">Pitch Type</label>
 
-                                <select required class="form-select" aria-label="Default select example" id="pitch_type"
+                                <select  class="form-select" aria-label="Default select example" id="pitch_type"
                                     name="pitch_type">
                                     {% if "main" in pitch.5 %}
                                     <option>Open this select Pitch Type</option>
@@ -96,18 +96,18 @@
                             <div class="col">
                                 <div class="mb-3">
                                     <label for="pitch_in_out" class="form-label">Pitch Inside/Outside</label>
-                                    <select required disabled class="form-select" id="pitch_in_out" name="pitch_in_out">
+                                    <select  disabled class="form-select" id="pitch_in_out" name="pitch_in_out">
                                         <option selected value>Select Inside/Outside</option>
                                         <option value="in">Inside</option>
                                         <option value="out">Outside</option>
                                     </select>
-                                    <!--                        <input required type="text" placeholder="10/200" required pattern="[0-9]{1,5}/[0-9]{1,5}" class="form-control" id="size_of_pitch" name="size_of_pitch" value="{{ pitch.5 }}">-->
+                                    <!--                        <input  type="text" placeholder="10/200"  pattern="[0-9]{1,5}/[0-9]{1,5}" class="form-control" id="size_of_pitch" name="size_of_pitch" value="{{ pitch.5 }}">-->
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="mb-3">
                                     <label for="pitch_placement" class="form-label">Pitch Placement</label>
-                                    <select required disabled class="form-select" id="pitch_placement"
+                                    <select  disabled class="form-select" id="pitch_placement"
                                         name="pitch_placement">
                                         <option selected value>Select Pitch Placement</option>
                                         <option value="ne">North-East</option>
@@ -115,7 +115,7 @@
                                         <option value="se">South-East</option>
                                         <option value="sw">South-West</option>
                                     </select>
-                                    <!--                        <input required type="date" class="form-control" id="last_used_date" name="last_used_date" value="{{ pitch.6|date:'Y-m-d' }}">-->
+                                    <!--                        <input  type="date" class="form-control" id="last_used_date" name="last_used_date" value="{{ pitch.6|date:'Y-m-d' }}">-->
                                 </div>
                             </div>
                         </div>
@@ -125,51 +125,51 @@
 
 
 
-                        <!--                        <input required type="text" class="form-control" ">-->
+                        <!--                        <input  type="text" class="form-control" ">-->
                     </div>
                     <div class="mb-3">
                         <label for="profile_of_pitches" class="form-label">Profile of Pitches</label>
-                        <select required required class="form-select" id="profile_of_pitches" name="profile_of_pitches"
+                        <select class="form-select" id="profile_of_pitches" name="profile_of_pitches"
                             aria-label="Default select example">
                             <option selected value>Select Pitch Profile</option>
-                            <option value="red">Two Layer</option>
-                            <option value="black">Three Layer</option>
-                            <option value="yellow">Traditional</option>
+                            <option value="two">Two Layer</option>
+                            <option value="three">Three Layer</option>
+                            <option value="traditional">Traditional</option>
                         </select>
-                        <!--                        <input required type="text" class="form-control" id="soil_type" name="soil_type" value="{{ pitch.13 }}">-->
+                        <!--                        <input  type="text" class="form-control" id="soil_type" name="soil_type" value="{{ pitch.13 }}">-->
                     </div>
                     <!--                        <div class="mb-3">-->
                     <!--                            <label for="profile_of_pitches" class="form-label">Profile of Pitches</label>-->
-                    <!--                            <input required type="text" class="form-control" id="profile_of_pitches" name="profile_of_pitches"-->
+                    <!--                            <input  type="text" class="form-control" id="profile_of_pitches" name="profile_of_pitches"-->
                     <!--                                value="{{ pitch.6 }}">-->
                     <!--                        </div>-->
 
                     <div class="mb-3">
                         <label for="size_pitch" class="form-label">Size of Pitch</label>
-                        <input required type="text" placeholder="10/200" required pattern="[0-9]{1,5}/[0-9]{1,5}"
+                        <input  type="text" placeholder="10/200"  pattern="[0-9]{1,5}/[0-9]{1,5}"
                             class="form-control" id="size_pitch" name="size_pitch" value="{{ pitch.13 }}">
                     </div>
 
                     <!--                    <div class="mb-3">-->
                     <!--                        <label for="size_of_pitch" class="form-label">Size of Pitch</label>-->
-                    <!--                        <input required type="text" placeholder="10/200" required pattern="[0-9]{1,5}/[0-9]{1,5}" class="form-control" id="size_of_pitch" name="size_of_pitch" value="{{ pitch.5 }}">-->
+                    <!--                        <input  type="text" placeholder="10/200"  pattern="[0-9]{1,5}/[0-9]{1,5}" class="form-control" id="size_of_pitch" name="size_of_pitch" value="{{ pitch.5 }}">-->
                     <!--                    </div>-->
 
 
                     <!-- <div class="mb-3">
                             <label for="last_used_match" class="form-label">Last Used Match</label>
-                            <input required type="text" class="form-control" id="last_used_match" name="last_used_match"
+                            <input  type="text" class="form-control" id="last_used_match" name="last_used_match"
                                 value="{{ pitch.8 }}">
                         </div> -->
 
 
                     <div class="input-group mb-3 border rounded">
                         <div class="input-group-text bg-light border-0" style="background-color:white !important;">
-                            <input required class="form-check-input mt-0 border-left" type="checkbox"
+                            <input  class="form-check-input mt-0 border-left" type="checkbox"
                                 aria-label="Checkbox for following text input" name="is_uniformity_of_grass"
                                 value="True" {% if pitch.10 %}checked{% endif %}>
                         </div>
-                        <input required type="text" class="form-control border-0" style="background-color:white"
+                        <input  type="text" class="form-control border-0" style="background-color:white"
                             value="Uniformity of Grass" readonly aria-label="Text input with checkbox">
                     </div>
 
@@ -177,14 +177,14 @@
 
 
                     <!--                               <div class="mb-3 form-check">-->
-                    <!--                        <input required type="checkbox" class="form-check-input" id="is_uniformity_of_grass" name="is_uniformity_of_grass" value="True" {% if pitch.8 %}checked{% endif %}>-->
+                    <!--                        <input  type="checkbox" class="form-check-input" id="is_uniformity_of_grass" name="is_uniformity_of_grass" value="True" {% if pitch.8 %}checked{% endif %}>-->
                     <!--                        <label for="is_uniformity_of_grass" class="form-check-label">Uniformity of Grass</label>-->
                     <!--                    </div>-->
 
 
                     <!-- <div class="mb-3">
                             <label for="size_of_grass" class="form-label">Size of Grass</label>
-                            <input required type="number" class="form-control" id="size_of_grass" name="size_of_grass"
+                            <input  type="number" class="form-control" id="size_of_grass" name="size_of_grass"
                                 value="{{ pitch.11 }}">
                         </div> -->
 
@@ -192,34 +192,34 @@
 
                     <div class="mb-3">
                         <label for="mowing_last_date" class="form-label">Mowing Last Date</label>
-                        <input required type="date" class="form-control" id="mowing_last_date" name="mowing_last_date"
+                        <input required  type="date" class="form-control" id="mowing_last_date" name="mowing_last_date"
                             value="{{ pitch.12|date:'Y-m-d' }}">
                     </div>
                     <div class="mb-3">
                         <label for="mowing_size" class="form-label">Mowing Height</label>
-                        <input required type="text" class="form-control" id="mowing_size" name="mowing_size"
+                        <input  type="text" class="form-control" id="mowing_size" name="mowing_size"
                             value="{{ pitch.16 }}">
                     </div>
                     <div class="mb-3">
                         <label for="size_pitch_square" class="form-label">Size Pitch Square</label>
-                        <input required type="text" class="form-control" id="size_pitch_square" name="size_pitch_square"
+                        <input  type="text" class="form-control" id="size_pitch_square" name="size_pitch_square"
                             value="{{ pitch.3 }}">
                     </div>
                     <!-- <div class="mb-3">
                             <label for="start_date_of_pitch_preparation" class="form-label">Start Date of Pitch
                                 Preparation</label>
-                            <input required type="date" class="form-control" id="start_date_of_pitch_preparation"
+                            <input  type="date" class="form-control" id="start_date_of_pitch_preparation"
                                 name="start_date_of_pitch_preparation" value="{{ pitch.17|date:'Y-m-d' }}">
                         </div> -->
                     <div class="mb-3">
                         <label for="date_pitch_construction" class="form-label">Date of Pitch
                             Construction</label>
-                        <input required type="date" class="form-control" id="date_pitch_construction"
+                        <input required  type="date" class="form-control" id="date_pitch_construction"
                             name="date_pitch_construction" value="{{ pitch.18|date:'Y-m-d' }}">
                     </div>
                     <div class="mb-3">
                         <label for="soil_type" class="form-label">Soil Type</label>
-                        <select required required class="form-select" id="soil_type" name="soil_type"
+                        <select   class="form-select" id="soil_type" name="soil_type"
                             aria-label="Default select example">
                             <option selected value>Open this select menu</option>
                             <option value="red">Red</option>
@@ -227,16 +227,16 @@
                             <option value="yellow">Yellow</option>
                             <option value="mixed">Mixed</option>
                         </select>
-                        <textarea class="form-control mt-2" id="soil_type_mixed" name="soil_type_mixed"
+                        <textarea style="display: none;" class="form-control mt-2" id="soil_type_mixed" name="soil_type_mixed"
                             value="{{ pitch.13 }}" placeholder="Mixed soil details"></textarea>
                     </div>
                     <div class="mb-3">
                         <label for="soil_type" class="form-label">Pitch Details</label>
-                        <textarea class="form-control" placeholder="Pitch Details" id="pitch_details"></textarea>
+                        <textarea class="form-control" placeholder="Pitch Details" id="pitch_details" name="pitch_details"></textarea>
                     </div>
 
-                    <input required type="hidden" name="pitch_id" value="{{ pitch.0 }}">
-                    <input required type="hidden" name="ground_id" value="{{ pitch.2 }}">
+                    <input  type="hidden" name="pitch_id" value="{{ pitch.0 }}">
+                    <input  type="hidden" name="ground_id" value="{{ pitch.2 }}">
                     <button type="submit" class="btn btn-primary">Update</button>
                 </div>
             </div>
@@ -253,15 +253,44 @@
                 $(f).val("")
             }
         })
-        $("#profile_of_pitches").val("{{ pitch.6 }}")
 
-        $("#soil_type").val("{{ pitch.9 }}")
-        $("#pitch_in_out").val("{{ pitch.15 }}")
-        $("#pitch_placement").val("{{ pitch.14 }}")
+        let checkVar
+       {% if pitch.6 is None %}
+       checkVar=""
+       {% else %}
+        checkVar="{{pitch.6}}"
+       {% endif %}
+        $("#profile_of_pitches").val(checkVar)
+
+        {% if pitch.9 is None %}
+       checkVar=""  
+       {% else %}
+        checkVar="{{pitch.9}}"
+       {% endif %}
+       
+        $("#soil_type").val(checkVar)
+        {% if pitch.15 is None %}
+       checkVar=""
+       {% else %}
+        checkVar="{{pitch.15}}"
+       {% endif %}
+        $("#pitch_in_out").val(checkVar)
+        {% if pitch.14 is None %}
+       checkVar=""
+       {% else %}
+        checkVar="{{pitch.14}}"
+       {% endif %}
+        $("#pitch_placement").val(checkVar)
+
+        {% if pitch.19 is None %}
+       checkVar=""
+       {% else %}
+        checkVar="{{pitch.19}}"
+       {% endif %}
+        $("#pitch_details").val(checkVar)
         //        $("#soil_type").val("{{ pitch.13 }}")
 
-
-        $("#pitch_type").change(function () {
+        function pitchTypeMenu(){
             if ($(this).val().trim() == "practice") {
                 $("#pitch_in_out").prop("disabled", false)
                 $("#pitch_placement").html("")
@@ -276,7 +305,7 @@
                 $("#pitch_placement").html("")
                 const mainPitchesCount = parseInt("{{ground.10}}".trim())
 
-                $("#pitch_placement").append("<option selected value>Select Pitch Placement</option>")
+                $("#pitch_placement").append("<option selected value=''>Select Pitch Placement</option>")
                 for (let i = 1; i <= mainPitchesCount; i++) {
                     $("#pitch_placement").append(`<option value='E${i}'>E${i}</option>`)
 
@@ -287,7 +316,15 @@
                 $("#pitch_placement").prop("disabled", false)
             }
 
+        }
+
+        $("#pitch_type").change(function () {
+         pitchTypeMenu()
         })
+
+        // $(document).ready(function () {
+        //  pitchTypeMenu()
+        // })
 
 
         if ("{{pitch.5}}".trim() == "practice") {
