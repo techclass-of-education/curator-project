@@ -547,6 +547,48 @@ def delete_ground_master(request, ground_id):
     
 
 @csrf_exempt
+def addNewPItch(request):
+    try:
+        if request.method == 'POST':
+            org_id = request.session["org_id"]
+            ground_id = request.POST.get("ground_id")
+            pitch_type = request.POST.get("pitch_type")
+            pitch_no=-1
+            print(pitch_type)
+            
+            with connection.cursor() as cursor:
+                # Delete score by id
+                cursor.execute(f"""Select * FROM {org_id}_ground_master WHERE id = %s""", [ground_id])
+                ground=cursor.fetchone()
+                if(pitch_type=="main"):
+                    main=ground[10]
+                    pitch_no=main+1
+                    
+                elif(pitch_type=="practice"):
+                    practice=ground[11]
+                    pitch_no=practice+1
+
+                cursor.execute(f"""INSERT INTO {org_id}_pitch_master 
+                               (`org_id`,`ground_id`,`pitch_no`,`pitch_type`) 
+                               VALUES ('{org_id}','{ground_id}','{pitch_no}','{pitch_type}')""")
+                
+                if(pitch_type=="main"):
+                    cursor.execute(f"""update {org_id}_ground_master set count_main_pitches=%s WHERE id = %s""", [pitch_no, ground_id])
+                elif(pitch_type=="practice"):
+                    cursor.execute(f"""update {org_id}_ground_master set count_practice_pitches=%s WHERE id = %s""", [pitch_no, ground_id])
+
+                
+
+                
+            return JsonResponse({'status':True,'msg': 'success'})
+        else:
+            return JsonResponse({'status':False,'msg': 'failed'})
+    except Exception as e:
+        print(e)
+        return JsonResponse({'status':False,'msg': f'failed error:{e}'})
+
+
+@csrf_exempt
 def update_pitches(request, ground_id):
     org_id = request.session.get("org_id")
     with connection.cursor() as cursor:
@@ -635,16 +677,18 @@ def ground_list(request):
     return render(request, 'admin_user/ground_list.html', {'grounds': grounds})
 
 def ground_pitches(request,ground_id):
-    org_id = request.session["org_id"]
-    with connection.cursor() as cursor:
-        cursor.execute(f'SELECT * FROM {org_id}_ground_master where id=%s',[ground_id])
-        grounds = cursor.fetchall()
+    try:
+        org_id = request.session["org_id"]
+        with connection.cursor() as cursor:
+            cursor.execute(f'SELECT * FROM {org_id}_ground_master where id=%s',[ground_id])
+            grounds = cursor.fetchall()
 
-    with connection.cursor() as cursor:
-        cursor.execute(f'''SELECT * FROM {org_id}_pitch_master WHERE ground_id = %s''', [ground_id])
-        pitches = cursor.fetchall()
-    return render(request, 'admin_user/ground_pitches.html', {'pitches': pitches,'grounds':grounds})
-
+        with connection.cursor() as cursor:
+            cursor.execute(f'''SELECT * FROM {org_id}_pitch_master WHERE ground_id = %s''', [ground_id])
+            pitches = cursor.fetchall()
+        return render(request, 'admin_user/ground_pitches.html', {'pitches': pitches,'grounds':grounds})
+    except Exception as e:
+        print(e)
 
 def save_edit_pitch(request):
     org_id = request.session["org_id"]

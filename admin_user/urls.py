@@ -25,6 +25,7 @@ path('update_pitches/<int:ground_id>/', views.update_pitches, name='update_pitch
 path('ground_list/', views.ground_list, name='ground_list'),
 path('ground_pitches/<int:ground_id>', views.ground_pitches, name='ground_pitches'),
 path('edit_pitch/<int:pitch_id>/<int:ground_id>', views.edit_pitch, name='edit_pitch'),
+path('add_pitch/', views.addNewPItch, name='add_pitch'),
 path('save_edit_pitch', views.save_edit_pitch, name='save_edit_pitch'),
 path('get_cities/', views.get_cities, name='get_cities'),
 path('curator_daily_recording_form/', views.curator_daily_recording_form, name='curator_daily_recording_form'),
