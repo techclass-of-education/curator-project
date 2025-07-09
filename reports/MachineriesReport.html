@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Machinery Report</title>
+</head>
+<body>
+<div class="container-fluid p-0">
+  {% include "admin_user/menu.html" %}
+  <h2 class="text-center mb-4">Machinery Usage Report</h2>
+
+  <!-- Filter Form -->
+  <form method="get" class="p-1" action="/usr_admin/machinery_pass_report">
+    <div class="row mb-3">
+      <div class="col-md-3">
+        <label>Ground</label>
+        <select name="ground_id" id="id_ground_id" class="form-select" required>
+          <!-- Option values should be populated dynamically via AJAX or Django context -->
+        </select>
+      </div>
+      <div class="col-md-3">
+        <label>From Date</label>
+        <input type="date" name="from_date" class="form-control" value="{{ from_date }}">
+      </div>
+      <div class="col-md-3">
+        <label>To Date</label>
+        <input type="date" name="to_date" class="form-control" value="{{ to_date }}">
+      </div>
+      <div class="col-md-3 d-flex align-items-end">
+        <button type="submit" class="btn btn-primary w-100">Generate Report</button>
+      </div>
+       {% if pass_records or hour_records %}
+      <div class="d-flex gap-2 mt-2">
+  <button type="button" class="btn btn-success" id="downloadCsv">Download CSV</button>
+  <button type="button" class="btn btn-danger" id="downloadPdf">Download PDF</button>
+</div>
+ {% endif %}
+    </div>
+  </form>
+<div class="a4-sheet mt-4">
+  {% if pass_records or hour_records %}
+    <!-- Passes Table -->
+    <h4 class="mt-4">Total Passes per Machinery</h4>
+    <table class="table table-bordered table-striped" id="passTable">
+      <thead class="table-dark">
+        <tr>
+          <th>Machinery</th>
+          <th>Total Passes</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in pass_records %}
+        <tr>
+          <td>{{ row.machinery }}</td>
+          <td>{{ row.total_passes }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      <tfoot>
+        <tr class="fw-bold">
+          <td>Grand Total</td>
+          <td>{{ total_passes }}</td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <!-- Hours Table -->
+    <h4 class="mt-5">Total Hours per Machinery</h4>
+    <table class="table table-bordered table-striped" id="hourTable">
+      <thead class="table-dark">
+        <tr>
+          <th>Machinery</th>
+          <th>Total Hours</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in hour_records %}
+        <tr>
+          <td>{{ row.machinery }}</td>
+          <td>{{ row.total_hours }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      <tfoot>
+        <tr class="fw-bold">
+          <td>Grand Total</td>
+          <td>{{ total_hours }}</td>
+        </tr>
+      </tfoot>
+    </table>
+  {% else %}
+    <p class="text-danger mt-4">No data found for selected criteria.</p>
+  {% endif %}
+</div>
+</div>
+
+<script>
+  // Optional: Load ground list dynamically using Axios or Django context
+  document.addEventListener("DOMContentLoaded", function () {
+    axios.get("/usr_admin/get_grounds").then(result => {
+      const dropdown = document.getElementById("id_ground_id");
+      dropdown.innerHTML = '<option value="">Select Ground</option>';
+      result.data.grounds.forEach(g => {
+        dropdown.innerHTML += `<option value="${g.ground[0]}" ${g.ground[0] == '{{ ground_id }}' ? 'selected' : ''}>${g.ground[6]}</option>`;
+      });
+    });
+  });
+</script>
+
+<script>
+  // CSV Download
+  document.getElementById("downloadCsv")?.addEventListener("click", () => {
+    let csvContent = "";
+    const tables = [document.getElementById("passTable"), document.getElementById("hourTable")];
+
+    tables.forEach(table => {
+      const rows = table.querySelectorAll("tr");
+      rows.forEach(row => {
+        const cols = Array.from(row.children).map(td => `"${td.innerText.trim()}"`);
+        csvContent += cols.join(",") + "\n";
+      });
+      csvContent += "\n"; // add a line gap between tables
+    });
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.setAttribute("download", "machinery_pass_report.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  });
+
+  // PDF Download
+  document.getElementById("downloadPdf")?.addEventListener("click", () => {
+    const element = document.querySelector(".a4-sheet");
+    const opt = {
+      margin: 0.5,
+      filename: "machinery_pass_report.pdf",
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: "in", format: "a4", orientation: "portrait" }
+    };
+    html2pdf().set(opt).from(element).save();
+  });
+</script>
+
+<!-- html2pdf and axios CDN if not already included -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</body>
+</html>

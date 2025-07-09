@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Match Records</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #f0f4ff;
+    }
+
+    h2 {
+      background-color: #0d6efd;
+      color: white;
+      padding: 12px;
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+
+    .form-label {
+      font-weight: 500;
+    }
+
+    .btn-primary,
+    .btn-success {
+      margin-right: 10px;
+    }
+
+    table {
+      background-color: white;
+    }
+
+    th {
+      background-color: #0d6efd;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #eef5ff;
+    }
+  </style>
+
+  <style>
+    table,
+    tr,
+    td,
+    th {
+      font-size: 90%;
+    }
+
+    label {
+      font-weight: 700;
+    }
+
+    input,
+    label,
+    select,
+    a {
+      font-size: 70% !important;
+    }
+  </style>
+
+  <style>
+    h2 {
+      background-color: #0d6efd;
+      color: white;
+      padding: 12px;
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+
+    th {
+      background-color: #0d6efd;
+      color: rgb(250, 249, 249) !important;
+    }
+
+    tr:nth-child(even) {
+      background-color: #eef5ff;
+    }
+
+    .a4-sheet {
+      background: white;
+      width: 21cm;
+      /* min-height: 29.7cm; */
+      padding: 0;
+      margin: 0 auto;
+      box-shadow: none;
+
+      transition: none !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+
+
+    }
+
+    @media print {
+      body {
+        margin: 0;
+      }
+
+      .a4-sheet {
+        margin: 0;
+        height: fit-content;
+        padding: 0;
+      }
+    }
+
+    table,
+    th,
+    td {
+      font-size: 85%;
+    }
+  </style>
+</head>
+
+<body>
+  {% include "admin_user/menu.html" %}
+
+  <div class="container-fluid mt-4">
+
+    <h2 class="text-center">Match Records</h2>
+
+    <form method="get" action="/usr_admin/match-records" class="p-4 rounded bg-white shadow-sm">
+      <div class="row g-3">
+        <!-- <div class="col-md-4">
+          <label for="match_id" class="form-label">Match ID</label>
+          <input type="text" class="form-control" id="match_id" name="match_id" value="{{ request.GET.match_id }}">
+        </div> -->
+
+        <!-- <div class="col-md-2">
+                        <label for="match_type" class="form-label">Match Type</label>
+                        <select name="match_type" id="match_type" class="form-select">
+                            <option value="">Select Match Type</option>
+                            <option value="Multidays">Multidays</option>
+                            <option value="One Day">One Day</option>
+                            <option value="T20">T20</option>
+                        </select>
+                    </div>
+
+        <div class="col-md-2">
+          <label for="team1" class="form-label">Team 1</label>
+          <input type="text" class="form-control" id="team1" name="team1" value="{{ request.GET.team1 }}">
+        </div>
+
+        <div class="col-md-2">
+          <label for="team2" class="form-label">Team 2</label>
+          <input type="text" class="form-control" id="team2" name="team2" value="{{ request.GET.team2 }}">
+        </div>
+
+        <div class="col-md-2">
+          <label for="match_date" class="form-label">Match Date</label>
+          <input type="date" class="form-control" id="match_date" name="match_date"
+            value="{{ request.GET.match_date }}">
+        </div>
+
+        <div class="col-md-2">
+          <label for="name_tournament" class="form-label">Tournament Name</label>
+          <input type="text" class="form-control" id="name_tournament" name="name_tournament"
+            value="{{ request.GET.name_tournament }}">
+        </div> -->
+
+
+        <div class="col-md-3">
+          <label for="match_type" class="form-label">Match Type</label>
+          <select id="match_type" name="match_type" class="form-select">
+            <option value="">Select Match Type</option>
+            <option value="Multidays">Multidays</option>
+            <option value="One Day">One Day</option>
+            <option value="T20">T20</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label for="season_year" class="form-label">Season Year</label>
+          <input type="text" id="season_year" name="season_year" class="form-control" placeholder="yyyy">
+        </div>
+        <div class="col-md-3">
+          <label for="name_tournament" class="form-label">Tournament</label>
+          <select id="name_tournament" name="name_tournament" class="form-select">
+            <option value="">Select Tournament</option>
+          </select>
+        </div>
+
+        <div class="col-md-3">
+          <label for="city_name" class="form-label">City</label>
+          <select id="city_name" name="city_name" class="form-select">
+            <option value="">Select City</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label for="ground_name" class="form-label">Ground</label>
+          <select id="ground_name" name="ground_name" class="form-select">
+            <option value="">Select Ground</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label for="match_id" class="form-label">Match</label>
+          <select id="match_id" name="match_id" class="form-select">
+            <option value="">Select Match</option>
+          </select>
+        </div>
+
+
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary">Search</button>
+          <button id="downloadPdf" type="button" class="btn btn-danger">Download PDF</button>
+          {% if records %}
+          <!-- <button type="submit" formmethod="get" formaction="{% url 'download_csv' %}" class="btn btn-success">Download</button> -->
+          <!-- <button type="submit" formmethod="get" formaction="{% url 'download_pdf' %}" class="btn btn-danger">Download PDF</button> -->
+          {% endif %}
+        </div>
+      </div>
+    </form>
+    <hr>
+    {% if records %}
+    <!-- Admin Info (show only once, assuming same in all rows) -->
+    <div class="a4-sheet">
+      <div class="admin-info alert alert-success">
+        <h3 class="display-5">Admin Information</h3>
+        <ul class="list-group w-50">
+          <li class="list-group-item">
+            <p><strong>Admin ID:</strong> {{ records.0.admin_id }}</p>
+          </li>
+          <li class="list-group-item">
+            <p><strong>Name:</strong> {{ records.0.admin_name }}</p>
+
+          </li>
+          <li class="list-group-item">
+            <p><strong>Email:</strong> {{ records.0.admin_email }}</p>
+
+          </li>
+          <li class="list-group-item">
+            <p><strong>Username:</strong> {{ records.0.admin_username }}</p>
+
+          </li>
+          <li class="list-group-item">
+            <p><strong>Mobile:</strong> {{ records.0.admin_mobile }}</p>
+
+          </li>
+          <li class="list-group-item">
+            <p><strong>Address:</strong> {{ records.0.admin_address }}</p>
+
+
+          </li>
+        </ul>
+
+        <h3 class="display-5">Tournament Information</h3>
+        <ul class="list-group w-50">
+          <li class="list-group-item">
+            <p><strong>Tournament:</strong> {{ records.0.name_tournament }}</p>
+          </li>
+
+          <li class="list-group-item">
+            <p><strong>Match Type:</strong> {{ records.0.match_type }}</p>
+
+          </li>
+
+          {% if records.0.match_type == "Multidays" %}
+          <li class="list-group-item">
+            <strong>Match Date :</strong>
+            <div> From :{{ records.0.from_date }}</div>
+            <div> To :{{ records.0.to_date }}</div>
+
+
+          </li>
+          {% else %}
+          <li class="list-group-item">
+            <p><strong>Match Date:</strong> {{ records.0.match_date }}</p>
+          </li>
+          {% endif %}
+
+          <li class="list-group-item">
+            <p><strong>Teams :</strong> {{ records.0.team1 }} <span>VS</span> {{ records.0.team2 }} </p>
+
+          </li>
+          <li class="list-group-item">
+            <p><strong>Neutral Curator :</strong> {{ records.0.nuteral_curator }} </p>
+
+          </li>
+
+
+
+        </ul>
+
+        <h3 class="display-5">Ground Information</h3>
+        <ul class="list-group w-50">
+          <li class="list-group-item">
+            <p><strong>Ground:</strong> {{ records.0.ground_name }}</p>
+          </li>
+          <li class="list-group-item">
+            <p><strong>State:</strong> {{ records.0.state_name }}</p>
+
+          </li>
+          <li class="list-group-item">
+            <p><strong>City:</strong> {{ records.0.city_name }}</p>
+
+          </li>
+          <li class="list-group-item">
+            <p><strong>Main Pitches:</strong> {{ records.0.count_main_pitches }}</p>
+
+          </li>
+          <li class="list-group-item">
+            <p><strong>Practice Pitches:</strong> {{ records.0.count_practice_pitches }}</p>
+
+          </li>
+
+        </ul>
+
+        <h3 class="display-5">Pitch Information</h3>
+        <ul class="list-group w-50">
+          <li class="list-group-item">
+            <p><strong>Pitch ID:</strong> {{ records.0.id }}</p>
+            <p><strong>Pitch No:</strong> {{ records.0.pitch_no }} {{ records.0.pitch_placement }}</p>
+          </li>
+          <li class="list-group-item">
+            <p><strong>Pitch Type:</strong> {{ records.0.pitch_type }}</p>
+
+          </li>
+          <li class="list-group-item">
+            <p><strong>Soil Type:</strong> {{ records.0.soil_type }}</p>
+
+          </li>
+          <li class="list-group-item">
+            <p><strong>Pitch Condition (Is Pitch Level?):</strong> {% if records.0.is_uniformtiy_of_grass == "1" %}
+              Yes
+              {% else %}
+              No
+              {% endif %}</p>
+
+          </li>
+          <li class="list-group-item">
+            <p><strong>Grass Height:</strong> {{ records.0.mowing_size }}</p>
+
+          </li>
+
+        </ul>
+
+        <div class="table-responsive mt-5">
+          <h1>Main Rollers</h1>
+          <table class="table table-bordered table-striped" id="recordsTable">
+            <thead class="table-dark">
+              <tr>
+                <th>Date</th>
+                <th>Machinery</th>
+                <th>Type</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in records %}
+              <tr>
+                {% for key, value in row.items %}
+                {% if 'machinery_name' == key %}
+                <td>{{ row.preparation_date }}</td>
+                <td>{{ value }}</td>
+                <td>{{ row.print_details }}</td>
+                {% endif %}
+                {% endfor %}
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <hr>
+          <h1>Main Mover</h1>
+          <table class="table table-bordered table-striped" id="recordsTable">
+            <thead class="table-dark">
+              <tr>
+                <th>Date</th>
+                <th>Machinery</th>
+                <th>Type</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in records %}
+              <tr>
+                {% for key, value in row.items %}
+                {% if 'mover_machinery_name' == key %}
+                <td>{{ row.preparation_date }}</td>
+                <td>{{ value }}</td>
+                <td>{{ row.print_details }}</td>
+                {% endif %}
+                {% endfor %}
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <hr>
+          <h1>Outfield Rollers</h1>
+          <table class="table table-bordered table-striped" id="recordsTable">
+            <thead class="table-dark">
+              <tr>
+                <th>Date</th>
+                <th>Machinery</th>
+                <th>Type</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in records %}
+              <tr>
+                {% for key, value in row.items %}
+                {% if 'out_machinery_name' == key %}
+                <td>{{ row.preparation_date }}</td>
+                <td>{{ value }}</td>
+                <td>{{ row.print_details }}</td>
+                {% endif %}
+                {% endfor %}
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <hr>
+          <h1>Outfield Mover</h1>
+          <table class="table table-bordered table-striped" id="recordsTable">
+            <thead class="table-dark">
+              <tr>
+                <th>Date</th>
+                <th>Machinery</th>
+                <th>Type</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in records %}
+              <tr>
+                {% for key, value in row.items %}
+                {% if 'out_mover_machinery_name' == key %}
+                <td>{{ row.preparation_date }}</td>
+                <td>{{ value }}</td>
+                <td>{{ row.print_details }}</td>
+                {% endif %}
+                {% endfor %}
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          {% else %}
+          <p>No records found.</p>
+          {% endif %}
+        </div>
+
+        <!-- Match Records Table -->
+
+      </div>
+    </div>
+
+  </div>
+
+
+  <script>
+    $(document).ready(function () {
+      // Fetch tournaments
+      function fetchMatch() {
+        const match_type = $('#match_type').val();
+        const season_year = $('#season_year').val();
+        if (match_type && season_year) {
+          $.get('/usr_admin/fetch-tournaments/', { match_type, season_year }, function (data) {
+            // console.log(data.tournaments)
+            $('#name_tournament').html('<option value="">Select Tournament</option>');
+            data.tournaments.forEach(t => {
+              $('#name_tournament').append(`<option value="${t}">${t}</option>`);
+            });
+          });
+        }
+      }
+      $('#match_type, #season_year').on('change', function () {
+fetchMatch()
+      });
+//       $('#match_type, #season_year',"#name_tournament").on({
+//   change: fetchMatch(),
+ 
+//   click: fetchMatch()
+// });
+
+      // Fetch cities
+      function fetchCities()
+      {
+        
+      }
+      $('#name_tournament').on('change', function () {
+        const name_tournament = $(this).val();
+        if (name_tournament) {
+          $.get('/usr_admin/fetch-cities/', { name_tournament }, function (data) {
+            $('#city_name').html('<option value="">Select City</option>');
+            data.cities.forEach(c => {
+              $('#city_name').append(`<option value="${c}">${c}</option>`);
+            });
+          });
+        }
+      });
+
+      // Fetch grounds
+      $('#city_name').on('change', function () {
+        const city_name = $(this).val();
+        const name_tournament = $('#name_tournament').val();
+        if (city_name && name_tournament) {
+          $.get('/usr_admin/fetch-grounds/', { name_tournament, city_name }, function (data) {
+            $('#ground_name').html('<option value="">Select Ground</option>');
+            data.grounds.forEach(g => {
+              $('#ground_name').append(`<option value="${g.id}">${g.name}</option>`);
+            });
+          });
+        }
+      });
+
+      // Fetch matches
+      $('#ground_name').on('change', function () {
+        const ground_id = $(this).val();
+        const name_tournament = $('#name_tournament').val();
+        if (ground_name && name_tournament) {
+          $.get('/usr_admin/fetch-matches/', { name_tournament, ground_id }, function (data) {
+            $('#match_id').html('<option value="">Select Match</option>');
+            data.matches.forEach(m => {
+              $('#match_id').append(`<option value="${m.id}">${m.label}</option>`);
+            });
+          });
+        }
+      });
+    });
+  </script>
+
+
+
+
+  <script>
+    document.getElementById('downloadPdf').addEventListener('click', () => {
+      const element = document.querySelector('.a4-sheet');
+      const opt = {
+        margin: 0,
+        filename: 'match_report.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, scrollY: 0 },  // scrollY avoids offset
+        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+      };
+      html2pdf().set(opt).from(element).save();
+    });
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      document.getElementById("match_type").value = "{{request.GET.match_type}}"
+      document.getElementById("season_year").value = "{{request.GET.season_year}}"
+      // document.getElementById("name_tournament").value="{{request.GET.name_tournament}}"
+      // document.getElementById("city_name").value="{{request.GET.city_name}}"
+      // document.getElementById("ground_name").value="{{request.GET.ground_name}}"
+      // document.getElementById("match_id").value="{{request.GET.match_id}}"
+      const downloadBtn = document.createElement("button");
+      downloadBtn.textContent = "Download CSV";
+      downloadBtn.className = "btn btn-success";
+      downloadBtn.id = "downloadCsv";
+      document.querySelector(".btn-primary").after(downloadBtn);
+
+      downloadBtn.addEventListener("click", function () {
+        let csvContent = "";
+
+        // Extract Admin/Ground/Pitch Information
+        document.querySelectorAll(".a4-sheet ul.list-group").forEach(section => {
+          section.querySelectorAll("li").forEach(item => {
+            const label = item.querySelector("strong")?.innerText || "";
+            const value = item.innerText.replace(label, "").trim();
+            csvContent += `"${label}","${value}"\n`;
+          });
+          csvContent += "\n";
+        });
+
+        // Extract All Tables (like Main Rollers, Outfield Mover etc.)
+        document.querySelectorAll(".a4-sheet table").forEach(table => {
+          // Title Above Table
+          const heading = table.previousElementSibling?.tagName === "H1" ? table.previousElementSibling.innerText : "Table";
+
+          csvContent += `"${heading}"\n`;
+
+          const rows = table.querySelectorAll("tr");
+          rows.forEach(row => {
+            const cols = Array.from(row.children).map(cell => `"${cell.innerText.trim()}"`);
+            csvContent += cols.join(",") + "\n";
+          });
+          csvContent += "\n";
+        });
+
+        // Create and trigger download
+        const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.setAttribute("download", "match_report.csv");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      });
+    });
+  </script>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</body>
+
+</html>

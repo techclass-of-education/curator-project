@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Match Records PDF</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f9ff;
+        }
+
+        h2 {
+            text-align: center;
+            background-color: #0d6efd;
+            color: white;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+        th, td {
+            border: 1px solid #333;
+            padding: 6px 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #0d6efd;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #eef5ff;
+        }
+
+        tr:hover {
+            background-color: #dbeafe;
+        }
+    </style>
+</head>
+
+<body>
+    {% include "admin_user/menu.html" %}
+    <h2>Match Records</h2>
+    {% if records %}
+    <table>
+        <thead>
+            <tr>
+                {% for key in records.0.keys %}
+                    <th>{{ key|capfirst }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in records %}
+                <tr>
+                    {% for value in row.values %}
+                        <td>{{ value }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p style="text-align:center; color: red;">No records found.</p>
+    {% endif %}
+</body>
+
+</html>
