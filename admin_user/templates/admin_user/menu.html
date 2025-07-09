@@ -1,71 +1,112 @@
- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-   <script src="https://code.jquery.com/jquery-3.7.1.slim.js" integrity="sha256-UgvvN8vBkgO0luPSUl2s8TIlOSYRoGFAX4jlCIm9Adc=" crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+  integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.slim.js"
+  integrity="sha256-UgvvN8vBkgO0luPSUl2s8TIlOSYRoGFAX4jlCIm9Adc=" crossorigin="anonymous"></script>
 
-  <style>
-    li a
-    {
-      font-size:72%;
-    }
-  </style>
+<style>
+  li a {
+    font-size: 72%;
+  }
 
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container">
-      <a class="navbar-brand" href="#" id="menu-page-title">Admin</a>
-      <!-- Toggle button for mobile navigation -->
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <!-- Navigation links -->
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="/usr_admin/orgdashboard">Dashboard</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/usr_admin/create_admin_user_role">Create Role</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">State and City</a>
-             <ul class="dropdown-menu">
+  .category {
+    background: grey;
+    color: white !important;
+    text-transform: uppercase;
+  }
+
+  .subcategory {
+    text-transform: uppercase;
+    background: rgb(188, 185, 185);
+  }
+
+  .item-row {
+    background-color: rgb(244, 242, 242);
+  }
+</style>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container">
+    <a class="navbar-brand" href="#" id="menu-page-title">Admin</a>
+    <!-- Toggle button for mobile navigation -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <!-- Navigation links -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/usr_admin/orgdashboard">Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/usr_admin/create_admin_user_role">Create Role</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">State and
+            City</a>
+          <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="/usr_admin/add_state_city">Add</a></li>
 
             <li><a class="dropdown-item" href="/usr_admin/list_state_city">List</a></li>
           </ul>
-          </li>
+        </li>
+        
+         <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Checmicals</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/usr_admin/addChemical">Add</a></li>
 
-            <li class="nav-item dropdown">
+            <li><a class="dropdown-item" href="/usr_admin/getAllChemicals">List</a></li>
+          </ul>
+        </li>
+
+
+        <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Ground Recording
           </a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="/usr_admin/create_ground_master">Add</a></li>
-<!--            <li><a class="dropdown-item" href="#">Update</a></li>-->
+            <!--            <li><a class="dropdown-item" href="#">Update</a></li>-->
             <li><a class="dropdown-item" href="/usr_admin/ground_list">List</a></li>
           </ul>
         </li>
-<!--          <li class="nav-item">-->
-<!--            <a class="nav-link" href="/usr_admin/create_ground_master">Create Ground</a>-->
-<!--          </li>-->
-<!--          <li class="nav-item">-->
-<!--            <a class="nav-link" href="/usr_admin/ground_list">Ground List</a>-->
-<!--          </li>-->
-<!--          <li class="nav-item">-->
-<!--            <a class="nav-link" href="/usr_admin/curator_daily_recording_form">Curator Daily Recording</a>-->
-<!--          </li>-->
+       
+         <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Daily Recording
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/usr_admin/curator_daily_recording_form">Add</a></li>
+            <!--            <li><a class="dropdown-item" href="#">Update</a></li>-->
+            <li><a class="dropdown-item" href="/usr_admin/curator_daily_recording_list">List</a></li>
+          </ul>
+        </li>
 
-<!--           <li class="nav-item dropdown">-->
-<!--          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">-->
-<!--            Ground Recording-->
-<!--          </a>-->
-<!--          <ul class="dropdown-menu">-->
-<!--            <li><a class="dropdown-item" href="/usr_admin/create_ground_master">Add</a></li>-->
-<!--            <li><a class="dropdown-item" href="#">Update</a></li>-->
-<!--            <li><a class="dropdown-item" href="/usr_admin/ground_list">List</a></li>-->
-<!--          </ul>-->
-<!--        </li>-->
+       
+        <!--          <li class="nav-item">-->
+        <!--            <a class="nav-link" href="/usr_admin/create_ground_master">Create Ground</a>-->
+        <!--          </li>-->
+        <!--          <li class="nav-item">-->
+        <!--            <a class="nav-link" href="/usr_admin/ground_list">Ground List</a>-->
+        <!--          </li>-->
+        <!--          <li class="nav-item">-->
+        <!--            <a class="nav-link" href="/usr_admin/curator_daily_recording_form">Curator Daily Recording</a>-->
+        <!--          </li>-->
 
-          <li class="nav-item dropdown">
+        <!--           <li class="nav-item dropdown">-->
+        <!--          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">-->
+        <!--            Ground Recording-->
+        <!--          </a>-->
+        <!--          <ul class="dropdown-menu">-->
+        <!--            <li><a class="dropdown-item" href="/usr_admin/create_ground_master">Add</a></li>-->
+        <!--            <li><a class="dropdown-item" href="#">Update</a></li>-->
+        <!--            <li><a class="dropdown-item" href="/usr_admin/ground_list">List</a></li>-->
+        <!--          </ul>-->
+        <!--        </li>-->
+
+        <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Match Recording
           </a>
@@ -76,38 +117,28 @@
           </ul>
         </li>
 
-          <li class="nav-item dropdown">
+        <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Match Scores
           </a>
           <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="/usr_admin/matches">Add/List of Matches</a></li>
+            <li><a class="dropdown-item" href="/usr_admin/matches">Add/List of Matches</a></li>
             <li><a class="dropdown-item" href="/usr_admin/matches">List</a></li>
             <!--            <li><a class="dropdown-item" href="/usr_admin/matches/update">Update</a></li>-->
           </ul>
         </li>
 
 
-<!--          <li class="nav-item">-->
-<!--            <a class="nav-link" href="/usr_admin/curator_daily_recording_form">Curator Daily Recording</a>-->
-<!--          </li>-->
-<!--          <li class="nav-item">-->
-<!--            <a class="nav-link" href="/usr_admin/curator_daily_recording_list">Curator Daily Recording List</a>-->
-<!--          </li>-->
+        <!--          <li class="nav-item">-->
+        <!--            <a class="nav-link" href="/usr_admin/curator_daily_recording_form">Curator Daily Recording</a>-->
+        <!--          </li>-->
+        <!--          <li class="nav-item">-->
+        <!--            <a class="nav-link" href="/usr_admin/curator_daily_recording_list">Curator Daily Recording List</a>-->
+        <!--          </li>-->
 
-           <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Curator Recording
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/usr_admin/curator_daily_recording_form">Add</a></li>
-<!--            <li><a class="dropdown-item" href="#">Update</a></li>-->
-            <li><a class="dropdown-item" href="/usr_admin/curator_daily_recording_list">List</a></li>
-          </ul>
-        </li>
+      
 
-
-            <li class="nav-item dropdown">
+        <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Machinery Master
           </a>
@@ -116,53 +147,232 @@
             <li><a class="dropdown-item" href="/usr_admin/machinery">List</a></li>
           </ul>
         </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+           Reports
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/usr_admin/report-match/">Report 1 Match</a></li>
+            <li><a class="dropdown-item" href="/usr_admin/curator-daily-records">Report 2 Daily</a></li>
+            <li><a class="dropdown-item" href="/usr_admin/match-report">Report 3 Match</a></li>
+            <li><a class="dropdown-item" href="/usr_admin/chemicalsReport">Checmicals Report</a></li>
+            <li><a class="dropdown-item" href="/usr_admin/machinery-report">Madhineries Report</a></li>
+          </ul>
+        </li>
 
-          <li class="nav-item">
-            <a class="btn btn-danger" href="{% url 'logout' %}"><i class="fas fa-logout"></i>Logout</a>
-          </li>
+        <li class="nav-item">
+          <a class="btn btn-danger" href="{% url 'logout' %}"><i class="fas fa-logout"></i>Logout</a>
+        </li>
 
 
 
-        </ul>
-      </div>
+      </ul>
     </div>
-  </nav>
+  </div>
+</nav>
 
 
 
 
-  <script>
-    function changeMenuTitle(title)
+<script>
+  function changeMenuTitle(title) {
+    document.querySelector("#menu-page-title").innerHTML = title
+  }
+
+
+  //    const apiKey = '6f919945bd6b08c5af322b846504f85d'; // Replace with your OpenWeatherMap API key
+  //const city = 'Nagpur'; // Replace with your desired city
+  //
+  //async function getWeather() {
+  //    const response = await fetch(`api.openweathermap.org/data/2.5/weather?q=${city},in&APPID=09d6e1a7dc7e8cef23659b6fcf590850
+  //`);
+  //    const data = await response.json();
+  //
+  //    if (response.ok) {
+  //        const weatherDescription = data.weather[0].description;
+  //        const minTemp = data.main.temp_min;
+  //        const maxTemp = data.main.temp_max;
+  //
+  //        console.log(`Weather today in ${city}: ${weatherDescription}`);
+  //        console.log(`Temperature: Min ${minTemp}°C, Max ${maxTemp}°C`);
+  //    } else {
+  //        console.error('Error fetching weather data:', data.message);
+  //    }
+  //}
+
+
+  function openMachineryModal(modalType) {
+    axios.get("{% url 'machinery_data' %}")
+      .then((result) => {
+        const machineryList = document.getElementById('machineryList');
+        machineryList.innerHTML = ""; // Reset list
+        const groupedMachinery = {};
+
+        // Group by equipment_name, then by type, and model within each type
+        result.data.forEach((machine) => {
+          if (!groupedMachinery[machine.equipment_name]) {
+            groupedMachinery[machine.equipment_name] = {};
+          }
+          if (!groupedMachinery[machine.equipment_name][machine.type]) {
+            groupedMachinery[machine.equipment_name][machine.type] = [];
+          }
+          groupedMachinery[machine.equipment_name][machine.type].push(machine);
+        });
+
+        // Generate table rows
+        Object.keys(groupedMachinery).forEach((equipmentName) => {
+          // Equipment Name Row
+          const equipmentRow = document.createElement('tr');
+          equipmentRow.className = "category";
+          equipmentRow.innerHTML = `<td colspan="5" class="text-dark">${equipmentName}</td>`;
+          machineryList.appendChild(equipmentRow);
+
+          const types = groupedMachinery[equipmentName];
+          Object.keys(types).forEach((type) => {
+            // Skip type if it's "NA"
+            if (type === "NA") return;
+
+            // Type Row
+            const typeRow = document.createElement('tr');
+            typeRow.className = "subcategory";
+            typeRow.innerHTML = `<td colspan="5" class="text-dark">${type}</td>`;
+            machineryList.appendChild(typeRow);
+
+            // Model Rows
+            types[type].forEach((machine) => {
+              // Skip rows where all fields are "NA"
+              if (
+                (machine.model === "NA" || !machine.model) &&
+
+                (machine.value === "NA" || !machine.value) &&
+                (machine.unit === "NA" || !machine.unit)
+              ) {
+                return; // Skip this entry
+              }
+
+              const modelRow = document.createElement('tr');
+              modelRow.className = "item-row";
+
+              // Dynamically populate columns, skipping "NA"
+              modelRow.innerHTML = `
+            <td></td>
+            <td>${machine.print_details}</td>
+         
+          
+        `;
+              modelRow.style.cursor = "pointer";
+
+              // Click Event to set the selected machinery
+              modelRow.onclick = function () {
+
+                if (modalType == "out_roller") {
+                  document.getElementById('out_machinery_id').value = machine.id;
+                  document.getElementById('out_machinery_name').value = `${machine.equipment_name} - Type: ${machine.print_details}`;
+                } 
+                else if (modalType == "roller") {
+                  document.getElementById('machinery_id').value = machine.id;
+                  document.getElementById('machinery_name').value = `${machine.equipment_name} - Type: ${machine.print_details}`;
+                } 
+                else if (modalType == "practice_roller") {
+                  document.getElementById('practice_machinery_id').value = machine.id;
+                  document.getElementById('practice_machinery_name').value = `${machine.equipment_name} - Type: ${machine.print_details}`;
+                } 
+                else if (modalType == "out_mover") {
+                  document.getElementById('out_mover_machinery_id').value = machine.id;
+                  document.getElementById('out_mover_machinery_name').value = `${machine.equipment_name} - Type: ${machine.print_details}`;
+                } 
+                else if (modalType == "mover") {
+                  document.getElementById('mover_machinery_id').value = machine.id;
+                  document.getElementById('mover_machinery_name').value = `${machine.equipment_name} - Type: ${machine.print_details}`;
+                }
+                else if (modalType == "practice_mover") {
+                  document.getElementById('practice_mover_machinery_id').value = machine.id;
+                  document.getElementById('practice_mover_machinery_name').value = `${machine.equipment_name} - Type: ${machine.print_details}`;
+                }
+                 else if (modalType == "pp_roller") {
+                  document.getElementById('pp_machinery_id').value = machine.id;
+                  document.getElementById('pp_machinery_name').value = `${machine.equipment_name} - Type: ${machine.print_details}`;
+                }
+                 else if (modalType == "pp_mover") {
+                  document.getElementById('pp_mover_machinery_id').value = machine.id;
+                  document.getElementById('pp_mover_machinery_name').value = `${machine.equipment_name} - Type: ${machine.print_details}`;
+                }
+                
+                
+
+                $('#machineryModal').modal('hide');
+              };
+
+              machineryList.appendChild(modelRow);
+            });
+          });
+
+        });
+
+        // Show the modal
+        $('#machineryModal').modal('show');
+      })
+      .catch((error) => {
+        console.log("Error fetching machinery data:", error);
+      });
+  }
+
+
+$(document).ready(function()
+{
+    //$("#home-tab").css("display","none")
+    //$("#pp-tab").css("display","none")
+    //$("#profile-tab").css("display","none")
+    //$("#practice-tab").css("display","none")
+    //$("#myTabContent").css("display","none")
+    //$("#btnDailySubmit").css("display","none")
+    function changeTabs(checkboxes,disabled)
     {
-      document.querySelector("#menu-page-title").innerHTML=title
+        
+        if(!disabled)
+        {
+            //alert("not disabled")
+            $("#myTabContent").css("display","block")
+            
+        }
+        else
+        {
+            //alert("disabled")
+            $("#myTabContent").css("display","block")
+        }
     }
+    
+    function checkboxesTabs()
+    {
+        
+    }
+    
+    $("#pitch_id").change(function(){
+        const checkboxes=$(".checkboxes").find("[type='checkbox']")
+        
+        $(checkboxes).on("change",checkboxesTabs)
+        
+        const pitch_location=$("#pitch_location").val().trim()
+        // if(this.options[this.selectedIndex].text.indexOf("all")>-1)
+        // {
+        //     checkboxes.prop("disabled",false)
+        //     changeTabs(checkboxes,false)
+        // }
+        // else
+        // {
+        //     checkboxes.prop("disabled",true)
+        //     changeTabs(checkboxes,true)
+        // }
+        
+    })
+    
+    
+    
+})
 
 
-//    const apiKey = '6f919945bd6b08c5af322b846504f85d'; // Replace with your OpenWeatherMap API key
-//const city = 'Nagpur'; // Replace with your desired city
-//
-//async function getWeather() {
-//    const response = await fetch(`api.openweathermap.org/data/2.5/weather?q=${city},in&APPID=09d6e1a7dc7e8cef23659b6fcf590850
-//`);
-//    const data = await response.json();
-//
-//    if (response.ok) {
-//        const weatherDescription = data.weather[0].description;
-//        const minTemp = data.main.temp_min;
-//        const maxTemp = data.main.temp_max;
-//
-//        console.log(`Weather today in ${city}: ${weatherDescription}`);
-//        console.log(`Temperature: Min ${minTemp}°C, Max ${maxTemp}°C`);
-//    } else {
-//        console.error('Error fetching weather data:', data.message);
-//    }
-//}
 
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-
-
-
-  </script>
-            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

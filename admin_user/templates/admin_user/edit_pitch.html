@@ -228,7 +228,7 @@
                             <option value="mixed">Mixed</option>
                         </select>
                         <textarea style="display: none;" class="form-control mt-2" id="soil_type_mixed" name="soil_type_mixed"
-                            value="{{ pitch.13 }}" placeholder="Mixed soil details"></textarea>
+                             placeholder="Mixed soil details"></textarea>
                     </div>
                     <div class="mb-3">
                         <label for="soil_type" class="form-label">Pitch Details</label>
@@ -326,6 +326,8 @@
         //  pitchTypeMenu()
         // })
 
+      
+
 
         if ("{{pitch.5}}".trim() == "practice") {
             $("#pitch_in_out").prop("disabled", false)
@@ -392,6 +394,40 @@
         })
 
     </script>
+
+    <script>
+    // Show/hide textarea on selection
+    $("#soil_type").change(function () {
+        if ($(this).val() === "mixed") {
+            $("#soil_type_mixed").css("display", "block");
+            $("#soil_type_mixed").attr("required", true); // ✅ add required
+        } else {
+            $("#soil_type_mixed").css("display", "none");
+            $("#soil_type_mixed").removeAttr("required"); // ✅ remove required
+            $("#soil_type_mixed").val(""); // optional: clear old value
+        }
+    });
+
+    // ✅ When page is loaded, check existing value
+    $(document).ready(function () {
+        if ($("#soil_type").val() === "mixed") {
+            $("#soil_type_mixed").css("display", "block");
+            $("#soil_type_mixed").attr("required", true);
+        } else {
+            $("#soil_type_mixed").css("display", "none");
+            $("#soil_type_mixed").removeAttr("required");
+        }
+    });
+
+      if("{{pitch.9}}".split("=").length>0 && !($("#soil_type").val()=="black"||$("#soil_type").val()=="red"||$("#soil_type").val()=="yellow"))
+        {
+            const arr="{{pitch.9}}".split("=")
+             $("#soil_type_mixed").val(arr[1])
+
+            $("#soil_type").val(arr[0])
+        }
+</script>
+
 </body>
 
 </html>

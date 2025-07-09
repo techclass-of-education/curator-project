@@ -78,6 +78,14 @@
                         </div>
                     </div>
 
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <label for="value" class="form-label">Print Details:</label>
+                            <input required type="text" id="print_details" name="print_details" value="{{ machinery.7}}" class="form-control" list="print_details">
+                            <datalist id="print_details"></datalist>                                                                                        <button type="button" class="btn btn-primary mt-1" onclick="openModal('print_details')">Select</button>
+                        </div>
+                    </div>
+
                     <button type="submit" class="btn btn-danger mt-3">Update Machinery</button>
                 </form>
             </div>
@@ -120,6 +128,7 @@ datalistData=machineryData
                     populateDatalist(machineryData, "specification", "specification_list");
                     populateDatalist(machineryData, "unit", "unit_list");
                     populateDatalist(machineryData, "value", "value_list");
+                    populateDatalist(machineryData, "print_details", "print_details");
                 })
                 .catch(error => console.error(error));
         });

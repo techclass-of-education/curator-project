@@ -34,6 +34,17 @@
   font-weight: bold;
   letter-spacing: 2px;
 }
+.club-details 
+{
+  font-size: 0.6em !important;
+  
+}
+
+.club-details .row>div
+{
+  padding: 1.2em 1em;
+  text-transform: uppercase;
+}
   </style>
 </head>
 
@@ -48,22 +59,143 @@
       <div class="col-lg-3 col-sm-12">
         <div class="card mb-3">
           <div class="card-body">
-            <h5 class="card-title">Sidebar</h5>
-            <p class="card-text">Some navigation links or widgets here.</p>
+            <div class="card mb-3 shadow">
+              <div class="card-body">
+                <h5 class="card-title bg-danger text-center p-3 rounded text-white fs-6">ORGANIZATION/CLUB</h5>
+               <hr>
+               <ul class="list-group club-details">
+                <li class="list-group-item">
+                  <div class="row">
+                    <div class="col-lg-4 col-sm-12 text-center rounded" style="background-color: rgb(9, 108, 108);color: white;">
+                   CLUB
+                    </div>
+                    <div class="col rounded ms-1" style="background-color:rgb(2, 12, 12) ;color: white;width: 100%;">
+                      {{user.name}}
+
+                    </div>
+                  </div>
+                 
+                </li>
+                <li class="list-group-item">
+                  <div class="row">
+                    <div class="col-lg-4 col-sm-12 text-center rounded" style="background-color: rgb(9, 108, 108);color: white;">
+                   Email-id
+                    </div>
+                    <div class="col rounded ms-1" style="background-color:rgb(2, 12, 12) ;color: white;width: 100%;">
+                      {{user.email}}
+
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <div class="row">
+                    <div class="col-lg-4 col-sm-12 text-center rounded" style="background-color: rgb(9, 108, 108);color: white;">
+                   Username
+                    </div>
+                    <div class="col rounded ms-1" style="background-color:rgb(2, 12, 12) ;color: white;width: 100%;">
+                      {{user.username}}
+
+                    </div>
+                  </div> 
+                </li>
+                <li class="list-group-item">
+                  <div class="row">
+                    <div class="col-lg-4 col-sm-12 text-center rounded" style="background-color: rgb(9, 108, 108);color: white;">
+                   Address
+                    </div>
+                    <div class="col rounded ms-1" style="background-color:rgb(2, 12, 12) ;color: white;width: 100%;">
+                      {{user.address}}
+
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <div class="row">
+                    <div class="col-lg-4 col-sm-12 text-center rounded" style="background-color: rgb(9, 108, 108);color: white;">
+                   Mobile No.
+                    </div>
+                    <div class="col rounded ms-1" style="background-color:rgb(2, 12, 12) ;color: white;width: 100%;">
+                      {{user.mobile}}
+
+                    </div>
+                  </div>
+                </li>
+              </ul>
+              </div>
+            </div>
+            <div class="card mb-3 shadow">
+              <div class="card-body">
+                <h5 class="card-title bg-danger text-center p-3 rounded text-white fs-6">CURATOR/GROUNDMAN</h5>
+               <hr>
+               <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                  <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                      CURATORS
+                    </button>
+                  </h2>
+                  <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                      <strong>
+                        <ul class="list-group">
+                            <li class="list-group-item">An item</li>
+                            <li class="list-group-item">A second item</li>
+                            <li class="list-group-item">A third item</li>
+                            <li class="list-group-item">A fourth item</li>
+                            <li class="list-group-item">And a fifth one</li>
+                          </ul>
+                      </strong> 
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-item">
+                  <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                      GROUNDMAN
+                    </button>
+                  </h2>
+                  <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <strong>
+                            <ul class="list-group">
+                                <li class="list-group-item">An item</li>
+                                <li class="list-group-item">A second item</li>
+                                <li class="list-group-item">A third item</li>
+                                <li class="list-group-item">A fourth item</li>
+                                <li class="list-group-item">And a fifth one</li>
+                              </ul>
+                          </strong> 
+                    </div>
+                  </div>
+                </div>
+              
+              </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
       <!-- Main content area -->
       <div class="col-lg-9 col-sm-12">
-        <div class="card mb-3">
-          <div class="card-body">
-            <h5 class="card-title current-date"></h5>
-            <h5 class="card-title" id="min_temp">Main Content</h5>
-            <h5 class="card-title" id="max_temp">Main Content</h5>
-            <h5 class="card-title" id="forecast">Main Content</h5>
+       
+
+        <div class="card">
+          <div class="card-body text-center">
+            <div class="row bg-danger text-white rounded pt-2">
+            <h5 class="card-title col-3 fs-6">Today</h5>
+            <h5 class="card-title col-3 fs-6">Min temperature</h5>
+            <h5 class="card-title col-3 fs-6">Max temperature</h5>
+            <h5 class="card-title col-3 fs-6">Forecast</h5>
+          </div>
+            <div class="row bg-dark text-white rounded p-3">
+            <h5 class="card-title col-3 fs-6 current-date"></h5>
+            <h5 class="card-title col-3 fs-6" id="min_temp">Main Content</h5>
+            <h5 class="card-title col-3 fs-6" id="max_temp">Main Content</h5>
+            <h5 class="card-title col-3 fs-6" id="forecast">Main Content</h5>
+          </div>
             <!-- <p class="card-text">Your main dashboard content goes here.</p> -->
             <hr>
-            <div class="clocks-container">
+            <div class="clocks-container d-flex justify-content-between">
               <div class="clock-box">
                 <h2>Indian Time (AM/PM)</h2>
                 <div id="indian-clock-ampm"></div>

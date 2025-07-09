@@ -244,7 +244,7 @@ function fetchScores(matchId) {
           <td>${score.wickets}</td>
           <td>${score.overs}</td>
 
-        <td>${getWinner(score.winner)}</td>
+        <td>${getWinner(score.winner,score.team1,score.team2)}</td>
           <td>
             <button class="btn btn-primary update-btn" data-id="${score.id}">Update</button>
             <button class="btn btn-danger delete-btn" data-id="${score.id}">Delete</button>
@@ -266,7 +266,8 @@ function fetchScores(matchId) {
       console.error('Error fetching scores:', error);
     });
 }
-function getWinner(winner)
+
+function getWinner(winner,t1,t2)
 {
   winner=parseInt(winner)
   let w=-1
@@ -280,11 +281,11 @@ function getWinner(winner)
   }
   else if(winner==1)
   {
-    w="Team A"
+    w=t1
   }
   else if(winner==2)
   {
-    w="Team B"
+    w=t2
   }
   return w
 }

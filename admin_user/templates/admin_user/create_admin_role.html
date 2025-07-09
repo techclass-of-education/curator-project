@@ -30,6 +30,10 @@
                 <label for="id_org_id" class="form-label">Organization ID</label>
                 {{ form.org_id }}
             </div>
+            <div class="mb-3">
+                <label for="id_ground_id" class="form-label">Ground</label>
+                {{ form.ground_id }}
+            </div>
             <!-- Name -->
             <div class="mb-3">
                 <label for="id_name" class="form-label">Name</label>
@@ -83,7 +87,22 @@
 <!--    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>-->
 <!--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>-->
 <script>
+$(document).ready(function(){
 
+    axios.get("/usr_admin/get_grounds").then((result) => {
+                $("#id_ground_id").html("")
+                $("#id_ground_id").append(`<option value=''>Select Ground</option>`)
+              
+
+                result.data.grounds.forEach(function (g) {
+                    $("#id_ground_id").append(`<option value='${g.ground[0]}'>${g.ground[6]}</option>`)
+                })
+
+            }).catch((error) => {
+                console.log(error)
+
+            })
+})
 </script>
 
 </body>

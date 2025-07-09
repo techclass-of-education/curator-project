@@ -96,12 +96,7 @@
                     <td>{{ ground.17 }}</td>
                     {% endfor %}
                 </tr>
-                <tr>
-                    <td>10 Showers</td>
-                    {% for ground in grounds %}
-                    <td>{{ ground.18 }}</td>
-                    {% endfor %}
-                </tr>
+               
                 <tr>
                     <td>11 Is Lawn Nursery</td>
                     {% for ground in grounds %}
@@ -126,12 +121,12 @@
                     <td>{{ ground.22 | yesno:"Yes,No" }}</td>
                     {% endfor %}
                 </tr>
-                <tr>
+                <!-- <tr>
                     <td>15 Outfield</td>
                     {% for ground in grounds %}
                     <td>{{ ground.23 }}</td>
                     {% endfor %}
-                </tr>
+                </tr> -->
                 <tr>
                     <td>16 Outfield Profile</td>
                     {% for ground in grounds %}
@@ -276,6 +271,12 @@
                     <td>{{ ground.5 }}</td>
                     {% endfor %}
                 </tr>
+                <tr>
+                    <td>Screen Size</td>
+                    {% for ground in grounds %}
+                    <td>{{ ground.46 }}</td>
+                    {% endfor %}
+                </tr>
             </tbody>
         </table>
     </div>
@@ -323,200 +324,3 @@
 </html>
 
 
-<!--<!DOCTYPE html>-->
-<!--<html lang="en">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <meta http-equiv="X-UA-Compatible="IE=edge">-->
-<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
-<!--    <title>Ground List Vertical Report</title>-->
-<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">-->
-<!--</head>-->
-<!--<body>-->
-<!--    {% include "admin_user/menu.html" %}-->
-<!--    <div class="container my-4">-->
-<!--        <div class="accordion" id="groundAccordion">-->
-<!--            {% for ground in grounds %}-->
-<!--                <div class="accordion-item">-->
-<!--                    <h2 class="accordion-header">-->
-
-<!--                    </h2>-->
-<!--                    <div  class="accordion-collapse collapse"  data-bs-parent="#groundAccordion">-->
-<!--                        <div class="accordion-body">-->
-<!--                            <table class="table table-bordered table-striped">-->
-<!--                                <tbody>-->
-<!--                                    <tr>-->
-<!--                                        <td style="color:blue"><b>Ground Pitches</b></td>-->
-<!--                                        <td><a href="/usr_admin/ground_pitches/{{ground.0}}">Click for <b>Pitches</b></a></td>-->
-<!--                                    </tr>-->
-<!--                                    <tr>-->
-<!--                                        <td>1 Ground Name</td>-->
-<!--                                        <td>{{ ground.2 }}</td>-->
-<!--                                    </tr>-->
-<!--                                    <tr>-->
-<!--                                        <td>2 Location</td>-->
-<!--                                        <td>State {{ ground.4 }}, State Code {{ ground.3 }}, City State Code {{ ground.5 }}</td>-->
-<!--                                    </tr>-->
-<!--                                    <tr>-->
-<!--                                        <td>3 Main Pitches</td>-->
-<!--                                        <td>{{ ground.6 }}</td>-->
-<!--                                    </tr>-->
-<!--                                    <tr>-->
-<!--                                        <td>4 Practice Pitches</td>-->
-<!--                                        <td>{{ ground.7 }}</td>-->
-<!--                                    </tr>-->
-<!--                                    <tr>-->
-<!--                                        <td>5 Is Side Screens</td>-->
-<!--                                        <td>{{ ground.8 | yesno:"Yes,No" }}</td>-->
-<!--                                    </tr>-->
-<!--                                    <tr>-->
-<!--                                        <td>6 Is Broadcasting Facility</td>-->
-<!--                                        <td>{{ ground.10 | yesno:"Yes,No" }}</td>-->
-<!--                                    </tr>-->
-<!--                                    <tr>-->
-<!--                                        <td>7 Is Irrigation Pitches</td>-->
-<!--                                        <td>{{ ground.11 | yesno:"Yes,No" }}</td>-->
-<!--                                    </tr>-->
-<!--                                    <tr>-->
-<!--                                        <td>8 Hydrants</td>-->
-<!--                                        <td>{{ ground.12 }}</td>-->
-<!--                                    </tr>-->
-<!--                                    <tr>-->
-<!--                                        <td>9 Pumps</td>-->
-<!--                                        <td>{{ ground.13 }}</td>-->
-<!--                                    </tr>-->
-<!--                                    <tr>-->
-<!--                                        <td>10 Showers</td>-->
-<!--                                        <td>{{ ground.14 }}</td>-->
-<!--                                    </tr>-->
-<!--                                    <tr>-->
-<!--                                        <td>11 Is Lawn Nursery</td>-->
-<!--                                        <td>{{ ground.15 | yesno:"Yes,No" }}</td>-->
-<!--                                    </tr>-->
-<!--                                    <tr>-->
-<!--                                        <td>12 Centre Square</td>-->
-<!--                                        <td>{{ ground.16 }}</td>-->
-<!--                                    </tr>-->
-<!--                                    <tr>-->
-<!--                                        <td>13 Is Curator Room</td>-->
-<!--                                        <td>{{ ground.17 | yesno:"Yes,No" }}</td>-->
-<!--                                    </tr>-->
-<!--                                    <tr>-->
-<!--                                        <td>14 Is Separate Practice Area</td>-->
-<!--                                        <td>{{ ground.18 | yesno:"Yes,No" }}</td>-->
-<!--                                    </tr>-->
-<!--                                    <tr>-->
-<!--                                        <td>15 Outfield</td>-->
-<!--                                        <td>{{ ground.19 }}</td>-->
-<!--                                    </tr>-->
-<!--                                    <tr>-->
-<!--                                        <td>16 Outfield Profile</td>-->
-<!--                                        <td>{{ ground.20 }}</td>-->
-<!--                                    </tr>-->
-<!--                                    <tr>-->
-<!--                                        <td>17 Lawn Species</td>-->
-<!--                                        <td>{{ ground.21 }}</td>-->
-<!--                                    </tr>-->
-<!--                                    <tr>-->
-<!--                                        <td>18 Is Drainage System</td>-->
-<!--                                        <td>{{ ground.22 | yesno:"Yes,No" }}</td>-->
-<!--                                    </tr>-->
-<!--                                    <tr>-->
-<!--                                        <td>19 Is Water Drainage</td>-->
-<!--                                        <td>{{ ground.23 | yesno:"Yes,No" }}</td>-->
-<!--                                    </tr>-->
-<!--                                    <tr>-->
-<!--                                        <td>20 Is Irrigation System</td>-->
-<!--                                        <td>{{ ground.24 | yesno:"Yes,No" }}</td>-->
-<!--                                    </tr>-->
-<!--                                    <tr>-->
-<!--                                        <td>21 Is Water Availability</td>-->
-<!--                                        <td>{{ ground.25 | yesno:"Yes,No" }}</td>-->
-<!--                                    </tr>-->
-<!--                                    <tr>-->
-<!--                                        <td>22 Is Water Source</td>-->
-<!--                                        <td>{{ ground.26 | yesno:"Yes,No" }}</td>-->
-<!--                                    </tr>-->
-<!--                                    <tr>-->
-<!--                                        <td>23 Storage Capacity</td>-->
-<!--                                        <td>{{ ground.27 }}</td>-->
-<!--                                    </tr>-->
-<!--                                    <tr>-->
-<!--                                        <td>24 Pop Ups</td>-->
-<!--                                        <td>{{ ground.28 }}</td>-->
-<!--                                    </tr>-->
-<!--                                    <tr>-->
-<!--                                        <td>25 Pump Size</td>-->
-<!--                                        <td>{{ ground.29 }}</td>-->
-<!--                                    </tr>-->
-<!--                                    <tr>-->
-<!--                                        <td>26 Is Automation</td>-->
-<!--                                        <td>{{ ground.30 | yesno:"Yes,No" }}</td>-->
-<!--                                    </tr>-->
-<!--                                    <tr>-->
-<!--                                        <td>27 Is Ground Equipment</td>-->
-<!--                                        <td>{{ ground.31 | yesno:"Yes,No" }}</td>-->
-<!--                                    </tr>-->
-<!--                                    <tr>-->
-<!--                                        <td>28 Is Maintenance Contract</td>-->
-<!--                                        <td>{{ ground.32 | yesno:"Yes,No" }}</td>-->
-<!--                                    </tr>-->
-<!--                                    <tr>-->
-<!--                                        <td>29 Is Maintenance Agency</td>-->
-<!--                                        <td>{{ ground.33 | yesno:"Yes,No" }}</td>-->
-<!--                                    </tr>-->
-<!--                                    <tr>-->
-<!--                                        <td>30 Boundary Size</td>-->
-<!--                                        <td>{{ ground.34 }}</td>-->
-<!--                                    </tr>-->
-<!--                                    <tr>-->
-<!--                                        <td>31 Is MOT Availability</td>-->
-<!--                                        <td>{{ ground.35 | yesno:"Yes,No" }}</td>-->
-<!--                                    </tr>-->
-<!--                                    <tr>-->
-<!--                                        <td>32 Is Machine Shed</td>-->
-<!--                                        <td>{{ ground.36 | yesno:"Yes,No" }}</td>-->
-<!--                                    </tr>-->
-<!--                                    <tr>-->
-<!--                                        <td>33 Is Soil Shed</td>-->
-<!--                                        <td>{{ ground.37 | yesno:"Yes,No" }}</td>-->
-<!--                                    </tr>-->
-<!--                                    <tr>-->
-<!--                                        <td>34 Is Pitch/Run Up Covers</td>-->
-<!--                                        <td>{{ ground.38 | yesno:"Yes,No" }}</td>-->
-<!--                                    </tr>-->
-<!--                                    <tr>-->
-<!--                                        <td>35 Cover Size</td>-->
-<!--                                        <td>{{ ground.39 }}</td>-->
-<!--                                    </tr>-->
-<!--                                    <tr>-->
-<!--                                        <td>Google Location</td>-->
-<!--                                        <td><a href="{{ ground.42 }}" target="_blank">{{ ground.42 }}</a></td>-->
-<!--                                    </tr>-->
-<!--                                    <tr>-->
-<!--                                        <td>Year of Construction</td>-->
-<!--                                        <td>{{ ground.43 }}</td>-->
-<!--                                    </tr>-->
-<!--                                    <tr>-->
-<!--                                        <td>Phone Numbers</td>-->
-<!--                                        <td>{{ ground.44 }}</td>-->
-<!--                                    </tr>-->
-<!--                                    <tr>-->
-<!--                                        <td>Slop Ratio</td>-->
-<!--                                        <td>{{ ground.45 }}</td>-->
-<!--                                    </tr>-->
-<!--                                </tbody>-->
-<!--                            </table>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            {% endfor %}-->
-<!--        </div>-->
-<!--    </div>-->
-
-<!--    <script>-->
-<!--        changeMenuTitle("Ground List");-->
-<!--    </script>-->
-<!--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>-->
-<!--</body>-->
-<!--</html>-->

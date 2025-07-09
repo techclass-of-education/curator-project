@@ -1,125 +1,831 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Match List</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">-->
+    <!--  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>-->
+    <title>Curator Daily Recording List</title>
     <style>
-        th, td, a {
-            font-size: 70% !important;
+        td td {
+            text-transform: uppercase !important;
+        }
+
+        .accordion-header span {
+            font-size: 80%;
+        }
+
+        .accordion-body {
+            font-size: 80%;
         }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    {% include "admin_user/menu.html" %}
+    <!--    <h1>Curator Daily Recording List</h1>-->
+
+    <div class="accordion p-4 border" id="accordionDR">
+        {% for match in matches %}
+        {% if flag %}
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="heading-{{ match.0 }}">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapse-{{ match.0 }}" aria-expanded="true"
+                    aria-controls="collapse-{{ match.0 }}">
+                    <span class="pe-3"> <b>Match Type :</b> {{ match.1 }}</span>
+                    <span class="pe-3"> <b>Name of Tournament :</b> {{ match.2 }}</span>
+                    {% if match.1 == "Multidays" %}
+                    <span class="pe-3"> <b>Match Date :</b> From {{ match.7 }} to {{match.8}}</span>
+                    {% else %}
+                    <span class="pe-3"> <b>Match Date :</b> {{ match.6 }}</span>
+                    {% endif %}
+                    <span class="pe-3"> <b>Match Between :</b> {{ match.3 }} & {{match.4}}</span>
+                    <span class="pe-3"> <b>Recording Date-time :</b> {{ match.57 }}</span>
+
+
+                </button>
+            </h2>
+
+            <div id="collapse-{{ match.0 }}" class="accordion-collapse collapse show"
+                aria-labelledby="heading{{ match.0 }}" data-bs-parent="#accordionDR">
+                <div class="accordion-body">
+                    <a class="btn btn-success mb-2 edit-btn" data-match-date="{{ match.6 }}" 
+                    data-from-date="{{ match.7 }}" href="{% url 'update_match' match.0 %}">Edit</a>
+                    <a class="btn btn-warning  mb-2" href="{% url 'add_score' match.0 %}">Add Scores</a>
+                    <a class="btn btn-danger  mb-2" href="{% url 'match_scores_list' match.0 %}">List Scores</a>
+                    <button class="btn btn-danger del-btn mb-2" dataid="{{match.0}}">Delete Match Recording</button>
+
+
+
+                    <div class="row">
+                        <div class="col-lg-6 col-sm-12">
+                            <table class="table table-bordered">
+                                <caption class="caption caption-top fw-bolder bg-dark text-white text-center">General
+                                </caption>
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <th>ID</th>
+                                        <td>{{ match.0 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Match Type</th>
+                                        <td>{{ match.1 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Name of Tournament</th>
+                                        <td>{{ match.2 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Team 1</th>
+                                        <td>{{ match.3 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Team 2</th>
+                                        <td>{{ match.4 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Preparation Date</th>
+                                        <td>{{ match.5 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Match Date</th>
+                                        <td>{{ match.6 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>From Date</th>
+                                        <td>{{ match.7 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>To Date</th>
+                                        <td>{{ match.8 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Days Count</th>
+                                        <td>{{ match.9 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Start Time</th>
+                                        <td>{{ match.10 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Pitch ID</th>
+                                        <td>{{ match.11 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Ground ID</th>
+                                        <td class="td-ground">{{ match.12 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Is Pitch Level</th>
+                                        <td>
+
+                                            {% if match.13 == "1" %}
+                                            Yes
+                                        {% else %}
+                                            No
+                                        {% endif %}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Lawn Height</th>
+                                        <td>{{ match.14 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Grass Cover</th>
+                                        <td>{{ match.15 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Minimum Temperature</th>
+                                        <td>{{ match.16 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Maximum Temperature</th>
+                                        <td>{{ match.17 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Forecast</th>
+                                        <td>{{ match.18 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Moisture Upto</th>
+                                        <td>{{ match.19 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Dew Factor</th>
+                                        <td>{{ match.20 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Access Bounce</th>
+                                        <td>{{ match.21 }}</td>
+                                    </tr>
+
+
+                                </table>
+
+                            </table>
+                        </div>
+
+
+
+                        <div class="col-lg-6 col-sm-12">
+
+
+                            <table class="table table-bordered">
+                                <caption class="caption caption-top fw-bolder bg-dark text-white text-center">Pitch
+                                </caption>
+                                <tr>
+                                    <th>Machinery ID</th>
+                                    <td>{{ match.22 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>No of Passes</th>
+                                    <td>{{ match.23 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Rolling Speed</th>
+                                    <td>{{ match.24 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Last Watering On</th>
+                                    <td>{{ match.25 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Quantity of Water</th>
+                                    <td>{{ match.26 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Time of Application</th>
+                                    <td>{{ match.27 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Time Roller</th>
+                                    <td>{{ match.28 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Is Daily Watering</th>
+                                    <td>{{ match.29 }}
+                                        {% if match.50 == "1" %}
+                                        Yes
+                                    {% else %}
+                                        No
+                                    {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Mover Machinery ID</th>
+                                    <td>{{ match.30 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Date Mowing Done Last</th>
+                                    <td>{{ match.31 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Time of Application Mover</th>
+                                    <td>{{ match.32 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Mowing Done at MM</th>
+                                    <td>{{ match.33 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Is Fertilizers Used</th>
+                                    <td>
+
+                                        {% if match.34 == "1" %}
+                                        Yes
+                                    {% else %}
+                                        No
+                                    {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Fertilizers Details</th>
+                                    <td>{{ match.35 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Chemical Details Remark</th>
+                                    <td>{{ match.36 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Remark by Groundsman</th>
+                                    <td>{{ match.37 }}</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="col-lg-6 col-sm-12">
+                            <table class="table table-bordered">
+                                <caption class="caption caption-top fw-bolder bg-dark text-white text-center">Outfield
+                                </caption>
+                                <tr>
+                                    <th>Machinery ID</th>
+                                    <td>{{ match.38 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>No of Passes</th>
+                                    <td>{{ match.39 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Rolling Speed</th>
+                                    <td>{{ match.40 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Last Watering On</th>
+                                    <td>{{ match.41 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Quantity of Water</th>
+                                    <td>{{ match.42 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Time of Application</th>
+                                    <td>{{ match.43 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Time Roller</th>
+                                    <td>{{ match.44 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Is Daily Watering</th>
+                                    <td>
+
+                                        {% if match.50 == "1" %}
+                                        Yes
+                                    {% else %}
+                                        No
+                                    {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Mover Machinery ID</th>
+                                    <td>{{ match.46 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Date Mowing Done Last</th>
+                                    <td>{{ match.47 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Time of Application Outfield Mover</th>
+                                    <td>{{ match.48 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Mowing Done at MM</th>
+                                    <td>{{ match.49 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Is Fertilizers Used</th>
+                                    <td>
+
+                                        {% if match.50 == "1" %}
+                                        Yes
+                                    {% else %}
+                                        No
+                                    {% endif %}
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Fertilizers Details</th>
+                                    <td>{{ match.51 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Chemical Details Remark</th>
+                                    <td>{{ match.52 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Remark by Groundsman</th>
+                                    <td>{{ match.53 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Brief Match Pitch Assessment</th>
+                                    <td>{{ match.54 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Time of Application Chemical</th>
+                                    <td>{{ match.55 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Time of Application Chemical</th>
+                                    <td>{{ match.56 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Created At</th>
+                                    <td>{{ match.57 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Updated At</th>
+                                    <td>{{ match.58 }}</td>
+                                </tr>
+                            </table>
+                        </div>
+
+
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+
+        {% with False as flag %}
+
+        {% endwith %}
+
+        {% else %}
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="heading-{{ match.0 }}">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapse-{{ match.0 }}" aria-expanded="true"
+                    aria-controls="collapse-{{ match.0 }}">
+                    <span class="pe-3"> <b>Match Type :</b> {{ match.1 }}</span>
+                    <span class="pe-3"> <b>Name of Tournament :</b> {{ match.2 }}</span>
+                    {% if match.1 == "Multidays" %}
+                    <span class="pe-3"> <b>Match Date :</b> From {{ match.7 }} to {{match.8}}</span>
+                    {% else %}
+                    <span class="pe-3"> <b>Match Date :</b> {{ match.6 }}</span>
+                    {% endif %}
+
+                    <span class="pe-3"> <b>Match Between :</b> {{ match.3 }} & {{match.4}}</span>
+                    <span class="pe-3"> <b>Recording Date-time :</b> {{ match.57 }}</span>
+
+
+                </button>
+            </h2>
+
+
+            <div id="collapse-{{ match.0 }}" class="accordion-collapse collapse" aria-labelledby="heading{{ match.0 }}"
+                data-bs-parent="#accordionDR">
+                <div class="accordion-body">
+                    <a class="btn btn-success mb-2 edit-btn" data-match-date="{{ match.6 }}" 
+                    data-from-date="{{ match.7 }}" href="{% url 'update_match' match.0 %}">Edit</a>
+                   
+                    <a class="btn btn-warning mb-2" href="{% url 'add_score' match.0 %}">Add Scores</a>
+                    <a class="btn btn-danger mb-2" href="{% url 'match_scores_list' match.0 %}">List Scores</a>
+                    <button class="btn btn-danger del-btn mb-2" dataid="{{match.0}}">Delete Match Recording</button>
+                    <div class="row">
+                        <div class="col">
+                            <table class="table table-bordered">
+                                <caption class="caption caption-top fw-bolder bg-dark text-white text-center">General
+                                </caption>
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <th>ID</th>
+                                        <td>{{ match.0 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Match Type</th>
+                                        <td>{{ match.1 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Name of Tournament</th>
+                                        <td>{{ match.2 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Team 1</th>
+                                        <td>{{ match.3 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Team 2</th>
+                                        <td>{{ match.4 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Preparation Date</th>
+                                        <td>{{ match.5 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Match Date</th>
+                                        <td>{{ match.6 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>From Date</th>
+                                        <td>{{ match.7 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>To Date</th>
+                                        <td>{{ match.8 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Days Count</th>
+                                        <td>{{ match.9 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Start Time</th>
+                                        <td>{{ match.10 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Pitch ID</th>
+                                        <td>{{ match.11 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Ground ID</th>
+                                        <td class="td-ground">{{ match.12 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Is Pitch Level</th>
+                                        <td>
+
+                                            {% if match.13 == "1" %}
+                                            Yes
+                                        {% else %}
+                                            No
+                                        {% endif %}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Lawn Height</th>
+                                        <td>{{ match.14 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Grass Cover</th>
+                                        <td>{{ match.15 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Minimum Temperature</th>
+                                        <td>{{ match.16 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Maximum Temperature</th>
+                                        <td>{{ match.17 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Forecast</th>
+                                        <td>{{ match.18 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Moisture Upto</th>
+                                        <td>{{ match.19 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Dew Factor</th>
+                                        <td>{{ match.20 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Access Bounce</th>
+                                        <td>{{ match.21 }}</td>
+                                    </tr>
+
+
+                                </table>
+
+                            </table>
+                        </div>
+
+
+
+                        <div class="col">
+
+
+                            <table class="table table-bordered">
+                                <caption class="caption caption-top fw-bolder bg-dark text-white text-center">Pitch
+                                </caption>
+                                <tr>
+                                    <th>Machinery ID</th>
+                                    <td>{{ match.22 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>No of Passes</th>
+                                    <td>{{ match.23 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Rolling Speed</th>
+                                    <td>{{ match.24 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Last Watering On</th>
+                                    <td>{{ match.25 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Quantity of Water</th>
+                                    <td>{{ match.26 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Time of Application</th>
+                                    <td>{{ match.27 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Time Roller</th>
+                                    <td>{{ match.28 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Is Daily Watering</th>
+                                    <td>
+
+                                        {% if match.29 == "1" %}
+                                        Yes
+                                    {% else %}
+                                        No
+                                    {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Mover Machinery ID</th>
+                                    <td>{{ match.30 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Date Mowing Done Last</th>
+                                    <td>{{ match.31 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Time of Application Mover</th>
+                                    <td>{{ match.32 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Mowing Done at MM</th>
+                                    <td>{{ match.33 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Is Fertilizers Used</th>
+                                    <td>
+
+                                        {% if match.34 == "1" %}
+                                        Yes
+                                    {% else %}
+                                        No
+                                    {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Fertilizers Details</th>
+                                    <td>{{ match.35 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Chemical Details Remark</th>
+                                    <td>{{ match.36 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Remark by Groundsman</th>
+                                    <td>{{ match.37 }}</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="col">
+                            <table class="table table-bordered">
+                                <caption class="caption caption-top fw-bolder bg-dark text-white text-center">Outfield
+                                </caption>
+                                <tr>
+                                    <th>Machinery ID</th>
+                                    <td>{{ match.38 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>No of Passes</th>
+                                    <td>{{ match.39 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Rolling Speed</th>
+                                    <td>{{ match.40 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Last Watering On</th>
+                                    <td>{{ match.41 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Quantity of Water</th>
+                                    <td>{{ match.42 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Time of Application</th>
+                                    <td>{{ match.43 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Time Roller</th>
+                                    <td>{{ match.44 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Is Daily Watering</th>
+                                    <td>
+                                        {% if match.45 == "1" %}
+                                        Yes
+                                    {% else %}
+                                        No
+                                    {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Mover Machinery ID</th>
+                                    <td>{{ match.46 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Date Mowing Done Last</th>
+                                    <td>{{ match.47 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Time of Application Out Mover</th>
+                                    <td>{{ match.48 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Mowing Done at MM</th>
+                                    <td>{{ match.49 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Is Fertilizers Used</th>
+                                    <td>
+
+                                        {% if match.50 == "1" %}
+                                        Yes
+                                    {% else %}
+                                        No
+                                    {% endif %}
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Fertilizers Details</th>
+                                    <td>{{ match.51 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Chemical Details Remark</th>
+                                    <td>{{ match.52 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Remark by Groundsman</th>
+                                    <td>{{ match.53 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Brief Match Pitch Assessment</th>
+                                    <td>{{ match.54 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Time of Application Chemical</th>
+                                    <td>{{ match.55 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Outfield Time of Application Chemical</th>
+                                    <td>{{ match.56 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Created At</th>
+                                    <td>{{ match.57 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Updated At</th>
+                                    <td>{{ match.58 }}</td>
+                                </tr>
+                            </table>
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+        {% endif %}
+        {% endfor %}
+
+    </div>
+
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Function to fetch machinery details
-            function fetchMachineryDetails(machineryId, rowId) {
-                axios.get(`/usr_admin/machinery/${machineryId}/`)
-                    .then(response => {
-                        const machinery = response.data.machinery;
-                        document.getElementById(`machinery_details_${rowId}`).innerHTML = `
-                            ${machinery.equipment_name} - Model: ${machinery.equipment_model},
-                            Type: ${machinery.type}, Value: ${machinery.value} ${machinery.unit},
-                            Spec: ${machinery.specification}`;
+        changeMenuTitle("Match Recording List")
+
+        function deleteMatch(matchId) {
+            if (confirm('Are you sure you want to delete this match record?')) {
+                axios.delete(`/usr_admin/matches/delete/${matchId}`)
+                    .then(function (response) {
+                        // fetchScores("{{match.0}}");
+                        alert('Match deleted successfully!');
+                        // Refresh the scores list
+
+                        location.reload();
+
                     })
-                    .catch(error => {
-                        console.error("Error fetching machinery details:", error);
-                        document.getElementById(`machinery_details_${rowId}`).textContent = 'Error loading machinery details.';
+                    .catch(function (error) {
+                        console.error('Error deleting Match:', error);
                     });
             }
+        }
 
-            // Fetch machinery details for each match row
-            const matches = document.querySelectorAll("[data-match-id]");
-            matches.forEach(row => {
-                const machineryId = row.getAttribute("data-machinery-id");
-                const rowId = row.getAttribute("data-match-id");
-                if (machineryId) {
-                    fetchMachineryDetails(machineryId, rowId);
-                }
+
+        $(document).ready(function () {
+
+            $(".del-btn").on('click', function (event) {
+                event.preventDefault();
+                // alert($(this).attr('dataid').trim())
+                deleteMatch($(this).attr('dataid').trim());
+            })
+
+        })
+
+        // newRow.querySelector('.del-btn').addEventListener('click', function () {
+
+        // });
+
+
+        function getGround() {
+            const tdGround = document.querySelectorAll(".td-ground")
+
+            tdGround.forEach(td => {
+                let id=$(td).text().trim()
+
+                axios.get(`/usr_admin/get_ground/${id}`).then((result) => {
+                    const ground = result.data.ground
+
+                    $(td).html(ground[6])
+
+                }).catch((error) => {
+                    console.log(error)
+
+                })
             });
-        });
+
+        }
+
+        getGround()
+        function getMachine() {
+            const tdGround = document.querySelectorAll(".td-ground")
+
+            tdGround.forEach(td => {
+                let id=$(td).text().trim()
+
+                axios.get(`/usr_admin/get_ground/${id}`).then((result) => {
+                    const ground = result.data.ground
+
+                    $(td).html(ground[6])
+
+                }).catch((error) => {
+                    console.log(error)
+
+                })
+            });
+
+        }
+
+        getMachine()
     </script>
-</head>
-<body>
-{% include "admin_user/menu.html" %}
-<div class="container-fluid my-4">
-    <ul class="list-group">
-        <li class="list-group-item bg-info display-6 text-white pb-3">
-            <span class="border-bottom" style="padding-bottom:1px; border-width:2px !important;">Match List</span>
-        </li>
-        <li class="list-group-item" style="height:80vh; overflow:auto">
-            <table border="1" class="table table-bordered table-striped table-hover">
-                <thead class="table-dark text-center">
-                    <tr>
-                        <th>ID</th>
-                        <th>Match Type</th>
-                        <th>Tournament</th>
-                        <th>Team 1</th>
-                        <th>Team 2</th>
-                        <th>Preparation Date</th>
-                        <th>Match Date</th>
-                        <th>From Date</th>
-                        <th>To Date</th>
-                        <th>Days Count</th>
-                        <th>Start Time</th>
-                        <th>Pitch ID</th>
-                        <th>Ground ID</th>
-                        <th>Is Pitch Level?</th>
-                        <th>Lawn Height</th>
-                        <th>Grass Cover</th>
-                        <th>Min temperature</th>
-                        <th>Max temperature</th>
-                        <th>Forecast</th>
-                        <th>Moisture Upto</th>
-                       
-                        <th>Machinery Details</th>
-                     
-                        <th>Dew Factor</th>
-                        <th>Access Bounce</th>
-                        <th class="text-center">Action</th>
-                        <!-- Add more columns if needed -->
-                    </tr>
-                </thead>
-                <tbody class="text-center">
-                    {% for match in matches %}
-                    <tr data-match-id="{{ match.0 }}" data-machinery-id="{{ match.20 }}">
-                        <td>{{ match.0 }}</td> <!-- ID -->
-                        <td>{{ match.1 }}</td> <!-- Match Type -->
-                        <td>{{ match.2 }}</td> <!-- Tournament Name -->
-                        <td>{{ match.3 }}</td> <!-- Team 1 -->
-                        <td>{{ match.4 }}</td> <!-- Team 2 -->
-                        <td>{{ match.5 }}</td> <!-- Preparation Date -->
-                        <td>{{ match.6 }}</td> <!-- Match Date -->
-                        <td>{{ match.7 }}</td> <!-- From Date -->
-                        <td>{{ match.8 }}</td> <!-- To Date -->
-                        <td>{{ match.9 }}</td> <!-- Days Count -->
-                        <td>{{ match.10 }}</td> <!-- Start Time -->
-                        <td>{{ match.11 }}</td> <!-- Pitch ID -->
-                        <td>{{ match.12 }}</td> <!-- Ground ID -->
-                        <td>{{ match.13|yesno:"Yes,No" }}</td> <!-- Is Pitch Level? -->
-                        <td>{{ match.14 }}</td> <!-- Lawn Height -->
-                        <td>{{ match.15 }}</td> <!-- Grass Cover -->
-                        <td>{{ match.16 }}Deg C</td> <!-- Min temp -->
-                        <td>{{ match.17 }}Deg C</td> <!-- Max temp -->
-                        <td>{{ match.18 }}</td> <!-- Forecast -->
-                        <td>{{ match.19 }}</td> <!-- Moisture upto -->
-                        <td id="machinery_details_{{ match.0 }}">Loading...</td> <!-- Machinery Details -->
-                        
-                        <td>{{ match.20 }}</td> <!-- Dew Factor -->
-                        <td>{{ match.21 }}</td> <!-- Access Bounce -->
-                        <td class="d-flex flex-column align-items-center justify-content-center">
-                            <a class="btn btn-success w-100 mb-2" href="{% url 'update_match' match.0 %}">Edit</a>
-                            <a class="btn btn-warning w-100 mb-2" href="{% url 'add_score' match.0 %}">Add Scores</a>
-                            <a class="btn btn-danger w-100 mb-2" href="{% url 'match_scores_list' match.0 %}">List Scores</a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </li>
-    </ul>
-</div>
+
 <script>
-    changeMenuTitle("Match List")
+    document.addEventListener("DOMContentLoaded", function () {
+        setTimeout(()=>
+    { 
+        const today = new Date().toISOString().split("T")[0];  // Get current date in yyyy-mm-dd format
+
+document.querySelectorAll(".edit-btn").forEach(btn => {
+    const matchDate = btn.getAttribute("data-match-date");
+    const fromDate = btn.getAttribute("data-from-date");
+
+    if (matchDate === today || fromDate === today) {
+        btn.classList.add("disabled");
+        btn.classList.remove("btn-success");
+        btn.classList.add("btn-secondary");
+        btn.setAttribute("title", "Cannot edit match with today’s date.");
+        btn.href = "javascript:void(0)";
+    }
+});
+    },3000)
+      
+    });
 </script>
+
+
 </body>
+
+
 </html>

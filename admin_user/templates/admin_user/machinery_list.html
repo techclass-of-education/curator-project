@@ -3,7 +3,7 @@
 <head>
     <title>Machinery List</title>
     <style>
-         th,td,a
+         th,td,a,button
        {
             font-size: 70% !important;
         }
@@ -22,6 +22,7 @@
             <th>Unit</th>
             <th>Value</th>
             <th>Equipment Model</th>
+            <th>Print details</th>
             <th>Actions</th>
         </tr>
         {% for machinery in machinery %}
@@ -33,9 +34,11 @@
             <td>{{ machinery.4 }}</td>
             <td>{{ machinery.5 }}</td>
             <td>{{ machinery.6 }}</td>
+            <td>{{ machinery.7 }}</td>
 
             <td>
                 <a class="btn btn-warning" href="{% url 'update_machinery' machinery.0 %}">Edit</a>
+                <button class="btn btn-danger del-btn" dataid="{{machinery.0}}">Delete</button>
             </td>
         </tr>
         {% endfor %}
@@ -44,6 +47,34 @@
      </div>
 <script>
      changeMenuTitle("Machinery List")
+
+     function deleteMachinery(matchId) {
+            if (confirm('Are you sure you want to delete this Machinery record?')) {
+                axios.delete(`/usr_admin/machinery/delete/${matchId}`)
+                    .then(function (response) {
+                        // fetchScores("{{match.0}}");
+                        alert('Machinery deleted successfully!');
+                        // Refresh the scores list
+
+                        location.reload();
+
+                    })
+                    .catch(function (error) {
+                        console.error('Error deleting Machinery:', error);
+                    });
+            }
+        }
+
+
+        $(document).ready(function () {
+
+            $(".del-btn").on('click', function (event) {
+                event.preventDefault();
+                // alert($(this).attr('dataid').trim())
+                deleteMachinery($(this).attr('dataid').trim());
+            })
+
+        })
 </script>
 </body>
 </html>

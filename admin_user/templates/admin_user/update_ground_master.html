@@ -171,9 +171,38 @@
                                     name="slop_ratio">
                             </div>
 
+                                <div class="mb-2">
+                                 <label for="broadcast_video_analysis" class="form-label">Broadcast/Video Analysis:</label>
+                                        <select class="form-control" id="broadcast_video_analysis"
+                                        name="broadcast_video_analysis">
+                                            <option value="">Select Broadcast/Video Analysis</option>
+                                            <option value="sand based">Permanent Stand</option>
+                                            <option value="traditional">Straight</option>
+                                            <option value="traditional">Runout</option>
+                                        </select>
+
+                            </div>
+                            <div class="mb-2">
+                                 <label for="outfield_type" class="form-label">Outfield:</label>
+
+                                        <select class="form-control" id="outfield_type"
+                                        name="outfield_type">
+                                            <option value="">Select Outfield</option>
+                                            <option value="sand based">Sand Based</option>
+                                            <option value="traditional">Traditional</option>
+                                        </select>
+
+                            </div>
+
                             <div class="form-check mb-2">
                                 <input class="form-check-input" type="checkbox" id="is_side_screen" {% if ground.12 == 1 %}checked{% endif %} name="is_side_screen">
                                 <label class="form-check-label" for="is_side_screen">Is Side Screen</label>
+                            </div>
+
+                               <div class="mb-2">
+                                <label for="screen_size" class="form-label">Size of Screen:</label>
+                                <input type="text" class="form-control form-control-sm" id="screen_size"
+                                    name="screen_size" value="{{ground.46}}">
                             </div>
 
                             <!-- <div class="mb-2">
@@ -207,11 +236,11 @@
                                     value="{{ground.17}}" name="count_pumps">
                             </div>
 
-                            <div class="mb-2">
+                            <!-- <div class="mb-2">
                                 <label for="count_showers" class="form-label">No. of Showers:</label>
                                 <input type="number" class="form-control form-control-sm" id="count_showers"
                                     value="{{ground.18}}" name="count_showers">
-                            </div>
+                            </div> -->
 
                             <div class="form-check mb-2">
                                 <input class="form-check-input" type="checkbox" id="is_lawn_nursary" {% if ground.19 == 1 %}checked{% endif %} name="is_lawn_nursary">
@@ -237,11 +266,11 @@
 
                         <!-- Column 2 -->
                         <div class="col-md-6">
-                            <div class="mb-2">
+                            <!-- <div class="mb-2">
                                 <label for="outfield" class="form-label">Outfield:</label>
                                 <input type="text" value="{{ground.23}}" class="form-control form-control-sm"
                                     id="outfield" name="outfield">
-                            </div>
+                            </div> -->
 
                             <div class="mb-2">
                                 <label for="profile_of_outfield" class="form-label">Profile of the Outfield:</label>
@@ -250,9 +279,14 @@
                             </div>
 
                             <div class="mb-2">
-                                <label for="lawn_species" class="form-label">Lawn Species:</label>
+                                <label for="lawn_species" class="form-label">Lawn Species Pitch:</label>
                                 <input type="text" class="form-control form-control-sm" id="lawn_species"
                                     value="{{ground.25}}" name="lawn_species">
+                            </div>
+                            <div class="mb-2">
+                                <label for="lawn_species_out" class="form-label">Lawn Species Outfield:</label>
+                                <input type="text" class="form-control form-control-sm" required id="lawn_species_out"
+                                    name="lawn_species_out" value="{{ground.49}}">
                             </div>
 
                             <div class="form-check mb-2">
@@ -512,6 +546,8 @@
 
         $(document).ready(function () {
             $("#state_name").val("{{ground.8}}")
+            $("#broadcast_video_analysis").val("{{ground.47}}")
+            $("#outfield_type").val("{{ground.48}}")
             // $("#city_name").val("{{ground.9}}")
             $("#water_source").val("{{ground.30}}")
             const boundry = "{{ground.38}}".split("#")

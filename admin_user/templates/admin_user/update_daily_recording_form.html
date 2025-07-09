@@ -77,9 +77,9 @@
             </li>
             <li class="list-group-item">
                 <div class="row">
-                    <div class="col-md-8 offset-md-2">
+                    <div class="col-md-12">
                         <!--                <h3 class="mb-3">Daily Maintenance Form</h3>-->
-                        <form method="post">
+                        <form method="post" onsubmit="return handleSubmit(this)">
                             {% csrf_token %}
                             <fieldset class="form-group border mt-4 p-3">
                                 <!-- <legend class="w-auto px-2">Common Entries</legend> -->
@@ -97,10 +97,10 @@
 
 
                                 <div class="row">
-                                    <div class="col">
-                                        <label id="ground_id_label d-block">Ground Id: {{daily.40}}</label>
+                                    <div class="col-12">
+                                        <label id="ground_id_label" class="bg-dark text-white" style="color:white;background-color: black;padding: 2px 10px;">Ground Id: {{daily.58}}</label>
                                         <input type="hidden" name="ground_id_text" id="ground_id_text"
-                                            value="{{daily.40}}" />
+                                            value="{{daily.58}}" />
                                         <br>
                                         <label for="ground_id" class="form-label">Select Ground:</label>
                                         <select id="ground_id" name="ground_id" class="form-control">
@@ -109,8 +109,8 @@
                                         </select>
 
                                     </div>
-                                    <div class="col">
-                                        <label id="pitch_id_label d-block">Pitch Id: {{daily.1}}</label>
+                                    <div class="col-12">
+                                        <label id="pitch_id_label" class="bg-dark text-white" style="color:white;background-color: black;padding: 2px 10px;"></label>
                                         <input type="hidden" name="pitch_id_text" id="pitch_id_text"
                                             value="{{daily.1}}" />
                                         <br>
@@ -127,10 +127,36 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-sm-12 col-lg-6">
                                         <label for="pitch_location" class="form-label">Pitch Location:</label>
                                         <input type="text" id="pitch_location" value="{{daily.2}}" name="pitch_location"
                                             class="form-control">
+                                    </div>
+                                        <div class="col-lg-6 col-sm-12 checkboxes">
+                                        <div class="form-check d-flex">
+                                            <input class="form-check-input p-2 me-2" type="checkbox" name="pitch-main" {% if daily.61 == "1" %}checked{% endif %} id="pitch-main">
+                                            <label class="form-check-label" for="flexCheckDefault">
+                                            Pitch Main
+                                            </label>
+                                          </div>
+                                          <div class="form-check d-flex">
+                                            <input class="form-check-input p-2 me-2" type="checkbox" name="pitch-practice" {% if daily.62 == "1" %}checked{% endif %} id="pitch-practice">
+                                            <label class="form-check-label" for="flexCheckChecked">
+                                              Pitch Practice
+                                            </label>
+                                          </div>
+                                          <div class="form-check d-flex">
+                                            <input class="form-check-input p-2 me-2" type="checkbox" name="outfield" {% if daily.63 == "1" %}checked{% endif %} id="outfield">
+                                            <label class="form-check-label" for="flexCheckChecked">
+                                              Outfield
+                                            </label>
+                                          </div>
+                                          <div class="form-check d-flex">
+                                            <input class="form-check-input p-2 me-2" type="checkbox" name="practice-area" {% if daily.64 == "1" %}checked{% endif %} id="practice-area">
+                                            <label class="form-check-label" for="flexCheckChecked">
+                                              Practice Area
+                                            </label>
+                                          </div>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -194,34 +220,48 @@
 
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
                                 <li class="nav-item fs-4" role="presentation">
-                                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
-                                        data-bs-target="#home-tab-pane" type="button" role="tab"
-                                        aria-controls="home-tab-pane" aria-selected="true">
-                                        <u><b>Pitch Entry</b></u>
+                                    <button class="nav-link active" id="main-tab" data-bs-toggle="tab"
+                                        data-bs-target="#main-tab-pane" type="button" role="tab"
+                                        aria-controls="main-tab-pane" aria-selected="true">
+                                        <u><b>Main Pitch Entry</b></u>
                                     </button>
                                 </li>
                                 <li class="nav-item fs-4" role="presentation">
-                                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
-                                        data-bs-target="#profile-tab-pane" type="button" role="tab"
-                                        aria-controls="profile-tab-pane" aria-selected="false">
+                                    <button class="nav-link" id="pp-tab" data-bs-toggle="tab"
+                                        data-bs-target="#pp-tab-pane" type="button" role="tab"
+                                        aria-controls="pp-tab-pane" aria-selected="true">
+                                        <u><b>Practice Pitch Entry</b></u>
+                                    </button>
+                                </li>
+                                <li class="nav-item fs-4" role="presentation">
+                                    <button class="nav-link" id="outfield-tab" data-bs-toggle="tab"
+                                        data-bs-target="#outfield-tab-pane" type="button" role="tab"
+                                        aria-controls="outfield-tab-pane" aria-selected="false">
                                         <u><b>Outfield Entry</b></u>
+                                    </button>
+                                </li>
+                                <li class="nav-item fs-4" role="presentation">
+                                    <button class="nav-link" id="practice-tab" data-bs-toggle="tab"
+                                        data-bs-target="#practice-tab-pane" type="button" role="tab"
+                                        aria-controls="practice-tab-pane" aria-selected="false">
+                                        <u><b>Practice Area Entry</b></u>
                                     </button>
                                 </li>
 
                             </ul>
 
                             <div class="tab-content" id="myTabContent">
-                                <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel"
-                                    aria-labelledby="home-tab" tabindex="0">
-                                    <div class="form-group border mt-4 bg-secondary text-white p-3">
-                                        <legend class="w-auto px-2">Pitch Entries</legend>
+                                <div class="tab-pane fade show active" id="main-tab-pane" role="tabpanel"
+                                    aria-labelledby="main-tab" tabindex="0">
+                                     <div class="form-group border mt-4 text-dark p-3" style="background-color: #e0fbfc;">
+                                        <legend class="w-auto px-2">Main Pitch Entries</legend>
 
 
 
 
                                         <div class="row">
                                             <div class="col-sm-12 col-lg-6">
-                                                <fieldset class="form-group border mt-4 bg-secondary text-white p-3">
+                                                <fieldset class="form-group border mt-4 text-dark p-3" style="background-color:#98c1d9">
                                                     <legend class="w-auto px-2">Watering</legend>
                                                     <div class="row">
                                                         <div class="col-md-12">
@@ -234,11 +274,18 @@
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-12">
+                                                            
                                                             <label for="time_of_application" class="form-label">Time of
                                                                 Watering:</label>
-                                                            <input type="time" id="time_of_application"
-                                                                name="time_of_application" value="{{daily.14}}"
-                                                                class="form-control">
+                                                               <div class="d-flex align-items-center justify-content-center">
+    <input type="time" id="time_of_application" name="time_of_application" value="{{daily.14}}" class="form-control">
+    <button type="button" class="btn d-flex align-items-center justify-content-center p-0 time-reset" id="button-addon2" style="width: 38px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
+            <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
+        </svg>
+    </button>
+</div>
                                                         </div>
                                                     </div>
                                                     <div class="row">
@@ -246,7 +293,7 @@
                                                             <label for="quantity_of_water" class="form-label">Quantity
                                                                 of
                                                                 Water:</label>
-                                                            <input type="number" id="quantity_of_water"
+                                                            <input type="text" id="quantity_of_water"
                                                                 name="quantity_of_water" value="{{daily.13}}"
                                                                 class="form-control">
                                                         </div>
@@ -255,8 +302,17 @@
 
                                             </div>
                                             <div class="col-sm-12 col-lg-6">
-                                                <fieldset class="form-group border mt-4 bg-secondary text-white p-3">
+                                                  <fieldset class="form-group border mt-4 text-dark p-3" style="background-color:#98c1d9">
                                                     <legend class="w-auto px-2">Rolling</legend>
+                                                       <div>
+                                                        <label for="roller_machine_type" class="form-label">Select Machine Type</label>
+                                                         <select class="form-select" id="roller_machine_type"
+                                                                name="roller_machine_type">
+                                                                <option selected>Select Type</option>
+                                                                <option value="passes">Maunal</option>
+                                                                <option value="time">Machenized</option>
+                                                            </select>
+                                                            </div>
                                                     <div class="row">
                                                         <div class="col-lg-6 col-sm-12">
                                                             <label id="machinery_id_label"></label>
@@ -277,32 +333,50 @@
                                                                 Machinery</button>
 
                                                         </div>
+                                                           <label for="roller_machinery_name_operator"
+                                                                    class="form-label">Operator Name:</label>
+                                                             <input type="text" name="roller_machinery_name_operator"
+                                                                    id="roller_machinery_name_operator" class="form-control">
 
-                                                        <!--               <div id="roller_weight_div" class="col-lg-6 col-sm-12">-->
-                                                        <!--            <label for="weight_of_the_roller" class="form-label">Roller Weight</label>-->
-                                                        <!--            <select  name="weight_of_the_roller" class="form-select" id="weight_of_the_roller">-->
-                                                        <!--                <option value="Weight 1">Weight 1</option>-->
-                                                        <!--                <option value="Weight 2">Weight 2</option>-->
-                                                        <!--                <option value="Weight 3">Weight 3</option>-->
-                                                        <!--            </select>-->
-                                                        <!--        </div>-->
+                                                      
                                                     </div>
                                                     <div class="col-md-12">
                                                         <label for="time_of_application" class="form-label">Time of
                                                             Rolling:</label>
-                                                        <input type="time" id="time_of_application_roller" name="time_roller"
+                                                        
+                                                             <div class="d-flex align-items-center justify-content-center">
+   <input type="time" id="time_of_application_roller" name="time_roller"
                                                             value="{{daily.14}}" class="form-control">
+    <button type="button" class="btn d-flex align-items-center justify-content-center p-0 time-reset" id="button-addon2" style="width: 38px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
+            <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
+        </svg>
+    </button>
+</div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-12">
                                                             <label for="rolling_speed" class="form-label">Rolling
-                                                                Speed:</label>
-                                                            <input type="number"  id="rolling_speed"
+                                                                Speed (km/hour):</label>
+                                                            <input type="text"  id="rolling_speed"
                                                                 name="rolling_speed" value="{{daily.11}}" class="form-control">
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="col-md-12">
+                                                          <div class="col-md-6">
+                                                            <label for="passes-unit" class="form-label">Select
+                                                                Unit:</label>
+                                                            <select class="form-select" id="passes_unit"
+                                                                name="passes_unit">
+                                                                <option selected>Select Unit</option>
+                                                                <option value="passes">Passes</option>
+                                                                <option value="time">Time</option>
+                                                                <option value="hours">Hours</option>
+                                                                <option value="minutes">Minutes</option>
+                                                            </select>
+                                                            </div>
+                                                        <div class="col-md-6">
                                                             <label for="no_of_passes" class="form-label">Number of
                                                                 Passes:</label>
                                                             <input type="number"  id="no_of_passes"
@@ -320,6 +394,15 @@
         
                                         <div class="row mt-4">
                                             <div class="col-lg-6 col-sm-12">
+                                                 <div>
+                                                        <label for="mover_machine_type" class="form-label">Select Machine Type</label>
+                                                         <select class="form-select" id="mover_machine_type"
+                                                                name="mover_machine_type">
+                                                                <option selected>Select Type</option>
+                                                                <option value="passes">Maunal</option>
+                                                                <option value="time">Machenized</option>
+                                                            </select>
+                                                            </div>
                                                 <label id="mover_machinery_id_label"></label>
                                                 <br>
                                                 <label for="mover_machinery_id" class="form-label">Select
@@ -335,13 +418,15 @@
                                                     Machinery</button>
         
                                             </div>
-        
+        <label for="mover_machinery_name_operator"
+                                                                    class="form-label">Operator Name:</label>
+                                                             <input type="text" name="mover_machinery_name_operator"
+                                                                    id="mover_machinery_name_operator" class="form-control">
         
                                         </div>
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <label for="date_mowing_done_last" class="form-label">Date Mowing Done
-                                                    Last:</label>
+                                                <label for="date_mowing_done_last" class="form-label">Last Mowing Date:</label>
                                                 <input type="date" id="date_mowing_done_last" value="{{daily.17}}"
                                                     name="date_mowing_done_last" class="form-control">
                                             </div>
@@ -350,8 +435,17 @@
                                             <div class="col-md-12">
                                                 <label for="time_of_application_mover" class="form-label">Time of
                                                     Application Mover:</label>
-                                                <input type="time" id="time_of_application_mover" value="{{daily.18}}"
+                                               
+                                                        <div class="d-flex align-items-center justify-content-center">
+   <input type="time" id="time_of_application_mover" value="{{daily.18}}"
                                                     name="time_of_application_mover" class="form-control">
+    <button type="button" class="btn d-flex align-items-center justify-content-center p-0 time-reset" id="button-addon2" style="width: 38px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
+            <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
+        </svg>
+    </button>
+</div>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -362,19 +456,60 @@
                                                     name="mowing_done_at_mm" class="form-control">
                                             </div>
                                         </div>
+                                          <div class="row">
+                                                             <div class="col-md-6">
+                                                            <label for="moving_passes_unit" class="form-label">Select
+                                                                Unit:</label>
+                                                            <select class="form-select" id="moving_passes_unit" name="moving_passes_unit">
+                                                                <option selected>Select Unit</option>
+                                                                <option value="time">Time</option>
+                                                                <option value="hours">Hours</option>
+                                                                <option value="minutes">Minutes</option>
+                                                            </select>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label for="mowing_duration" class="form-label">Mowing Duration :</label>
+                                                                <input type="number" id="mowing_duration"
+                                                                    name="mowing_duration" class="form-control">
+                                                            </div>
+                                                            
+                                                        </div>
                                         <div class="row mt-3">
-                                            <div class="col-md-12">
+                                            <div class="col-sm-12 col-lg-6">
                                                 <div class="input-group mb-3 border rounded">
                                                     <div class="input-group-text bg-light border-0"
                                                         style="background-color:white !important;">
                                                         <input class="form-check-input mt-0 border-left" type="checkbox"
-                                                            aria-label="Checkbox for following text input" {% if daily.21 %}checked{% endif %} name="is_fertilizers_used"
+                                                            aria-label="Checkbox for following text input" {% if daily.20 == "1" %}checked{% endif %} name="is_fertilizers_used"
                                                             id="is_fertilizers_used">
                                                     </div>
                                                     <input type="text" class="form-control border-0 mt-2"
                                                         value="Is Fertilizers Used" style="background-color:white" readonly
                                                         aria-label="Text input with checkbox">
                                                 </div>
+                                            </div>
+                                            <div class="col-sm-12 col-lg-6">
+                                                <div class="row">
+                                                    <div class="col-sm-12 col-lg-6">
+                                                        <label for="time_of_application_chemical" class="form-label">Time of
+                                                            Application Chemical:</label>
+                                                    </div>
+                                                    <div class="col-sm-12 col-lg-6">
+                                                       
+                                                      <div class="d-flex align-items-center justify-content-center">
+    <input type="time" id="time_of_application_chemical"
+                                                    name="time_of_application_chemical" class="form-control" value="{{daily.54}}">
+    <button type="button" class="btn d-flex align-items-center justify-content-center p-0 time-reset" id="button-addon2" style="width: 38px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
+            <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
+        </svg>
+    </button>
+</div>
+                                                    </div>
+                                                </div>
+                                                
+                                               
                                             </div>
         
                                         </div>
@@ -387,11 +522,24 @@
                                                         <select id="fertilizers_details" name="fertilizers_details"
                                                             class="form-control">
                                                             <option value="">Select Any Chemical</option>
-                                                            <option value="fertilizers">Fertilizers</option>
-                                                            <option value="pesticides">Pesticides</option>
-                                                            <option value="fungicides">Fungicides</option>
-                                                            <option value="insecticides">Insecticides</option>
-                                                            <option value="herbicides">Herbicides</option>
+                                                          
+                                                        </select>
+                                                    </div>
+                                                    <div class="col">
+                                                        <input type="text" id="chemical_weight"
+                                                            placeholder="Weight" name="chemical_weight"
+                                                            class="form-control" value="{{daily.81}}">
+                                                    </div>
+                                                    <div class="col">
+                                                        <select id="fertilizers_unit"
+                                                            name="fertilizers_unit"
+                                                            class="form-control">
+                                                            <option value="">Select Any Unit</option>
+                                                            <option value="kg">KG</option>
+                                                            <option value="gm">GM</option>
+                                                            <option value="ltr">Liters</option>
+                                                            <option value="ml">Milli Liters</option>
+                                                            <option value="NA">NA</option>
                                                         </select>
                                                     </div>
                                                     <div class="col">
@@ -407,18 +555,335 @@
                                             <div class="col-md-12">
                                                 <label for="remark_by_groundsman" class="form-label">Remark by
                                                     Groundsman:</label>
-                                                <textarea id="remark_by_groundsman" placeholder="Pitch Curing Remarks"
+                                                <textarea id="remark_by_groundsman" placeholder="Remarks"
                                                     name="remark_by_groundsman" class="form-control">{{daily.23}}</textarea>
                                             </div>
+                                        </div>
+                                          <div class="form-check checkbox-pitch">
+                                            <input class="form-check-input custom-checkbox" type="checkbox" id="checkPitchMain" name="checkPitchMain">
+                                            <label class="form-check-label">Is Main Pitch Form Complete ?</label>
                                         </div>
         
                                     </div>
                                     <hr>
                                 </div>
         
-                                <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
+                                <div class="tab-pane fade show active" id="pp-tab-pane" role="tabpanel"
+                                    aria-labelledby="main-tab" tabindex="0">
+                                     <div class="form-group border mt-4 text-dark p-3" style="background-color: #e0fbfc;">
+                                        <legend class="w-auto px-2">Practice Pitch Entries</legend>
+
+
+
+
+                                        <div class="row">
+                                            <div class="col-sm-12 col-lg-6">
+                                                <fieldset class="form-group border mt-4 text-dark p-3" style="background-color:#98c1d9">
+                                                    <legend class="w-auto px-2">Watering</legend>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <label for="pp_last_watering_on" class="form-label">Watering
+                                                                On:</label>
+                                                            <input type="date" id="pp_last_watering_on"
+                                                                name="pp_last_watering_on" value="{{daily.68}}"
+                                                                class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <label for="pp_time_of_application" class="form-label">Time of
+                                                                Watering:</label>
+                                                           
+                                                                <div class="d-flex align-items-center justify-content-center">
+    <input type="time" id="pp_time_of_application" name="pp_time_of_application" value="{{daily.70}}" class="form-control">
+    <button type="button" class="btn d-flex align-items-center justify-content-center p-0 time-reset" id="button-addon2" style="width: 38px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
+            <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
+        </svg>
+    </button>
+</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <label for="pp_quantity_of_water" class="form-label">Quantity
+                                                                of
+                                                                Water:</label>
+                                                            <input type="text" id="pp_quantity_of_water"
+                                                                name="pp_quantity_of_water" value="{{daily.69}}"
+                                                                class="form-control">
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
+
+                                            </div>
+                                            <div class="col-sm-12 col-lg-6">
+                                                  <fieldset class="form-group border mt-4 text-dark p-3" style="background-color:#98c1d9">
+                                                    <legend class="w-auto px-2">Rolling</legend>
+                                                    <div>
+                                                        <label for="pp_roller_machine_type" class="form-label">Select Machine Type</label>
+                                                         <select class="form-select" id="pp_roller_machine_type"
+                                                                name="pp_roller_machine_type">
+                                                                <option selected>Select Type</option>
+                                                                <option value="passes">Maunal</option>
+                                                                <option value="time">Machenized</option>
+                                                            </select>
+                                                            </div>
+                                                    <div class="row">
+                                                        <div class="col-lg-6 col-sm-12">
+                                                            <label id="pp_machinery_id_label"></label>
+                                                            <br>
+                                                            <label for="pp_machinery_id" class="form-label">Select
+                                                                Roller</label>
+                                                            <input type="hidden" value="{{daily.65}}"
+                                                                name="pp_machinery_id" id="pp_machinery_id">
+                                                            <input type="text" name="machinery_name" id="pp_machinery_name"
+                                                                class="form-control" readonly
+                                                                placeholder="Click to select machinery">
+                                                        </div>
+                                                        <div class="col-lg-3 col-sm-12 d-flex">
+                                                            <button type="button"
+                                                                class="btn btn-dark mt-2 align-self-end"
+                                                                style="font-size:70%"
+                                                                onclick="openMachineryModal('pp_roller')">Select
+                                                                Machinery</button>
+
+                                                        </div>
+
+                                                        <label for="pp_roller_machinery_name_operator" class="form-label">Operator Name:</label>
+                                                             <input type="text" name="pp_roller_machinery_name_operator"
+                                                                    id="pp_roller_machinery_name_operator" class="form-control">
+
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <label for="pp_time_of_application" class="form-label">Time of
+                                                            Rolling:</label>
+                                                        
+                                                             <div class="d-flex align-items-center justify-content-center">
+    <input type="time" id="pp_time_of_application_roller" name="pp_time_roller" value="{{daily.71}}" class="form-control">
+    <button type="button" class="btn d-flex align-items-center justify-content-center p-0 time-reset" id="button-addon2" style="width: 38px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
+            <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
+        </svg>
+    </button>
+</div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <label for="pp_rolling_speed" class="form-label">Rolling
+                                                                Speed (km/hour):</label>
+                                                            <input type="text"  id="pp_rolling_speed"
+                                                                name="pp_rolling_speed" value="{{daily.67}}" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                            <div class="col-md-6">
+                                                           <label for="pp_passes-unit" class="form-label">Select
+                                                               Unit:</label>
+                                                           <select class="form-select" id="pp_passes_unit"
+                                                               name="pp_passes_unit">
+                                                               <option selected>Select Unit</option>
+                                                               <option value="passes">Passes</option>
+                                                               <option value="time">Time</option>
+                                                               <option value="hours">Hours</option>
+                                                               <option value="minutes">Minutes</option>
+                                                           </select>
+                                                           </div>
+                                                        <div class="col-md-6">
+                                                            <label for="pp_no_of_passes" class="form-label">Number of
+                                                                Passes:</label>
+                                                            <input type="number"  id="pp_no_of_passes"
+                                                                name="pp_no_of_passes" value="{{daily.66}}" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
+                                            </div>
+                                        </div>
+        
+        
+        
+        
+        
+        
+                                        <div class="row mt-4">
+                                            <div class="col-lg-6 col-sm-12">
+                                                     <div>
+                                                        <label for="pp_mover_machine_type" class="form-label">Select Machine Type</label>
+                                                         <select class="form-select" id="pp_mover_machine_type"
+                                                                name="pp_mover_machine_type">
+                                                                <option selected>Select Type</option>
+                                                                <option value="passes">Maunal</option>
+                                                                <option value="time">Machenized</option>
+                                                            </select>
+                                                            </div>
+                                                <label id="pp_mover_machinery_id_label"></label>
+                                                <br>
+                                                <label for="pp_mover_machinery_id" class="form-label">Select
+                                                    Machinery/Mover</label>
+                                                <input type="hidden" value="{{daily.72}}" name="pp_mover_machinery_id"
+                                                    id="pp_mover_machinery_id">
+                                                <input type="text" name="pp_mover_machinery_name" id="pp_mover_machinery_name"
+                                                    class="form-control" readonly placeholder="Click to select machinery">
+                                            </div>
+                                            <div class="col-lg-3 col-sm-12 d-flex">
+                                                <button type="button" class="btn btn-dark mt-2 align-self-end"
+                                                    style="font-size:70%" onclick="openMachineryModal('pp_mover')">Select
+                                                    Machinery</button>
+        
+                                            </div>
+        
+        <label for="pp_mover_machinery_name_operator"
+                                                                    class="form-label">Operator Name:</label>
+                                                             <input type="text" name="pp_mover_machinery_name_operator"
+                                                                    id="pp_mover_machinery_name_operator" class="form-control">
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label for="pp_date_mowing_done_last" class="form-label">Last Mowing Date:</label>
+                                                <input type="date" id="pp_date_mowing_done_last" value="{{daily.73}}"
+                                                    name="pp_date_mowing_done_last" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label for="pp_time_of_application_mover" class="form-label">Time of
+                                                    Application Mover:</label>
+                                                
+                                                     <div class="d-flex align-items-center justify-content-center">
+   <input type="time" id="pp_time_of_application_mover" value="{{daily.74}}" name="pp_time_of_application_mover" class="form-control">
+    <button type="button" class="btn d-flex align-items-center justify-content-center p-0 time-reset" id="button-addon2" style="width: 38px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
+            <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
+        </svg>
+    </button>
+</div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label for="pp_mowing_done_at_mm" class="form-label">Mowing Height
+                                                    (mm):</label>
+                                                <input type="number" id="pp_mowing_done_at_mm" value="{{daily.75}}"
+                                                    name="pp_mowing_done_at_mm" class="form-control">
+                                            </div>
+                                        </div>
+                                         <div class="row">
+                                                             <div class="col-md-6">
+                                                            <label for="pp_moving_passes_unit" class="form-label">Select
+                                                                Unit:</label>
+                                                            <select class="form-select" id="pp_moving_passes_unit" name="pp_moving_passes_unit">
+                                                                <option selected>Select Unit</option>
+                                                                <option value="time">Time</option>
+                                                                <option value="hours">Hours</option>
+                                                                <option value="minutes">Minutes</option>
+                                                            </select>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label for="pp_mowing_duration" class="form-label">Mowing Duration :</label>
+                                                                <input type="number" id="pp_mowing_duration"
+                                                                    name="pp_mowing_duration" class="form-control">
+                                                            </div>
+                                                            
+                                                        </div>
+                                        <div class="row mt-3">
+                                            <div class="col-sm-12 col-lg-6">
+                                                <div class="input-group mb-3 border rounded">
+                                                    <div class="input-group-text bg-light border-0"
+                                                        style="background-color:white !important;">
+                                                        <input class="form-check-input mt-0 border-left" type="checkbox"
+                                                            aria-label="Checkbox for following text input" {% if daily.76 == "1" %}checked{% endif %} name="pp_is_fertilizers_used"
+                                                            id="pp_is_fertilizers_used">
+                                                    </div>
+                                                    <input type="text" class="form-control border-0 mt-2"
+                                                        value="Is Fertilizers Used" style="background-color:white" readonly
+                                                        aria-label="Text input with checkbox">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 col-lg-6">
+                                                <div class="row">
+                                                    <div class="col-sm-12 col-lg-6">
+                                                        <label for="pp_time_of_application_chemical" class="form-label">Time of
+                                                            Application Chemical:</label>
+                                                    </div>
+                                                    <div class="col-sm-12 col-lg-6">
+                                                        
+                                                     <div class="d-flex align-items-center justify-content-center">
+   <input type="time" id="pp_time_of_application_chemical" name="pp_time_of_application_chemical" class="form-control" value="{{daily.80}}">
+    <button type="button" class="btn d-flex align-items-center justify-content-center p-0 time-reset" id="button-addon2" style="width: 38px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
+            <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
+        </svg>
+    </button>
+</div>
+                                                    </div>
+                                                </div>
+                                                
+                                               
+                                            </div>
+        
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label for="pp_fertilizers_details" class="form-label">Chemical
+                                                    Details:</label>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <select id="pp_fertilizers_details" name="pp_fertilizers_details"
+                                                            class="form-control">
+                                                            <option value="">Select Any Chemical</option>
+                                                         
+                                                        </select>
+                                                    </div>
+                                                  
+                                                    <div class="col">
+                                                        <input type="text" id="pp_chemical_weight" placeholder="Weight"
+                                                            name="pp_chemical_weight" class="form-control" value="{{daily.82}}">
+                                                    </div>
+                                                    <div class="col">
+                                                        <select id="pp_fertilizers_unit" name="pp_fertilizers_unit"
+                                                            class="form-control">
+                                                            <option value="">Select Any Unit</option>
+                                                            <option value="kg">KG</option>
+                                                            <option value="gm">GM</option>
+                                                            <option value="ltr">Liters</option>
+                                                            <option value="ml">Milli Liters</option>
+                                                            <option value="NA">NA</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col">
+                                                        <input type="text" id="pp_chemical_details_remark" placeholder="Remarks"
+                                                            name="pp_chemical_details_remark" class="form-control"
+                                                            value="{{daily.78}}">
+                                                    </div>
+                                                </div>
+        
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label for="pp_remark_by_groundsman" class="form-label">Remark by
+                                                    Groundsman:</label>
+                                                <textarea id="pp_remark_by_groundsman" placeholder="Remarks"
+                                                    name="pp_remark_by_groundsman" class="form-control">{{daily.79}}</textarea>
+                                            </div>
+                                        </div>
+                                         <div class="form-check checkbox-pitch">
+                                            <input class="form-check-input custom-checkbox" type="checkbox" id="checkPitchPractice" name="checkPitchPractice">
+                                            <label class="form-check-label">Is Practice Pitch Form Complete ?</label>
+                                        </div>
+        
+                                    </div>
+                                    <hr>
+                                </div>
+        
+                                <div class="tab-pane fade" id="outfield-tab-pane" role="tabpanel" aria-labelledby="outfield-tab"
                                     tabindex="0">
-                                    <div class="form-group border mt-4 bg-success text-white p-3">
+                                     <div class="form-group border mt-4 text-dark p-3" style="background-color:#7dcfb6">
                                         <legend class="w-auto px-2">Outfield Entries</legend>
         
         
@@ -426,7 +891,7 @@
         
                                         <div class="row">
                                             <div class="col-sm-12 col-lg-6">
-                                                <fieldset class="form-group border mt-4 bg-success text-white p-3">
+                                                 <fieldset class="form-group border mt-4 text-white p-3" style="background-color:#1d4e89">
                                                     <legend class="w-auto px-2">Watering</legend>
                                                     <div class="row">
                                                         <div class="col-md-12">
@@ -441,15 +906,23 @@
                                                             <label for="out_time_of_application" class="form-label">Time
                                                                 of
                                                                 Watering:</label>
-                                                            <input type="time" id="out_time_of_application" value="{{daily.29}}"
-                                                                name="out_time_of_application" class="form-control">
+                                                            
+                                                                 <div class="d-flex align-items-center justify-content-center">
+   <input type="time" id="out_time_of_application" value="{{daily.29}}" name="out_time_of_application" class="form-control">
+    <button type="button" class="btn d-flex align-items-center justify-content-center p-0 time-reset" id="button-addon2" style="width: 38px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
+            <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
+        </svg>
+    </button>
+</div>
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-12">
                                                             <label for="out_quantity_of_water" class="form-label">Quantity of
                                                                 Water:</label>
-                                                            <input type="number" id="out_quantity_of_water" value="{{daily.28}}"
+                                                            <input type="text" id="out_quantity_of_water" value="{{daily.28}}"
                                                                 name="out_quantity_of_water" class="form-control">
                                                         </div>
                                                     </div>
@@ -457,8 +930,17 @@
         
                                             </div>
                                             <div class="col-sm-12 col-lg-6">
-                                                <fieldset class="form-group border mt-4 bg-success text-white p-3">
+                                               <fieldset class="form-group border mt-4 text-white p-3"  style="background-color:#1d4e89">
                                                     <legend class="w-auto px-2">Rolling</legend>
+                                                      <div>
+                                                        <label for="out_roller_machine_type" class="form-label">Select Machine Type</label>
+                                                         <select class="form-select" id="out_roller_machine_type"
+                                                                name="out_roller_machine_type">
+                                                                <option selected>Select Type</option>
+                                                                <option value="passes">Maunal</option>
+                                                                <option value="time">Machenized</option>
+                                                            </select>
+                                                            </div>
                                                     <div class="row">
                                                         <div class="col-lg-6 col-sm-12">
                                                             <label id="out_machinery_id_label"></label>
@@ -478,14 +960,26 @@
                                                                 Machinery</button>
         
                                                         </div>
-        
+        <label for="out_roller_machinery_name_operator"
+                                                                    class="form-label">Operator Name:</label>
+                                                             <input type="text" name="out_roller_machinery_name_operator"
+                                                                    id="out_roller_machinery_name_operator" class="form-control">
+
         
                                                     </div>
                                                     <div class="col-md-12">
                                                         <label for="out_time_of_application" class="form-label">Time of
                                                             Rolling:</label>
-                                                        <input type="time" id="out_time_of_application_roller"
-                                                            value="{{daily.29}}" name="out_time_roller" class="form-control">
+                                                        
+                                                            <div class="d-flex align-items-center justify-content-center">
+   <input type="time" id="out_time_of_application_roller" value="{{daily.29}}" name="out_time_roller" class="form-control">
+    <button type="button" class="btn d-flex align-items-center justify-content-center p-0 time-reset" id="button-addon2" style="width: 38px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
+            <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
+        </svg>
+    </button>
+</div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-12">
@@ -503,6 +997,28 @@
                                                                 name="out_no_of_passes" class="form-control">
                                                         </div>
                                                     </div>
+                                                      <div class="row">
+                                                        <div class="col-md-6">
+                                                            <label for="out_passes-unit" class="form-label">Select
+                                                                Unit:</label>
+                                                            <select class="form-select" id="out_passes_unit"
+                                                                name="out_passes_unit">
+                                                                <option selected>Select Unit</option>
+                                                                <option value="passes">Passes</option>
+                                                                <option value="time">Time</option>
+                                                                <option value="hours">Hours</option>
+                                                                <option value="minutes">Minutes</option>
+                                                            </select>
+
+                                                           
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label for="out_no_of_passes" class="form-label">Number of
+                                                                Passes:</label>
+                                                            <input type="text" id="out_no_of_passes"
+                                                                name="out_no_of_passes" class="form-control">
+                                                        </div>
+                                                    </div>
                                                 </fieldset>
                                             </div>
                                         </div>
@@ -511,6 +1027,15 @@
         
                                         <div class="row mt-4">
                                             <div class="col-lg-6 col-sm-12">
+                                                  <div>
+                                                        <label for="out_mover_machine_type" class="form-label">Select Machine Type</label>
+                                                         <select class="form-select" id="out_mover_machine_type"
+                                                                name="out_mover_machine_type">
+                                                                <option selected>Select Type</option>
+                                                                <option value="passes">Maunal</option>
+                                                                <option value="time">Machenized</option>
+                                                            </select>
+                                                            </div>
                                                 <label id="out_mover_machinery_id_label"></label>
                                                 <br>
                                                 <label for="out_mover_machinery_id" class="form-label">Select
@@ -526,14 +1051,17 @@
                                                     Machinery</button>
         
                                             </div>
+
+                                            <label for="out_mover_machinery_name_operator"
+                                                                    class="form-label">Operator Name:</label>
+                                                             <input type="text" name="out_mover_machinery_name_operator"
+                                                                    id="out_mover_machinery_name_operator" class="form-control">
         
         
                                         </div>
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <label for="out_date_mowing_done_last" class="form-label">Date Mowing
-                                                    Done
-                                                    Last:</label>
+                                                <label for="out_date_mowing_done_last" class="form-label">Last Mowing Date:</label>
                                                 <input type="date" id="out_date_mowing_done_last" value="{{daily.32}}"
                                                     name="out_date_mowing_done_last" class="form-control">
                                             </div>
@@ -542,8 +1070,18 @@
                                             <div class="col-md-12">
                                                 <label for="out_time_of_application_mover" class="form-label">Time of
                                                     Application Mover:</label>
-                                                <input type="time" id="out_time_of_application_mover" value="{{daily.33}}"
+                                                
+                                                    
+                                                            <div class="d-flex align-items-center justify-content-center">
+   <input type="time" id="out_time_of_application_mover" value="{{daily.33}}"
                                                     name="out_time_of_application_mover" class="form-control">
+    <button type="button" class="btn d-flex align-items-center justify-content-center p-0 time-reset" id="button-addon2" style="width: 38px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
+            <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
+        </svg>
+    </button>
+</div>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -554,20 +1092,61 @@
                                                     name="out_mowing_done_at_mm" class="form-control">
                                             </div>
                                         </div>
+                                          <div class="row">
+                                                             <div class="col-md-6">
+                                                            <label for="out_moving_passes_unit" class="form-label">Select
+                                                                Unit:</label>
+                                                            <select class="form-select" id="out_moving_passes_unit" name="out_moving_passes_unit">
+                                                                <option selected>Select Unit</option>
+                                                                <option value="time">Time</option>
+                                                                <option value="hours">Hours</option>
+                                                                <option value="minutes">Minutes</option>
+                                                            </select>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label for="out_mowing_duration" class="form-label">Mowing Duration :</label>
+                                                                <input type="number" id="out_mowing_duration"
+                                                                    name="out_mowing_duration" class="form-control">
+                                                            </div>
+                                                            
+                                                        </div>
                                         <div class="row mt-3">
-                                            <div class="col-md-12">
+                                            <div class="col-sm-12 col-lg-6">
                                                 <div class="input-group mb-3 border rounded">
                                                     <div class="input-group-text bg-light border-0"
                                                         style="background-color:white !important;">
                                                         <input class="form-check-input mt-0 border-left" type="checkbox"
                                                             aria-label="Checkbox for following text input"
-                                                            name="out_is_fertilizers_used" {% if daily.35 %}checked{% endif %}
+                                                            name="out_is_fertilizers_used" {% if daily.35 == "1" %}checked{% endif %}
                                                             id="out_is_fertilizers_used">
                                                     </div>
                                                     <input type="text" class="form-control border-0 mt-2"
                                                         value="Is Fertilizers Used" style="background-color:white" readonly
                                                         aria-label="Text input with checkbox">
                                                 </div>
+                                            </div>
+                                            <div class="col-sm-12 col-lg-6">
+                                                <div class="row">
+                                                    <div class="col-sm-12 col-lg-6">
+                                                        <label for="out_time_of_application_chemical" class="form-label">Time of
+                                                            Application Chemical:</label>
+                                                    </div>
+                                                    <div class="col-sm-12 col-lg-6">
+                                                        
+                                                      <div class="d-flex align-items-center justify-content-center">
+   <input type="time" id="out_time_of_application_chemical"
+                                                    name="out_time_of_application_chemical" class="form-control" value="{{daily.55}}">
+    <button type="button" class="btn d-flex align-items-center justify-content-center p-0 time-reset" id="button-addon2" style="width: 38px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
+            <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
+        </svg>
+    </button>
+</div>
+                                                    </div>
+                                                </div>
+                                                
+                                               
                                             </div>
         
                                         </div>
@@ -579,13 +1158,27 @@
                                                     <div class="col">
                                                         <select id="out_fertilizers_details" name="out_fertilizers_details"
                                                             class="form-control">
-                                                            <option value="fertilizers">Fertilizers</option>
-                                                            <option value="pesticides">Pesticides</option>
-                                                            <option value="fungicides">Fungicides</option>
-                                                            <option value="insecticides">Insecticides</option>
-                                                            <option value="herbicides">Herbicides</option>
+                                                            <option value="">Select Any Chemical</option>
+                                                          
                                                         </select>
                                                     </div>
+                                                    <div class="col">
+                                                        <input type="text" id="out_chemical_weight" placeholder="Weight"
+                                                            name="out_chemical_weight" class="form-control" value="{{daily.83}}">
+                                                    </div>
+
+                                                    <div class="col">
+                                                        <select id="out_fertilizers_unit" name="out_fertilizers_unit"
+                                                            class="form-control">
+                                                            <option value="">Select Any Unit</option>
+                                                            <option value="kg">KG</option>
+                                                            <option value="gm">GM</option>
+                                                            <option value="ltr">Liters</option>
+                                                            <option value="ml">Milli Liters</option>
+                                                            <option value="NA">NA</option>
+                                                        </select>
+                                                    </div>
+
                                                     <div class="col">
                                                         <input type="text" id="out_chemical_details_remark"
                                                             placeholder="Remarks" name="out_chemical_details_remark"
@@ -599,23 +1192,349 @@
                                             <div class="col-md-12">
                                                 <label for="out_remark_by_groundsman" class="form-label">Remark by
                                                     Groundsman:</label>
-                                                <textarea id="out_remark_by_groundsman" placeholder="Pitch Curing Remarks"
+                                                <textarea id="out_remark_by_groundsman" placeholder="Remarks"
                                                     name="out_remark_by_groundsman" class="form-control">{{daily.38}}</textarea>
                                             </div>
+                                        </div>
+                                        
+                                         <div class="form-check checkbox-pitch">
+                                            <input class="form-check-input custom-checkbox" type="checkbox" id="checkPitchOutfield" name="checkPitchOutfield">
+                                            <label class="form-check-label">Is Outfield Form Complete ?</label>
+                                        </div>
+        
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane fade" id="practice-tab-pane" role="tabpanel" aria-labelledby="practice-tab"
+                                    tabindex="0">
+                                    <div class="form-group border mt-4 text-dark p-3" style="background-color:#a69cac">
+                                        <legend class="w-auto px-2">Practice Area Entries</legend>
+        
+                                        <div class="row">
+                                            <div class="col-sm-12 col-lg-6">
+                                                <fieldset class="form-group border mt-4 text-white p-3" style="background-color:#474973">
+                                                    <legend class="w-auto px-2">Watering</legend>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <label for="practice_last_watering_on" class="form-label">Watering
+                                                                On:</label>
+                                                            <input type="date" id="practice_last_watering_on" value="{{daily.42}}"
+                                                                name="practice_last_watering_on" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <label for="practice_time_of_application" class="form-label">Time
+                                                                of
+                                                                Watering:</label>
+                                                           
+                                                                 <div class="d-flex align-items-center justify-content-center">
+   <input type="time" id="practice_time_of_application" value="{{daily.44}}"
+                                                                name="practice_time_of_application" class="form-control">
+    <button type="button" class="btn d-flex align-items-center justify-content-center p-0 time-reset" id="button-addon2" style="width: 38px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
+            <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
+        </svg>
+    </button>
+</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <label for="practice_quantity_of_water" class="form-label">Quantity of
+                                                                Water:</label>
+                                                            <input type="text" id="practice_quantity_of_water" value="{{daily.43}}"
+                                                                name="practice_quantity_of_water" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
+        
+                                            </div>
+                                            <div class="col-sm-12 col-lg-6">
+                                                 <fieldset class="form-group border mt-4 text-white p-3" style="background-color:#474973">
+                                                    <legend class="w-auto px-2">Rolling</legend>
+                                                    <div class="row">
+                                                             <div>
+                                                        <label for="practice_roller_machine_type" class="form-label">Select Machine Type</label>
+                                                         <select class="form-select" id="practice_roller_machine_type"
+                                                                name="practice_roller_machine_type">
+                                                                <option selected>Select Type</option>
+                                                                <option value="passes">Maunal</option>
+                                                                <option value="time">Machenized</option>
+                                                            </select>
+                                                            </div>
+                                                        <div class="col-lg-6 col-sm-12">
+                                                            <label id="practice_machinery_id_label"></label>
+                                                            <br>
+                                                            <label for="practice_machinery_id" class="form-label">Select
+                                                                Roller</label>
+                                                            <input type="hidden" value="{{daily.39}}" name="practice_machinery_id"
+                                                                id="practice_machinery_id">
+                                                            <input type="text"  id="practice_machinery_name"
+                                                                class="form-control" readonly
+                                                                placeholder="Click to select machinery">
+                                                        </div>
+                                                        <div class="col-lg-3 col-sm-12 d-flex">
+                                                            <button type="button" class="btn btn-dark mt-2 align-self-end"
+                                                                style="font-size:70%"
+                                                                onclick="openMachineryModal('practice_roller')">Select
+                                                                Machinery</button>
+        
+                                                        </div>
+        
+         <label for="practice_roller_machinery_name_operator"
+                                                                    class="form-label">Operator Name:</label>
+                                                             <input type="text" name="practice_roller_machinery_name_operator"
+                                                                    id="practice_roller_machinery_name_operator" class="form-control">
+
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <label for="practice_time_of_application" class="form-label">Time of
+                                                            Rolling:</label>
+                                                       
+                                                             <div class="d-flex align-items-center justify-content-center">
+    <input type="time" id="practice_time_of_application_roller"
+                                                            value="{{daily.45}}" name="practice_time_roller" class="form-control">
+    <button type="button" class="btn d-flex align-items-center justify-content-center p-0 time-reset" id="button-addon2" style="width: 38px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
+            <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
+        </svg>
+    </button>
+</div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <label for="practice_rolling_speed" class="form-label">Rolling
+                                                                Speed:</label>
+                                                            <input type="number" id="practice_rolling_speed" value="{{daily.41}}"
+                                                                name="practice_rolling_speed" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <label for="practice_no_of_passes" class="form-label">Number of
+                                                                Passes:</label>
+                                                            <input type="number" id="practice_no_of_passes" value="{{daily.40}}"
+                                                                name="practice_no_of_passes" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                     <div class="row">
+                                                        <div class="col-md-6">
+                                                           <label for="practice_passes-unit" class="form-label">Select
+                                                               Unit:</label>
+                                                           <select class="form-select" id="practice_passes_unit"
+                                                               name="practice_passes_unit">
+                                                               <option selected>Select Unit</option>
+                                                               <option value="passes">Passes</option>
+                                                               <option value="time">Time</option>
+                                                               <option value="hours">Hours</option>
+                                                               <option value="minutes">Minutes</option>
+                                                           </select>
+
+                                                          
+                                                       </div>
+                                                        <div class="col-md-6">
+                                                            <label for="practice_no_of_passes" class="form-label">Number
+                                                                of
+                                                                Passes:</label>
+                                                            <input type="text" id="practice_no_of_passes"
+                                                                name="practice_no_of_passes" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
+                                            </div>
+                                        </div>
+        
+        
+        
+                                        <div class="row mt-4">
+                                            <div class="col-lg-6 col-sm-12">
+                                                  <div>
+                                                        <label for="practice_mover_machine_type" class="form-label">Select Machine Type</label>
+                                                         <select class="form-select" id="practice_mover_machine_type"
+                                                                name="practice_mover_machine_type">
+                                                                <option selected>Select Type</option>
+                                                                <option value="passes">Maunal</option>
+                                                                <option value="time">Machenized</option>
+                                                            </select>
+                                                            </div>
+                                                <label id="practice_mover_machinery_id_label"></label>
+                                                <br>
+                                                <label for="practice_mover_machinery_id" class="form-label">Select
+                                                    Machinery/Mover</label>
+                                                <input type="hidden" value="{{daily.46}}" name="practice_mover_machinery_id"
+                                                    id="practice_mover_machinery_id">
+                                                <input type="text"  id="practice_mover_machinery_name"
+                                                    class="form-control" readonly placeholder="Click to select machinery">
+                                            </div>
+                                            <div class="col-lg-3 col-sm-12 d-flex">
+                                                <button type="button" class="btn btn-dark mt-2 align-self-end"
+                                                    style="font-size:70%" onclick="openMachineryModal('practice_mover')">Select
+                                                    Machinery</button>
+        
+                                            </div>
+         <label for="practice_mover_machinery_name_operator"
+                                                                    class="form-label">Operator Name:</label>
+                                                             <input type="text" name="practice_mover_machinery_name_operator"
+                                                                    id="practice_mover_machinery_name_operator" class="form-control">
+
+        
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label for="practice_date_mowing_done_last" class="form-label">
+                                                   Last Mowing Date:
+                                                </label>
+                                                <input type="date" id="practice_date_mowing_done_last" value="{{daily.47}}"
+                                                    name="practice_date_mowing_done_last" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label for="practice_time_of_application_mover" class="form-label">Time of
+                                                    Application Mover:</label>
+                                                
+                                                     <div class="d-flex align-items-center justify-content-center">
+   <input type="time" id="practice_time_of_application_mover" value="{{daily.48}}"
+                                                    name="practice_time_of_application_mover" class="form-control">
+    <button type="button" class="btn d-flex align-items-center justify-content-center p-0 time-reset" id="button-addon2" style="width: 38px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
+            <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
+        </svg>
+    </button>
+</div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label for="practice_mowing_done_at_mm" class="form-label">Mowing Height
+                                                    (mm):</label>
+                                                <input type="number" id="practice_mowing_done_at_mm" value="{{daily.49}}"
+                                                    name="practice_mowing_done_at_mm" class="form-control">
+                                            </div>
+                                        </div>
+  <div class="row">
+                                                             <div class="col-md-6">
+                                                            <label for="practice_moving_passes_unit" class="form-label">Select
+                                                                Unit:</label>
+                                                            <select class="form-select" id="practice_moving_passes_unit" name="practice_moving_passes_unit">
+                                                                <option selected>Select Unit</option>
+                                                                <option value="time">Time</option>
+                                                                <option value="hours">Hours</option>
+                                                                <option value="minutes">Minutes</option>
+                                                            </select>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label for="practice_mowing_duration" class="form-label">Mowing Duration :</label>
+                                                                <input type="number" id="practice_mowing_duration"
+                                                                    name="practice_mowing_duration" class="form-control">
+                                                            </div>
+                                                            
+                                                        </div>
+
+                                        <div class="row mt-3">
+                                            <div class="col-sm-12 col-lg-6">
+                                                <div class="input-group mb-3 border rounded">
+                                                    <div class="input-group-text bg-light border-0"
+                                                        style="background-color:white !important;">
+                                                        <input class="form-check-input mt-0 border-left" type="checkbox"
+                                                            aria-label="Checkbox for following text input"
+                                                            name="practice_is_fertilizers_used" {% if daily.50 == "1" %}checked{% endif %}
+                                                            id="practice_is_fertilizers_used">
+                                                    </div>
+                                                    <input type="text" class="form-control border-0 mt-2"
+                                                        value="Is Fertilizers Used" style="background-color:white" readonly
+                                                        aria-label="Text input with checkbox">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 col-lg-6">
+                                                <div class="row">
+                                                    <div class="col-sm-12 col-lg-6">
+                                                        <label for="practice_time_of_application_chemical" class="form-label">Time of
+                                                            Application Chemical:</label>
+                                                    </div>
+                                                    <div class="col-sm-12 col-lg-6">
+                                                       
+                                                     <div class="d-flex align-items-center justify-content-center">
+    <input type="time" id="practice_time_of_application_chemical"
+                                                    name="practice_time_of_application_chemical" class="form-control" value="{{daily.56}}">
+    <button type="button" class="btn d-flex align-items-center justify-content-center p-0 time-reset" id="button-addon2" style="width: 38px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
+            <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
+        </svg>
+    </button>
+</div>
+                                                    </div>
+                                                </div>
+                                                
+                                               
+                                            </div>
+        
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label for="practice_fertilizers_details" class="form-label">Chemical
+                                                    Details:</label>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <select id="practice_fertilizers_details" name="practice_fertilizers_details"
+                                                            class="form-control">
+                                                            <option value="">Select Any Chemical</option>
+                                                          
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col">
+                                                        <input type="text" id="practice_chemical_weight"
+                                                            placeholder="Weight" name="practice_chemical_weight"
+                                                            class="form-control" value="{{daily.84}}">
+                                                    </div>
+
+                                                    <div class="col">
+                                                        <select id="practice_fertilizers_unit"
+                                                            name="practice_fertilizers_unit" class="form-control">
+                                                            <option value="">Select Any Unit</option>
+                                                            <option value="kg">KG</option>
+                                                            <option value="gm">GM</option>
+                                                            <option value="ltr">Liters</option>
+                                                            <option value="ml">Milli Liters</option>
+                                                            <option value="NA">NA</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col">
+                                                        <input type="text" id="practice_chemical_details_remark"
+                                                            placeholder="Remarks" name="practice_chemical_details_remark"
+                                                            value="{{daily.52}}" class="form-control">
+                                                    </div>
+                                                </div>
+        
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label for="practice_remark_by_groundsman" class="form-label">Remark by
+                                                    Groundsman:</label>
+                                                <textarea id="practice_remark_by_groundsman" placeholder="Remarks"
+                                                    name="practice_remark_by_groundsman" class="form-control">{{daily.53}}</textarea>
+                                            </div>
+                                        </div>
+                                        
+                                         <div class="form-check checkbox-pitch">
+                                            <input class="form-check-input custom-checkbox" type="checkbox" id="checkPitchPracticeArea" name="checkPitchPracticeArea">
+                                            <label class="form-check-label">Is Practice Field form completed ?</label>
                                         </div>
         
                                     </div>
                                 </div>
                             </div>
         
-        
-        
-        
-                         
-        
-        
                             <div class="col-12">
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="submit" name="btnSubmit" value="update" class="btn btn-primary">Update</button>
+                                <button type="submit" name="btnSubmit" value="save" class="btn btn-primary">Save New</button>
                             </div>
                         </form>
                     </li>
@@ -632,69 +1551,37 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <ul class="list-group" id="machineryList">
-                                <!-- Machinery items will be populated here -->
-                            </ul>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Equipment Type</th>
+                                        <th>Details</th>
+                                       
+                                      
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody id="machineryList"></tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
+         <style>
+        .hideTab
+        {
+            visibility: hidden !important;
+        }
         
+        .showTab{
+            visibility: visible !important;
+        }
+    </style>
         
             <!-- Custom Scripts -->
             <script>
         
-                function openMachineryModal(type) {
-                    // Fetch machinery data and populate the modal list
-                    axios.get("{% url 'machinery_data' %}")
-                        .then((result) => {
-                            const machineryList = document.getElementById('machineryList');
-                            machineryList.innerHTML = ""; // Reset list
-        
-                            // Populate the list with machinery options
-                            result.data.forEach((machine) => {
-                                const listItem = document.createElement('li');
-                                listItem.className = "list-group-item list-group-item-action";
-                                listItem.style.cursor = "pointer";
-        
-                                // Format the list item text with machinery details
-                                listItem.textContent = `${machine.equipment_name} - Model= ${machine.model} Type= ${machine.type}  ${machine.value} ${machine.unit}   Spec= ${machine.specification}`;
-        
-                                // Set machinery ID on click and close modal
-                                listItem.onclick = function () {
-                                    if (type == "out_roller") {
-                                        document.getElementById('out_machinery_id').value = machine.id;
-                                        document.getElementById('out_machinery_name').value = `${machine.equipment_name} - Model= ${machine.model} Type= ${machine.type} ${machine.value} ${machine.unit}`;
-                                    }
-                                    else if (type == "roller") {
-                                        document.getElementById('machinery_id').value = machine.id;
-                                        document.getElementById('machinery_name').value = `${machine.equipment_name} - Model= ${machine.model} Type= ${machine.type} ${machine.value} ${machine.unit}`;
-                                    }
-                                    else if (type == "out_mover") {
-                                        document.getElementById('out_mover_machinery_id').value = machine.id;
-                                        document.getElementById('out_mover_machinery_name').value = `${machine.equipment_name} - Model= ${machine.model} Type= ${machine.type} ${machine.value} ${machine.unit}`;
-                                    }
-                                    else if ("mover") {
-                                        document.getElementById('mover_machinery_id').value = machine.id;
-                                        document.getElementById('mover_machinery_name').value = `${machine.equipment_name} - Model= ${machine.model} Type= ${machine.type} ${machine.value} ${machine.unit}`;
-                                    }
-        
-                                    $('#machineryModal').modal('hide');
-                                };
-        
-                                machineryList.appendChild(listItem);
-                            });
-        
-                            // Show the modal
-                            $('#machineryModal').modal('show');
-                        })
-                        .catch((error) => {
-                            console.log("Error fetching machinery data:", error);
-                        });
-                }
-        
-        
-        
+     
           
                 function toggleRollerOptions() {
                     var rollerType = document.getElementById('roller_type').value;
@@ -711,7 +1598,31 @@
         
             <script>
         
-        
+          const checkBoxArray=[]
+          
+          const allTabs=[
+            "pitch-main",
+            "pitch-practice",
+            "outfield",
+            "practice-area"
+            ]
+            
+        const tabsButtonsObject=
+            {
+                
+            "pitch-main":["main-tab","main-tab-pane"],
+            "pitch-practice":["pp-tab","pp-tab-pane"],
+            "outfield":["outfield-tab","outfield-tab-pane"],
+            "practice-area":["practice-tab","practice-tab-pane"]
+                
+            }
+            
+        const checkBoxesSubmitObject={
+            "pitch-main":"checkPitchMain",
+            "pitch-practice":"checkPitchPractice",
+            "outfield":"checkPitchOutfield",
+            "practice-area":"checkPitchPracticeArea"
+        }
         
                 $(document).ready(function () {
                     axios.get("/usr_admin/get_grounds").then((result) => {
@@ -733,8 +1644,8 @@
                         axios.get("/usr_admin/machinery/" + id).then((result) => {
         
                             const m = result.data.machinery
-                            $(`#${label}`).text(`ID: ${m.id} Equipment :${m.equipment_name}`)
-        
+                            $(`#${label}`).text(`ID: ${m.id} Equipment :${m.equipment_name} ${m.print_details}`)
+                            $(`#${label}`).addClass("bg-dark text-white p-2")
         
                         }).catch((error) => {
                             console.log(error)
@@ -746,6 +1657,10 @@
                     getMachinery("{{daily.16}}", "mover_machinery_id_label")
                     getMachinery("{{daily.24}}", "out_machinery_id_label")
                     getMachinery("{{daily.31}}", "out_mover_machinery_id_label")
+                    getMachinery("{{daily.39}}", "practice_machinery_id_label")
+                    getMachinery("{{daily.46}}", "practice_mover_machinery_id_label")
+                    getMachinery("{{daily.65}}", "pp_machinery_id_label")
+                    getMachinery("{{daily.72}}", "pp_mover_machinery_id_label")
         
                     // Function to calculate the difference in days between two dates
                     function calculateDays() {
@@ -772,7 +1687,414 @@
         
                     // Trigger calculation on date change
                     $('#from_date, #to_date').on('change', calculateDays);
+                    
+                    //  $(".tab-pane").removeClass("show")
+                    //  $(".tab-pane").removeClass("showTab")
+                   
                 })
+           
+                ///////////////////
+                
+                function checkLoadTabs()
+                {
+                      $(".tab-pane").hide()
+                     $("[role='tab']").hide()
+                       
+                     
+                    //  $("button[type='submit']").hide()
+                    // $("#main-tab").addClass("hideTab")
+                    // //   $("#main-tab-pane").removeClass("active")
+                    //   $("#main-tab-pane").removeClass("showTab")
+                    // //  $("#main-tab").removeClass("showTab")
+                    // //  $("#main-tab").removeClass("hide")
+                    //  $("#main-tab-pane").addClass("hideTab")
+                     
+                    // $("#pp-tab").addClass("hideTab")
+                    // $("#pp-tab").removeClass("showTab")
+                    
+                    //  $("#pp-tab-pane").addClass("hideTab")
+                    // $("#pp-tab-pane").removeClass("showTab")
+                    
+                    // $("#practice-tab").addClass("hideTab")
+                    // $("#practice-tab").removeClass("showTab")
+                    
+                    // $("#outfield-tab").addClass("hideTab")
+                    //  $("#outfield-tab").removeClass("showTab")
+                    //  $("#btnDailySubmit").addClass("hideTab")
+                    
+                    if({{daily.61}}==1)
+                    {
+                         checkBoxArray.push("pitch-main")
+                         $(`#${tabsButtonsObject["pitch-main"][0]}`).show()
+                         $(`#${tabsButtonsObject["pitch-main"][1]}`).show()
+                        //  $(`#${tabsButtonsObject["pitch-main"][1]}`).addClass("show")
+                         $(".tab-pane").css("display","auto")
+                        //  $("button[type='submit']").show()
+                    }
+                    else
+                    {
+                       
+                         $(`#${tabsButtonsObject["pitch-main"][0]}`).hide()
+                         $(`#${tabsButtonsObject["pitch-main"][1]}`).hide()
+                         $(`#${tabsButtonsObject["pitch-main"][1]}`).removeClass("show")
+                         $(".tab-pane").css("display","none")
+                        //  $("button[type='submit']").hide()
+                    }
+                    
+                    if({{daily.62}}==1)
+                    {
+                         checkBoxArray.push("pitch-practice")
+                         $(`#${tabsButtonsObject["pitch-practice"][0]}`).show()
+                         $(`#${tabsButtonsObject["pitch-practice"][1]}`).show()
+                        //  $(`#${tabsButtonsObject["pitch-practice"][1]}`).addClass("show")
+                         $(".tab-pane").css("display","auto")
+                        //  $("button[type='submit']").show()
+                    }
+                    else
+                    {
+                         $(`#${tabsButtonsObject["pitch-practice"][0]}`).hide()
+                         $(`#${tabsButtonsObject["pitch-practice"][1]}`).hide()
+                         $(`#${tabsButtonsObject["pitch-practice"][1]}`).removeClass("show")
+                         $(".tab-pane").css("display","auto")
+                        //  $("button[type='submit']").show()
+                        
+                    }
+                    
+                    if({{daily.63}}==1)
+                    {
+                         checkBoxArray.push("outfield")
+                          $(`#${tabsButtonsObject["outfield"][0]}`).show()
+                         $(`#${tabsButtonsObject["outfield"][1]}`).show()
+                        //  $(`#${tabsButtonsObject["outfield"][1]}`).addClass("show")
+                         $(".tab-pane").css("display","auto")
+                        //  $("button[type='submit']").show()
+                    }
+                    else
+                    {
+                        //  checkBoxArray.push("outfield")
+                         $(`#${tabsButtonsObject["outfield"][0]}`).hide()
+                         $(`#${tabsButtonsObject["outfield"][1]}`).hide()
+                         $(`#${tabsButtonsObject["outfield"][1]}`).removeClass("show")
+                         $(".tab-pane").css("display","auto")
+                        //  $("button[type='submit']").hide()
+                    }
+                    
+                    if({{daily.64}}==1)
+                    {
+                         checkBoxArray.push( "practice-area")
+                         $(`#${tabsButtonsObject["practice-area"][0]}`).show()
+                         $(`#${tabsButtonsObject["practice-area"][1]}`).show()
+                        //  $(`#${tabsButtonsObject["practice-area"][1]}`).addClass("show")
+                        //  $(".tab-pane").css("display","auto")
+                        //  
+                    }
+                      else
+                    {
+                        //  checkBoxArray.push("outfield")
+                         $(`#${tabsButtonsObject["practice-area"][0]}`).hide()
+                         $(`#${tabsButtonsObject["practice-area"][1]}`).hide()
+                         $(`#${tabsButtonsObject["practice-area"][1]}`).removeClass("show")
+                         $(".tab-pane").css("display","auto")
+                        //  
+                    }
+                     
+                    
+                    console.log(checkBoxArray)
+                    if(checkBoxArray.length>0)
+                    {
+                        $("button[type='submit']").show()
+                        // $("#main-tab").prop("disabled", true);
+                    }
+                    else
+                    {
+                        $("button[type='submit']").hide()
+                    }
+                    
+                    console.log(tabsButtonsObject)
+                    
+                       $(`#${tabsButtonsObject[checkBoxArray[0]][1]}`).show()
+                       $(`#${tabsButtonsObject[checkBoxArray[0]][1]}`).addClass("show")
+                     
+                }
+                
+                
+                
+                checkLoadTabs()
+                
+                
+                
+        function addToArrayCheckbox(event)
+        {
+            if(event.target.checked)
+            {
+                checkBoxArray.push(event.target.id)
+                
+            }
+            else
+            {
+                const index=checkBoxArray.indexOf(event.target.id)
+                index>-1?checkBoxArray.splice(index,1):checkBoxArray
+                
+            }
+            console.log(checkBoxArray)
+        }
+        
+        function addChemicalsToSelect(fertilizers, select) {
+            fertilizers.forEach(function (fert) {
+                const option = document.createElement("option");
+                option.value = fert.id;
+                option.textContent = `${fert.name} (${fert.type})`;
+                select.appendChild(option);
+            });
+        }
+
+        axios.get('/usr_admin/get-fertilizers-json/')
+            .then(function (response) {
+                const fertilizers = response.data.fertilizers;
+                const select = document.getElementById("fertilizers_details");
+                const ppSelect = document.getElementById("pp_fertilizers_details");
+                const outSelect = document.getElementById("out_fertilizers_details");
+                const practiceSelect = document.getElementById("practice_fertilizers_details");
+                addChemicalsToSelect(fertilizers, select)
+                addChemicalsToSelect(fertilizers, ppSelect)
+                addChemicalsToSelect(fertilizers, outSelect)
+                addChemicalsToSelect(fertilizers, practiceSelect)
+
+            })
+            .catch(function (error) {
+                console.error("Error fetching fertilizers:", error);
+            });
+
+
+        function allAreaTabHideShow(event)
+        {
+            $(".tab-pane").removeClass("active")
+            $(".tab-pane").removeClass("show")
+        
+             const filteredTabs= allTabs.filter(function(tab){
+                     return $(`#${tab}`).prop("checked")
+                 })
+                 if(filteredTabs.length<1)
+                 {
+                     $("button[type='submit']").hide()
+                //   $("button[type='submit']").removeClass("showTab")
+                 }
+                 for(let e of filteredTabs)
+                 {
+                     $(`#${tabsButtonsObject[e][0]}`).removeClass("active")
+                 //  $(`#${tabsButtonsObject[e][1]}`).removeClass("showTab")
+                     $(`#${tabsButtonsObject[e][1]}`).removeClass("active")
+                //   $(`#${tabsButtonsObject[event.target.id][1]}`).removeClass("show")
+                 }
+                if(event.target.checked)
+                {
+               
+                     $("button[type='submit']").show()
+                     $(`#${tabsButtonsObject[event.target.id][0]}`).show()
+                    //  $(`#${tabsButtonsObject[event.target.id][0]}`).removeClass("hideTab")
+                     $(`#${tabsButtonsObject[event.target.id][0]}`).addClass("active")
+                     $(`#${tabsButtonsObject[event.target.id][1]}`).show()
+                     $(`#${tabsButtonsObject[event.target.id][1]}`).addClass("active")
+                     $(`#${tabsButtonsObject[event.target.id][1]}`).addClass("show")
+                     
+                }
+                else
+                {
+                    // $("button[type='submit']").hide()
+                    
+                     $(`#${tabsButtonsObject[event.target.id][0]}`).hide()
+                     $(`#${tabsButtonsObject[event.target.id][1]}`).hide()
+                    //  $(`#${tabsButtonsObject[event.target.id][0]}`).addClass("hideTab")
+                     $(`#${tabsButtonsObject[event.target.id][1]}`).removeClass("active")
+                     $(`#${tabsButtonsObject[checkBoxArray[0]][0]}`).addClass("active")
+                    //  $(`#${tabsButtonsObject[e][1]}`).removeClass("showTab")
+                     $(`#${tabsButtonsObject[checkBoxArray[0]][1]}`).addClass("active")
+                     $(`#${tabsButtonsObject[checkBoxArray[0]][1]}`).addClass("show")
+                  
+                }
+        }
+        
+        
+        $("#pitch-main").change(async function(event)
+        {
+            await addToArrayCheckbox(event)
+            allAreaTabHideShow(event)
+        })
+        
+         $("#pitch-practice").change(async function(event)
+        {
+            await addToArrayCheckbox(event)
+            //console.log(event.target.id)
+            allAreaTabHideShow(event)
+        })
+        
+         $("#outfield").change(async function(event)
+        {
+            await addToArrayCheckbox(event)
+            //console.log(event.target.id)
+            allAreaTabHideShow(event)
+        })
+        
+         $("#practice-area").change(async function(event)
+        {
+            await addToArrayCheckbox(event)
+            //console.log(event.target.id)
+            allAreaTabHideShow(event)
+        })
+        
+        
+      
+
+       
+        
+        $("#pitch_id").change(function(event){
+            
+            const optionVal=$(event.target).val()
+            
+            const optionText=$("#pitch_id option:selected").text()
+            
+            if(optionText.indexOf("all")>-1)
+            {
+                  $(".tab-pane").removeClass("active")
+                  $(".tab-pane").removeClass("show")
+                  $("#main-tab").hide()
+                    //   $("#main-tab-pane").addClass("active")
+                //   $("#main-tab-pane").hide()
+                // //   $("#main-tab").removeClass("showTab")
+                //     //  $("#main-tab").removeClass("hide")
+                //     //  $("#main-tab-pane").removeClass("hide")
+                     
+                //     $("#pp-tab").hide()
+                //     // $("#pp-tab").removeClass("showTab")
+                    
+                //     $("#practice-tab").hide()
+                //     // $("#practice-tab").removeClass("showTab")
+                    
+                //     $("#outfield-tab").hide()
+                //     //  $("#outfield-tab").removeClass("showTab")
+                     
+                    $("button[type='submit']").hide()
+                      $(".tab-pane").hide()
+                       $("[role='tab']").hide()
+                       checkLoadTabs()
+                    //   $(".tab-pane").addClass("hideTab")
+                    //   $("#btnDailySubmit").addClass("showTab")
+                     
+            }
+            else if(!(optionText.indexOf("all")>-1 || optionText.indexOf("Select")>-1))
+            {
+                $(".tab-pane").removeClass("active")
+                 $("button[type='submit']").show()
+                //  $("#btnDailySubmit").addClass("showTab")
+                if(optionText.indexOf("main")>-1)
+                {
+                    $(".tab-pane").hide()
+                    $("[role='tab']").hide()
+                     $("#main-tab").show()
+                      $("#main-tab-pane").addClass("active")
+                       $("#main-tab-pane").addClass("show")
+                       $("#main-tab-pane").show()
+                    //   $("#main-tab-pane").addClass("showTab")
+                    //  $("#main-tab").removeClass("hideTab")
+                    //  $("#main-tab").removeClass("hide")
+                    //  $("#main-tab-pane").removeClass("hide")
+                     
+                    // $("#pp-tab").hide()
+                    // // $("#pp-tab").removeClass("showTab")
+                    // // $("#pp-tab-pane").addClass("active")
+                    
+                    // $("#practice-tab").hide()
+                    // // $("#practice-tab").removeClass("showTab")
+                    
+                    // $("#outfield-tab").hide()
+                    //  $("#outfield-tab").removeClass("showTab")
+                     $("button[type='submit']").show()
+                     
+                    checkBoxArray.splice(0,checkBoxArray.length) 
+           
+            
+                checkBoxArray.push("pitch-main")
+                
+          
+            console.log(checkBoxArray)
+                }   
+                
+                else if(optionText.indexOf("practice")>-1)
+                {
+                    $(".tab-pane").hide()
+                    $("[role='tab']").hide()
+                    //  $("#main-tab").removeClass("showTab")
+                    //  $("#main-tab").removeClass("hide")
+                    //  $("#main-tab-pane").removeClass("hide")
+                     
+                    $("#pp-tab").show()
+                     $("#pp-tab-pane").addClass("active")
+                      $("#pp-tab-pane").addClass("show")
+                     $("#pp-tab-pane").show()
+                    // $("#pp-tab").removeClass("hideTab")
+                    
+                    // $("#practice-tab").hide()
+                    // // $("#practice-tab").removeClass("showTab")
+                    
+                    // $("#outfield-tab").hide()
+                    //  $("#outfield-tab").removeClass("showTab")
+                        $("button[type='submit']").show()
+                        
+                         checkBoxArray.splice(0,checkBoxArray.length) 
+           
+            
+                checkBoxArray.push("pitch-practice")
+                
+          
+            console.log(checkBoxArray)
+                }
+                // console.log("main/practice")
+                
+                
+            }
+            
+            //   $("#btnDailySubmit").addClass("hideTab")
+                    //   $("#btnDailySubmit").removeClass("showTab")
+            
+        })
+        
+        
+       function handleSubmit(form) {
+    // const filteredTabs = allTabs.filter(tab => $(`#${tab}`).prop("checked"));
+
+    // Check if at least one tab is selected
+    if (checkBoxArray.length < 1) {
+        alert("Please select at least one tab.");
+        return false;
+    }
+
+    // Check if corresponding checkboxes are confirmed
+    let allConfirmed = true;
+    for (let e of checkBoxArray) {
+        if (!$(`#${checkBoxesSubmitObject[e]}`).prop("checked")) {
+            alert(e + " form is not confirmed as a filled form");
+            allConfirmed = false;
+        }
+    }
+
+    // Prevent form submission if any required checkbox is unchecked
+    if (!allConfirmed) {
+        return false;
+    }
+
+    // Submit the form if all conditions are met
+    form.submit();
+    return true;
+}
+
+                
+                //////////////////
+                
+                
+                
+                
+                
+                
         
                 $("#out_is_fertilizers_used").change(function () {
                     if ($(this).prop("checked") === true) {
@@ -784,12 +2106,33 @@
         
         
                 });
+                $("#practice_is_fertilizers_used").change(function () {
+                    if ($(this).prop("checked") === true) {
+                        $("#practice_fertilizers_details").prop("required", true)
+                    }
+                    else {
+                        $("#practice_fertilizers_details").prop("required", false)
+                    }
+        
+        
+                });
                 $("#is_fertilizers_used").change(function () {
                     if ($(this).prop("checked") === true) {
                         $("#fertilizers_details").prop("required", true)
                     }
                     else {
                         $("#fertilizers_details").prop("required", false)
+                    }
+        
+        
+                });
+                
+                 $("#pp_is_fertilizers_used").change(function () {
+                    if ($(this).prop("checked") === true) {
+                        $("#pp_fertilizers_details").prop("required", true)
+                    }
+                    else {
+                        $("#pp_fertilizers_details").prop("required", false)
                     }
         
         
@@ -806,7 +2149,7 @@
                             //                    $("#pitch_id").append(`<option value='all'>All Pitches</option>`)
         
                             result.data.grounds.forEach(function (p) {
-                                $("#pitch_id").append(`<option value='${p.pitches[0]}'>${p.pitches[0]}  ${p.pitches[5]}</option>`)
+                                $("#pitch_id").append(`<option value='${p.pitches[0]}'>${p.pitches[14]}  ${p.pitches[5]}</option>`)
                             })
                         }).catch((error) => {
                             console.log(error)
@@ -820,7 +2163,7 @@
                             //                    $("#pitch_id").append(`<option value='all'>All Pitches</option>`)
         
                             result.data.grounds.forEach(function (p) {
-                                $("#pitch_id").append(`<option value='${p.pitch[0]}'>${p.pitch[0]}  ${p.pitch[5]}</option>`)
+                                $("#pitch_id").append(`<option value='${p.pitch[0]}'>${p.pitch[14]}  ${p.pitch[5]}</option>`)
                             })
                         }).catch((error) => {
                             console.log(error)
@@ -847,7 +2190,7 @@
                             console.log(pitch)
                             $("#pitch_location").prop("disabled", false)
                             $("#pitch_location").prop("readonly", true)
-                            $("#pitch_location").val(pitch[1])
+                              $("#pitch_location").val(`${pitch[14]} ${pitch[5]}`)
         
                         }).catch((error) => {
                             console.log(error)
@@ -869,9 +2212,60 @@
         <script>
             $(document).ready(function () {
         
-                $("#recording_type").val("{{daily.39}}")
-                $("#fertilizers_details").val("{{daily.21}}")
-                $("#out_fertilizers_details").val("{{daily.36}}")
+                $("#recording_type").val("{{daily.57}}")
+                $("#fertilizers_details").val("{{daily.21|default:''}}")
+                $("#out_fertilizers_details").val("{{daily.36|default:''}}")
+                $("#practice_fertilizers_details").val("{{ daily.51|default:'' }}")
+                $("#pp_fertilizers_details").val("{{ daily.77|default:'' }}")
+                
+                $("#fertilizers_unit").val("{{ daily.85|default:'' }}")
+                $("#pp_fertilizers_unit").val("{{ daily.86|default:'' }}")
+                $("#out_fertilizers_unit").val("{{ daily.87|default:'' }}")
+                $("#practice_fertilizers_unit").val("{{ daily.88|default:'' }}")
+
+
+                axios.get(`/usr_admin/get_pitch/{{daily.1}}`).then((result) => {
+                            const pitch = result.data.grounds[0].pitch
+        
+                            // console.log(pitch)
+                            if(pitch[4]=="0")
+                            {
+                                $("#pitch_id_label").html("Pitch type="+pitch[5]+" Location="+pitch[14])
+
+                            }
+                            else
+                            {
+                                $("#pitch_id_label").html("pitch no="+pitch[4]+" pitch location="+pitch[14])
+                            }
+                           
+        
+                        }).catch((error) => {
+                            console.log(error)
+        
+                        })
+
+                axios.get(`/usr_admin/get_ground/{{daily.58}}`).then((result) => {
+                            const ground = result.data.ground
+        
+                            // console.log(pitch)
+                          
+                                $("#ground_id_label").html(ground[6])
+
+                           
+                            
+                           
+        
+                        }).catch((error) => {
+                            console.log(error)
+        
+                        })
+                
+        
+        
+        $(".time-reset").click(function () {
+        let timeInput = $(this).siblings("input[type='time']"); 
+         timeInput.val(""); 
+        })
         
         
             })
